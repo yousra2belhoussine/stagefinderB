@@ -3,6 +3,7 @@ import lombok.AllArgsConstructor;
 import ma.stagefinder.services.NotificationService;
 import ma.stagefinder.dtos.NotificationDTO;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,8 +61,12 @@ public class NotificationController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<NotificationDTO>> getNotificationsByUserId(@PathVariable Long userId) {
-        List<NotificationDTO> notifications = notificationService.getNotificationsByUserId(userId);
+    public ResponseEntity<Page<NotificationDTO>> getNotificationsByUserId(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Page<NotificationDTO> notifications = notificationService.getNotificationsByUserId(userId, page, size);
         return ResponseEntity.ok(notifications);
     }
 

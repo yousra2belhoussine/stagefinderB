@@ -1,6 +1,7 @@
 package ma.stagefinder.services;
 
 import ma.stagefinder.dtos.NotificationDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -18,6 +19,5 @@ public interface NotificationService {
     NotificationDTO updateNotification(Long id, NotificationDTO notificationDTO);
 
 
-    List<NotificationDTO> getNotificationsByUserId(Long userId);
-
+    Page<NotificationDTO> getNotificationsByUserId(Long userId, int page, int size);
 }

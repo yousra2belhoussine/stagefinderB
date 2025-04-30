@@ -6,6 +6,9 @@ import ma.stagefinder.entities.Notification;
 import ma.stagefinder.mapper.EntityMapper;
 import ma.stagefinder.repositories.NotificationRepository;
 import ma.stagefinder.repositories.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.stereotype.*;
 
@@ -109,21 +112,11 @@ public class NotificationServiceImpl implements  NotificationService {
     }
 
     @Override
-    public List<NotificationDTO> getNotificationsByUserId(Long userId) {
-        try {
-            List<Notification> notifications = notificationRepository.findByUserId(userId);
-
-            return notifications.stream()
-                    .map(EntityMapper.INSTANCE::toNotificationDTO)
-                    .collect(Collectors.toList());
-
-        } catch (Exception e) {
-            System.err.println("Erreur lors de la récupération des notifications : " + e.getMessage());
-            throw new RuntimeException("Impossible de récupérer les notifications.");
-        }
+    public Page<NotificationDTO> getNotificationsByUserId(Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Notification> notificationsPage = notificationRepository.findByUserId(userId, pageable);
+        return notificationsPage.map(EntityMapper.INSTANCE::toNotificationDTO);
     }
-
-
 
 
 }
