@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-offre-table
+      author: auto-gen
+      changes:
+        - createTable:
+            tableName: offre
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: description
+                  type: VARCHAR(1000)
+              - column:
+                  name: ville
+                  type: VARCHAR(255)
+              - column:
+                  name: annees_experience
+                  type: VARCHAR(100)
+              - column:
+                  name: nom_entreprise
+                  type: VARCHAR(255)
+              - column:
+                  name: date_publication
+                  type: TIMESTAMP
+              - column:
+                  name: date_expiration
+                  type: TIMESTAMP
+              - column:
+                  name: salaire
+                  type: FLOAT
+              - column:
+                  name: competence_exigee
+                  type: VARCHAR(1000)
+              - column:
+                  name: categorie_id
+                  type: BIGINT
+              - column:
+                  name: publie_par_id
+                  type: BIGINT
+        - addForeignKeyConstraint:
+            baseTableName: offre
+            baseColumnNames: categorie_id
+            referencedTableName: categorie
+            referencedColumnNames: id
+            constraintName: fk_offre_categorie
+        - addForeignKeyConstraint:
+            baseTableName: offre
+            baseColumnNames: publie_par_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_offre_user

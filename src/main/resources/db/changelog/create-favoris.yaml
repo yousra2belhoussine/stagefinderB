@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-favoris-table
+      author: auto-gen
+      changes:
+        - createTable:
+            tableName: favoris
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: date_ajout
+                  type: TIMESTAMP
+              - column:
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  name: offre_id
+                  type: BIGINT
+        - addForeignKeyConstraint:
+            baseTableName: favoris
+            baseColumnNames: user_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_favoris_user
+        - addForeignKeyConstraint:
+            baseTableName: favoris
+            baseColumnNames: offre_id
+            referencedTableName: offre
+            referencedColumnNames: id
+            constraintName: fk_favoris_offre

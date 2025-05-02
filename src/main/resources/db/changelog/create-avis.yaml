@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-avis-table
+      author: auto-gen
+      changes:
+        - createTable:
+            tableName: avis
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: commentaire
+                  type: VARCHAR(1000)
+              - column:
+                  name: date_publication
+                  type: TIMESTAMP
+              - column:
+                  name: auteur_id
+                  type: BIGINT
+              - column:
+                  name: destinataire_id
+                  type: BIGINT
+              - column:
+                  name: offre_id
+                  type: BIGINT
+              - column:
+                  name: note
+                  type: INTEGER
+        - addForeignKeyConstraint:
+            baseTableName: avis
+            baseColumnNames: auteur_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_avis_auteur
+        - addForeignKeyConstraint:
+            baseTableName: avis
+            baseColumnNames: destinataire_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_avis_destinataire
+        - addForeignKeyConstraint:
+            baseTableName: avis
+            baseColumnNames: offre_id
+            referencedTableName: offre
+            referencedColumnNames: id
+            constraintName: fk_avis_offre

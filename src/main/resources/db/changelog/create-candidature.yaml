@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-candidature-table
+      author: auto-gen
+      changes:
+        - createTable:
+            tableName: candidature
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: date_de_candidature
+                  type: TIMESTAMP
+              - column:
+                  name: statut_candidature
+                  type: VARCHAR(50)
+              - column:
+                  name: lettre_de_motivation
+                  type: VARCHAR(1000)
+              - column:
+                  name: cv_choisi
+                  type: VARCHAR(255)
+              - column:
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  name: offre_id
+                  type: BIGINT
+        - addForeignKeyConstraint:
+            baseTableName: candidature
+            baseColumnNames: user_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_candidature_user
+        - addForeignKeyConstraint:
+            baseTableName: candidature
+            baseColumnNames: offre_id
+            referencedTableName: offre
+            referencedColumnNames: id
+            constraintName: fk_candidature_offre

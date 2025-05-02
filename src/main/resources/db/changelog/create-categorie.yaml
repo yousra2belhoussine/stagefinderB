@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-categorie-table
+      author: auto-gen
+      changes:
+        - createTable:
+            tableName: categorie
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: titre
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type_categorie
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false

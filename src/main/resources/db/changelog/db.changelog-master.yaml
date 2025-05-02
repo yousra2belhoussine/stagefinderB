@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/create-user.yaml
+  - include:
+      file: db/changelog/create-token.yaml
+  - include:
+      file: db/changelog/create-categorie.yaml
+  - include:
+      file: db/changelog/create-offre.yaml
+  - include:
+      file: db/changelog/create-notification.yaml
+  - include:
+      file: db/changelog/create-favoris.yaml
+  - include:
+      file: db/changelog/create-candidature.yaml
+  - include:
+      file: db/changelog/create-avis.yaml

@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-notification-table
+      author: auto-gen
+      changes:
+        - createTable:
+            tableName: notification
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: message
+                  type: VARCHAR(1000)
+              - column:
+                  name: date_envoie
+                  type: TIMESTAMP
+              - column:
+                  name: user_id
+                  type: BIGINT
+        - addForeignKeyConstraint:
+            baseTableName: notification
+            baseColumnNames: user_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_notification_user

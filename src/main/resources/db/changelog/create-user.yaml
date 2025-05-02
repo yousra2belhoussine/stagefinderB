@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user-table
+      author: auto-gen
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: nom
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: nom_entreprise
+                  type: VARCHAR(255)
+              - column:
+                  name: rc
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: ice
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  name: tel
+                  type: VARCHAR(50)
+                  constraints:
+                    unique: true
+              - column:
+                  name: cv_file
+                  type: VARCHAR(255)
+              - column:
+                  name: est_valide
+                  type: BOOLEAN
+              - column:
+                  name: adresse
+                  type: VARCHAR(255)
+              - column:
+                  name: image
+                  type: VARCHAR(255)
+              - column:
+                  name: role
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
