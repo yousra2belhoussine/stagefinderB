@@ -2,7 +2,6 @@ package ma.stagefinder.controllers;
 
 import lombok.AllArgsConstructor;
 import ma.stagefinder.dtos.CategorieDTO;
-import ma.stagefinder.exceptions.ResourceNotFoundException;
 import ma.stagefinder.services.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,6 @@ public class CategorieController {
         CategorieDTO categorieDTO = categorieService.getCategoryById(id);
         return ResponseEntity.ok(categorieDTO);
     }
-
 
     @PostMapping("/add")
     public ResponseEntity<CategorieDTO> addCategory(@RequestBody CategorieDTO categorieDTO) {
