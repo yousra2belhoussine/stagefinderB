@@ -20,6 +20,7 @@ public class Offre {
 
     private String description;
     private String ville;
+    @Column(name = "annees_experience")
     private String anneesExperience;
     @Column(name = "nom_entreprise")
     private String nomEntreprise;

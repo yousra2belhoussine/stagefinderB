@@ -22,7 +22,7 @@ public interface EntityMapper {
     // Offre
     @Mapping(source = "categorie.typeCategorie", target = "categorieNom")
     @Mapping(source = "publiePar.nom", target = "publieParNom")
-    @Mapping(source = "publiePar.nomEntreprise", target = "nomEntreprise")
+    @Mapping(source = "nomEntreprise", target = "nomEntreprise")
     @Mapping(source = "publiePar.id", target = "publieParId")
     @Mapping(source = "categorie.id", target = "categorieId")
     OffreDTO toOffreDTO(Offre offre);

@@ -1,9 +1,14 @@
 package ma.stagefinder.controllers;
 import ma.stagefinder.dtos.OffreDTO;
 import ma.stagefinder.entities.Offre;
+import ma.stagefinder.mapper.EntityMapper;
+import ma.stagefinder.repositories.OffreRepository;
 import ma.stagefinder.services.OffreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.AllArgsConstructor;
@@ -11,6 +16,7 @@ import lombok.AllArgsConstructor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/offres")
@@ -20,14 +26,38 @@ public class OffreController {
 
     @Autowired
     private OffreService offreService;
+    private final OffreRepository offreRepository;
+    private EntityMapper entityMapper;
 
-    @PostMapping("/publier")
+
+    @GetMapping("/count")
+    public long countOffres() {
+        return offreService.countOffres();
+    }
+
+    @PostMapping("")
     public ResponseEntity<ma.stagefinder.dtos.OffreDTO> publierOffre(
             @RequestBody Offre offre,
             @RequestParam Long userId,
             @RequestParam Long categorieId) {
         OffreDTO nouvelleOffre = offreService.publierOffre(offre, userId, categorieId);
         return ResponseEntity.ok(nouvelleOffre);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<OffreDTO> getOffreById(@PathVariable Long id) {
+        OffreDTO offre = offreService.getOffreById(id);
+        return ResponseEntity.ok(offre);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Page<OffreDTO>> getOffresByUser(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+        Page<Offre> offres = offreRepository.findByPublieParId(userId, pageable);
+        Page<OffreDTO> offreDTOs = offres.map(entityMapper::toOffreDTO);
+        return ResponseEntity.ok(offreDTOs);
     }
 
     @GetMapping

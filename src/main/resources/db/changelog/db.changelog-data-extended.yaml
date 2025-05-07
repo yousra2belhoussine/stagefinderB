@@ -1,0 +1,748 @@
+databaseChangeLog:
+  - changeSet:
+      id: 18
+      author: ahmed
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: nom
+                  value: "CyberWorks"
+              - column:
+                  name: email
+                  value: "contact@cyberworks.ma"
+              - column:
+                  name: password
+                  value: "$2a$10$hashedPassword29"
+              - column:
+                  name: tel
+                  value: "+212600123789"
+              - column:
+                  name: nom_entreprise
+                  value: "CyberWorks SARL"
+              - column:
+                  name: RC
+                  value: "RC100014"
+              - column:
+                  name: ICE
+                  value: "ICE000556677889"
+              - column:
+                  name: adresse
+                  value: "15 Rue Al Massira, Casablanca"
+              - column:
+                  name: role
+                  value: "RECRUTEUR"
+              - column:
+                  name: est_valide
+                  value: "true"
+              - column:
+                  name: created_at
+                  value: "2024-08-03 09:00:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: nom
+                  value: "Lina Mounir"
+              - column:
+                  name: email
+                  value: "lina.mounir@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$hashedPassword30"
+              - column:
+                  name: tel
+                  value: "+212600234890"
+              - column:
+                  name: nom_entreprise
+                  value: null
+              - column:
+                  name: cv_file
+                  value: "lina_cv.pdf"
+              - column:
+                  name: adresse
+                  value: "20 Avenue Hassan II, Rabat"
+              - column:
+                  name: role
+                  value: "STAGIAIRE"
+              - column:
+                  name: est_valide
+                  value: "true"
+              - column:
+                  name: created_at
+                  value: "2024-08-07 11:00:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: nom
+                  value: "Karim Essaghir"
+              - column:
+                  name: email
+                  value: "karim.essaghir@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$hashedPassword31"
+              - column:
+                  name: tel
+                  value: "+212600345901"
+              - column:
+                  name: nom_entreprise
+                  value: null
+              - column:
+                  name: cv_file
+                  value: "karim_cv.pdf"
+              - column:
+                  name: adresse
+                  value: "30 Rue Ibn Sina, Marrakech"
+              - column:
+                  name: role
+                  value: "STAGIAIRE"
+              - column:
+                  name: est_valide
+                  value: "true"
+              - column:
+                  name: created_at
+                  value: "2024-08-12 14:00:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: nom
+                  value: "SmartWave"
+              - column:
+                  name: email
+                  value: "hr@smartwave.ma"
+              - column:
+                  name: password
+                  value: "$2a$10$hashedPassword32"
+              - column:
+                  name: tel
+                  value: "+212600456012"
+              - column:
+                  name: nom_entreprise
+                  value: "SmartWave SA"
+              - column:
+                  name: RC
+                  value: "RC100015"
+              - column:
+                  name: ICE
+                  value: "ICE000667788990"
+              - column:
+                  name: adresse
+                  value: "25 Boulevard Zerktouni, Tanger"
+              - column:
+                  name: role
+                  value: "RECRUTEUR"
+              - column:
+                  name: est_valide
+                  value: "true"
+              - column:
+                  name: created_at
+                  value: "2024-08-18 10:00:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: nom
+                  value: "Sanae Boukili"
+              - column:
+                  name: email
+                  value: "sanae.boukili@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$hashedPassword33"
+              - column:
+                  name: tel
+                  value: "+212600567123"
+              - column:
+                  name: nom_entreprise
+                  value: null
+              - column:
+                  name: cv_file
+                  value: "sanae_cv.pdf"
+              - column:
+                  name: adresse
+                  value: "35 Rue Al Farabi, Fès"
+              - column:
+                  name: role
+                  value: "STAGIAIRE"
+              - column:
+                  name: est_valide
+                  value: "true"
+              - column:
+                  name: created_at
+                  value: "2024-08-22 12:00:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: nom
+                  value: "Zineb Cherkaoui"
+              - column:
+                  name: email
+                  value: "zineb.cherkaoui@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$hashedPassword34"
+              - column:
+                  name: tel
+                  value: "+212600678234"
+              - column:
+                  name: nom_entreprise
+                  value: null
+              - column:
+                  name: cv_file
+                  value: "zineb_cv.pdf"
+              - column:
+                  name: adresse
+                  value: "45 Avenue Mohammed V, Agadir"
+              - column:
+                  name: role
+                  value: "STAGIAIRE"
+              - column:
+                  name: est_valide
+                  value: "true"
+              - column:
+                  name: created_at
+                  value: "2024-08-28 09:00:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: nom
+                  value: "DataPulse"
+              - column:
+                  name: email
+                  value: "contact@datapulse.ma"
+              - column:
+                  name: password
+                  value: "$2a$10$hashedPassword35"
+              - column:
+                  name: tel
+                  value: "+212600789345"
+              - column:
+                  name: nom_entreprise
+                  value: "DataPulse SARL"
+              - column:
+                  name: RC
+                  value: "RC100016"
+              - column:
+                  name: ICE
+                  value: "ICE000778899001"
+              - column:
+                  name: adresse
+                  value: "55 Rue Ibn Sina, Meknès"
+              - column:
+                  name: role
+                  value: "RECRUTEUR"
+              - column:
+                  name: est_valide
+                  value: "true"
+              - column:
+                  name: created_at
+                  value: "2024-11-02 15:00:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: nom
+                  value: "Hicham Fassi"
+              - column:
+                  name: email
+                  value: "hicham.fassi@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$hashedPassword36"
+              - column:
+                  name: tel
+                  value: "+212600890456"
+              - column:
+                  name: nom_entreprise
+                  value: null
+              - column:
+                  name: cv_file
+                  value: "hicham_cv.pdf"
+              - column:
+                  name: adresse
+                  value: "65 Boulevard Anfa, Casablanca"
+              - column:
+                  name: role
+                  value: "STAGIAIRE"
+              - column:
+                  name: est_valide
+                  value: "true"
+              - column:
+                  name: created_at
+                  value: "2024-11-06 10:00:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: nom
+                  value: "Nour Eddine"
+              - column:
+                  name: email
+                  value: "nour.eddine@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$hashedPassword37"
+              - column:
+                  name: tel
+                  value: "+212600901567"
+              - column:
+                  name: nom_entreprise
+                  value: null
+              - column:
+                  name: cv_file
+                  value: "nour_cv.pdf"
+              - column:
+                  name: adresse
+                  value: "75 Rue Al Massira, Oujda"
+              - column:
+                  name: role
+                  value: "STAGIAIRE"
+              - column:
+                  name: est_valide
+                  value: "true"
+              - column:
+                  name: created_at
+                  value: "2024-11-10 12:00:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: nom
+                  value: "VisionTech"
+              - column:
+                  name: email
+                  value: "hr@visiontech.ma"
+              - column:
+                  name: password
+                  value: "$2a$10$hashedPassword38"
+              - column:
+                  name: tel
+                  value: "+212600012678"
+              - column:
+                  name: nom_entreprise
+                  value: "VisionTech SA"
+              - column:
+                  name: RC
+                  value: "RC100017"
+              - column:
+                  name: ICE
+                  value: "ICE000889900112"
+              - column:
+                  name: adresse
+                  value: "85 Avenue Mohammed VI, Marrakech"
+              - column:
+                  name: role
+                  value: "RECRUTEUR"
+              - column:
+                  name: est_valide
+                  value: "true"
+              - column:
+                  name: created_at
+                  value: "2024-11-15 14:00:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: nom
+                  value: "Meryem Tazi"
+              - column:
+                  name: email
+                  value: "meryem.tazi@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$hashedPassword39"
+              - column:
+                  name: tel
+                  value: "+212600123890"
+              - column:
+                  name: nom_entreprise
+                  value: null
+              - column:
+                  name: cv_file
+                  value: "meryem_cv.pdf"
+              - column:
+                  name: adresse
+                  value: "95 Rue Ibn Rochd, Rabat"
+              - column:
+                  name: role
+                  value: "STAGIAIRE"
+              - column:
+                  name: est_valide
+                  value: "true"
+              - column:
+                  name: created_at
+                  value: "2024-11-20 09:00:00"
+
+  - changeSet:
+      id: 19
+      author: ahmed
+      changes:
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en informatique pour développer des applications web."
+              - column:
+                  name: ville
+                  value: "Casablanca"
+              - column:
+                  name: annees_experience
+                  value: "0-1 an"
+              - column:
+                  name: nom_entreprise
+                  value: "CyberWorks SARL"
+              - column:
+                  name: date_publication
+                  value: "2024-08-05 10:00:00"
+              - column:
+                  name: date_expiration
+                  value: "2024-09-05 10:00:00"
+              - column:
+                  name: salaire
+                  value: "5200.00"
+              - column:
+                  name: competence_exigee
+                  value: "HTML, CSS, JavaScript"
+              - column:
+                  name: categorie_id
+                  value: "1"
+              - column:
+                  name: publie_par_id
+                  value: "16"
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en marketing pour gérer les réseaux sociaux."
+              - column:
+                  name: ville
+                  value: "Rabat"
+              - column:
+                  name: annees_experience
+                  value: "1-2 ans"
+              - column:
+                  name: nom_entreprise
+                  value: "SmartWave SA"
+              - column:
+                  name: date_publication
+                  value: "2024-08-10 10:00:00"
+              - column:
+                  name: date_expiration
+                  value: "2024-09-10 10:00:00"
+              - column:
+                  name: salaire
+                  value: "5800.00"
+              - column:
+                  name: competence_exigee
+                  value: "Social Media, Canva, Analytics"
+              - column:
+                  name: categorie_id
+                  value: "10"
+              - column:
+                  name: publie_par_id
+                  value: "19"
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en cybersécurité pour auditer des systèmes."
+              - column:
+                  name: ville
+                  value: "Marrakech"
+              - column:
+                  name: annees_experience
+                  value: "0-1 an"
+              - column:
+                  name: nom_entreprise
+                  value: "DataPulse SARL"
+              - column:
+                  name: date_publication
+                  value: "2024-08-15 10:00:00"
+              - column:
+                  name: date_expiration
+                  value: "2024-09-15 10:00:00"
+              - column:
+                  name: salaire
+                  value: "5400.00"
+              - column:
+                  name: competence_exigee
+                  value: "Nessus, Metasploit, Linux"
+              - column:
+                  name: categorie_id
+                  value: "3"
+              - column:
+                  name: publie_par_id
+                  value: "22"
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en data science pour modéliser des données."
+              - column:
+                  name: ville
+                  value: "Tanger"
+              - column:
+                  name: annees_experience
+                  value: "0-1 an"
+              - column:
+                  name: nom_entreprise
+                  value: "VisionTech SA"
+              - column:
+                  name: date_publication
+                  value: "2024-08-20 10:00:00"
+              - column:
+                  name: date_expiration
+                  value: "2024-09-20 10:00:00"
+              - column:
+                  name: salaire
+                  value: "6000.00"
+              - column:
+                  name: competence_exigee
+                  value: "R, Python, Machine Learning"
+              - column:
+                  name: categorie_id
+                  value: "5"
+              - column:
+                  name: publie_par_id
+                  value: "24"
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en réseaux pour optimiser des infrastructures."
+              - column:
+                  name: ville
+                  value: "Fès"
+              - column:
+                  name: annees_experience
+                  value: "1-2 ans"
+              - column:
+                  name: nom_entreprise
+                  value: "CyberWorks SARL"
+              - column:
+                  name: date_publication
+                  value: "2024-08-25 10:00:00"
+              - column:
+                  name: date_expiration
+                  value: "2024-09-25 10:00:00"
+              - column:
+                  name: salaire
+                  value: "5700.00"
+              - column:
+                  name: competence_exigee
+                  value: "CCNA, Routing, Switching"
+              - column:
+                  name: categorie_id
+                  value: "7"
+              - column:
+                  name: publie_par_id
+                  value: "16"
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en développement pour créer des microservices."
+              - column:
+                  name: ville
+                  value: "Agadir"
+              - column:
+                  name: annees_experience
+                  value: "0-1 an"
+              - column:
+                  name: nom_entreprise
+                  value: "SmartWave SA"
+              - column:
+                  name: date_publication
+                  value: "2024-08-30 10:00:00"
+              - column:
+                  name: date_expiration
+                  value: "2024-09-30 10:00:00"
+              - column:
+                  name: salaire
+                  value: "5300.00"
+              - column:
+                  name: competence_exigee
+                  value: "Spring Boot, Docker, Kubernetes"
+              - column:
+                  name: categorie_id
+                  value: "2"
+              - column:
+                  name: publie_par_id
+                  value: "19"
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en informatique pour automatiser des processus."
+              - column:
+                  name: ville
+                  value: "Meknès"
+              - column:
+                  name: annees_experience
+                  value: "0-1 an"
+              - column:
+                  name: nom_entreprise
+                  value: "DataPulse SARL"
+              - column:
+                  name: date_publication
+                  value: "2024-11-03 10:00:00"
+              - column:
+                  name: date_expiration
+                  value: "2024-12-03 10:00:00"
+              - column:
+                  name: salaire
+                  value: "5500.00"
+              - column:
+                  name: competence_exigee
+                  value: "Python, RPA, Automation Anywhere"
+              - column:
+                  name: categorie_id
+                  value: "1"
+              - column:
+                  name: publie_par_id
+                  value: "22"
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en marketing pour lancer une campagne publicitaire."
+              - column:
+                  name: ville
+                  value: "Oujda"
+              - column:
+                  name: annees_experience
+                  value: "1-2 ans"
+              - column:
+                  name: nom_entreprise
+                  value: "VisionTech SA"
+              - column:
+                  name: date_publication
+                  value: "2024-11-08 10:00:00"
+              - column:
+                  name: date_expiration
+                  value: "2024-12-08 10:00:00"
+              - column:
+                  name: salaire
+                  value: "5900.00"
+              - column:
+                  name: competence_exigee
+                  value: "Digital Marketing, PPC, Analytics"
+              - column:
+                  name: categorie_id
+                  value: "10"
+              - column:
+                  name: publie_par_id
+                  value: "24"
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en data science pour analyser des données IoT."
+              - column:
+                  name: ville
+                  value: "Casablanca"
+              - column:
+                  name: annees_experience
+                  value: "0-1 an"
+              - column:
+                  name: nom_entreprise
+                  value: "CyberWorks SARL"
+              - column:
+                  name: date_publication
+                  value: "2024-11-12 10:00:00"
+              - column:
+                  name: date_expiration
+                  value: "2024-12-12 10:00:00"
+              - column:
+                  name: salaire
+                  value: "6100.00"
+              - column:
+                  name: competence_exigee
+                  value: "Python, Spark, IoT"
+              - column:
+                  name: categorie_id
+                  value: "5"
+              - column:
+                  name: publie_par_id
+                  value: "16"
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en cybersécurité pour sécuriser des bases de données."
+              - column:
+                  name: ville
+                  value: "Rabat"
+              - column:
+                  name: annees_experience
+                  value: "1-2 ans"
+              - column:
+                  name: nom_entreprise
+                  value: "SmartWave SA"
+              - column:
+                  name: date_publication
+                  value: "2024-11-18 10:00:00"
+              - column:
+                  name: date_expiration
+                  value: "2024-12-18 10:00:00"
+              - column:
+                  name: salaire
+                  value: "5600.00"
+              - column:
+                  name: competence_exigee
+                  value: "SQL, Encryption, Firewall"
+              - column:
+                  name: categorie_id
+                  value: "3"
+              - column:
+                  name: publie_par_id
+                  value: "19"
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en réseaux pour déployer des solutions cloud."
+              - column:
+                  name: ville
+                  value: "Marrakech"
+              - column:
+                  name: annees_experience
+                  value: "0-1 an"
+              - column:
+                  name: nom_entreprise
+                  value: "DataPulse SARL"
+              - column:
+                  name: date_publication
+                  value: "2024-11-25 10:00:00"
+              - column:
+                  name: date_expiration
+                  value: "2024-12-25 10:00:00"
+              - column:
+                  name: salaire
+                  value: "5800.00"
+              - column:
+                  name: competence_exigee
+                  value: "AWS, Azure, Networking"
+              - column:
+                  name: categorie_id
+                  value: "7"
+              - column:
+                  name: publie_par_id
+                  value: "22"

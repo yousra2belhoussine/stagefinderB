@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import ma.stagefinder.entities.enums.Role;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -40,6 +41,9 @@ public class User {
     private String image;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 
     @OneToMany(mappedBy = "user")
