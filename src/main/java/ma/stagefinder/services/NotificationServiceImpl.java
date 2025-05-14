@@ -112,11 +112,13 @@ public class NotificationServiceImpl implements  NotificationService {
     }
 
     @Override
-    public Page<NotificationDTO> getNotificationsByUserId(Long userId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Notification> notificationsPage = notificationRepository.findByUserId(userId, pageable);
-        return notificationsPage.map(EntityMapper.INSTANCE::toNotificationDTO);
+    public List<NotificationDTO> getNotificationsByUserId(Long userId) {
+        List<Notification> notifications = notificationRepository.findByUserId(userId);
+        return notifications.stream()
+                .map(EntityMapper.INSTANCE::toNotificationDTO)
+                .collect(Collectors.toList());
     }
+
 
 
 }

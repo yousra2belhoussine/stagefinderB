@@ -61,14 +61,13 @@ public class NotificationController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<Page<NotificationDTO>> getNotificationsByUserId(
-            @PathVariable Long userId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
+    public ResponseEntity<List<NotificationDTO>> getNotificationsByUserId(
+            @PathVariable Long userId) {
 
-        Page<NotificationDTO> notifications = notificationService.getNotificationsByUserId(userId, page, size);
+        List<NotificationDTO> notifications = notificationService.getNotificationsByUserId(userId);
         return ResponseEntity.ok(notifications);
     }
+
 
 
 

@@ -19,5 +19,5 @@ public interface NotificationService {
     NotificationDTO updateNotification(Long id, NotificationDTO notificationDTO);
 
 
-    Page<NotificationDTO> getNotificationsByUserId(Long userId, int page, int size);
+    List<NotificationDTO> getNotificationsByUserId(Long userId);
 }
