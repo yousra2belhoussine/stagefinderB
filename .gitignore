@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+### Uploads (fichiers utilisateur à ne pas versionner) ###
+/uploads/

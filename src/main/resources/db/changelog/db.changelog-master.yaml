@@ -15,3 +15,5 @@ databaseChangeLog:
       file: db/changelog/create-candidature.yaml
   - include:
       file: db/changelog/create-avis.yaml
+  - include:
+      file: db/changelog/add-lettre-motivation-column.yaml

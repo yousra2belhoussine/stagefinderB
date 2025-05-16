@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-lettre-motivation-column
+      author: ilyas
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: lettre_motivation_file
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true

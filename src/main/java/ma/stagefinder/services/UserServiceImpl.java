@@ -24,6 +24,8 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDTO create(UserDTO dto) {
     User user = entityMapper.toUser(dto);
+    System.out.println("💡 Lettre dans DTO avant save = " + dto.getLettreMotivationFile());
+    System.out.println("💡 Lettre dans entité après mappage = " + user.getLettreMotivationFile());
     User savedUser = userRepository.save(user);
     return entityMapper.toUserDTO(savedUser);
   }
@@ -47,6 +49,8 @@ public class UserServiceImpl implements UserService {
     user.setICE(dto.getICE());
     user.setImage(dto.getImage());
     user.setCvFile(dto.getCvFile());
+    user.setLettreMotivationFile(dto.getLettreMotivationFile());
+
 
     User updatedUser = userRepository.save(user);
     return entityMapper.toUserDTO(updatedUser);
@@ -62,6 +66,8 @@ public class UserServiceImpl implements UserService {
     if (dto.getAdresse() != null) user.setAdresse(dto.getAdresse());
     if (dto.getImage() != null) user.setImage(dto.getImage());
     if (dto.getCvFile() != null) user.setCvFile(dto.getCvFile());
+    if (dto.getLettreMotivationFile() != null) user.setLettreMotivationFile(dto.getLettreMotivationFile());
+
     if (dto.getRole() != null) user.setRole(dto.getRole());
     if (dto.getNomEntreprise() != null) user.setNomEntreprise(dto.getNomEntreprise());
     if (dto.getRC() != null) user.setRC(dto.getRC());
@@ -84,6 +90,8 @@ public class UserServiceImpl implements UserService {
   @Override
   public List<UserDTO> getAll() {
     List<User> users = userRepository.findAll();
+    users.forEach(u -> System.out.println("Utilisateur: " + u.getNom() + ", lettreMotivationFile=" + u.getLettreMotivationFile()));
+
     return users.stream()
       .map(entityMapper::toUserDTO)
       .collect(Collectors.toList());

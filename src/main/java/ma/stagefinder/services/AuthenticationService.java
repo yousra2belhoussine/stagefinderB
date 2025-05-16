@@ -60,7 +60,7 @@ public class AuthenticationService {
     User savedUser = userRepository.save(request);
 
     // ✅ Génère les tokens avec email + rôle
-    String accessToken = jwtUtil.generateToken(savedUser.getEmail(), savedUser.getRole());
+    String accessToken = jwtUtil.generateToken(savedUser.getId(), savedUser.getEmail(), savedUser.getRole());
     String refreshToken = jwtUtil.generateRefreshToken(savedUser.getEmail());
 
     // Sauvegarde en base
@@ -80,7 +80,7 @@ public class AuthenticationService {
         .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
       // ✅ Inclut le rôle dans le accessToken
-      String accessToken = jwtUtil.generateToken(user.getEmail(), user.getRole());
+      String accessToken = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
       String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
 
       saveUserTokens(user, accessToken, TokenType.ACCESS);

@@ -43,6 +43,11 @@ public class SecurityConfig {
       .authorizeHttpRequests(auth -> auth
         .requestMatchers("/auth/**", "/error").permitAll()
         .requestMatchers("/api/users/**").hasRole("ADMINISTRATEUR")
+          .requestMatchers("/api/files/**").hasRole("ADMINISTRATEUR")
+          .requestMatchers("/uploads/**").hasRole("ADMINISTRATEUR") // ✅ obligatoire ici
+//        .requestMatchers("/uploads/**").permitAll()
+
+
         .anyRequest().authenticated()
       )
       .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

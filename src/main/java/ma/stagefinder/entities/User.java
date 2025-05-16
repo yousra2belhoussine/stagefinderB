@@ -8,6 +8,7 @@ import ma.stagefinder.entities.enums.Role;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,8 +41,11 @@ public class User {
   @Column(name = "cv_file")
   private String cvFile;
 
+  @Column(name = "lettre_motivation_file")
+  private String lettreMotivationFile;
+
   @Column(name = "est_valide")
-  private boolean estValide;
+  private Boolean estValide;
 
   private String adresse;
   private String image;

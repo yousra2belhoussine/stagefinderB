@@ -22,9 +22,10 @@ public class JwtUtil {
   private long refreshExpiration;
 
   // ✅ Générer un access token avec rôle
-  public String generateToken(String email, Role role) {
+  public String generateToken(Long id,String email, Role role) {
     return Jwts.builder()
       .setSubject(email)
+      .claim("id", id)
       .claim("role", role.name())  // 🔥 Sauvegarde rôle (STAGIAIRE, ADMINISTRATEUR, etc.)
       .setIssuedAt(new Date())
       .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
