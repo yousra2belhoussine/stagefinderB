@@ -1,5 +1,6 @@
 package ma.stagefinder.services;
 
+import ma.stagefinder.dtos.NotificationDTO;
 import ma.stagefinder.dtos.OffreDTO;
 import ma.stagefinder.entities.Categorie;
 import ma.stagefinder.entities.Offre;
@@ -36,6 +37,9 @@ public class OffreServiceImpl implements OffreService {
     @Autowired
     private EntityMapper entityMapper;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Override
     public OffreDTO publierOffre(Offre offre, Long userId, Long categorieId) {
         // Vérifier si l'utilisateur existe
@@ -65,9 +69,22 @@ public class OffreServiceImpl implements OffreService {
         // Sauvegarder l'offre
         Offre savedOffre = offreRepository.save(offre);
 
-        // Convertir en DTO
+        // Créer la notification liée à la publication de l'offre
+        try {
+            NotificationDTO notificationDTO = new NotificationDTO();
+            notificationDTO.setMessage("Nouvelle offre publiée par " + user.getNomEntreprise() + " !");
+            notificationDTO.setDateEnvoie(LocalDateTime.now());
+            notificationDTO.setUserId(1L);  // supposant que ta NotificationDTO a un champ userId
+            notificationService.addNotification(notificationDTO);
+        } catch (Exception e) {
+            // Log l'erreur sans bloquer la publication de l'offre
+            System.err.println("Erreur lors de la création de la notification : " + e.getMessage());
+        }
+
+        // Convertir en DTO et retourner
         return entityMapper.toOffreDTO(savedOffre);
     }
+
 
     @Override
     public Page<OffreDTO> getAllOffres(int page, int size, String typeCategorie, String ville) {
