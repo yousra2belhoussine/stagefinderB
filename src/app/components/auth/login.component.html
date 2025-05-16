@@ -1,0 +1,24 @@
+<h2>Connexion</h2>
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div class="p-field">
+    <label for="email">Email</label>
+    <input id="email" pInputText type="email" formControlName="email" />
+  </div>
+
+  <div class="p-field">
+    <label for="password">Mot de passe</label>
+    <input id="password" pPassword formControlName="password" />
+  </div>
+
+  <button pButton type="submit" label="Se connecter" [disabled]="loginForm.invalid"></button>
+
+  <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+</form>
+
+<!-- 🔽 Liens vers les pages d’inscription -->
+<div class="register-links" style="margin-top: 20px;">
+  <p>Pas encore de compte ?</p>
+  <a routerLink="/register-stagiaire">Créer un compte Stagiaire</a> |
+  <a routerLink="/register-recruteur">Créer un compte Recruteur</a> |
+</div>

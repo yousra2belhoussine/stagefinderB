@@ -1,0 +1,34 @@
+<div class="landing-container" *ngIf="!isLoggedIn()">
+  
+    <div class="btn-group">
+      <a routerLink="/login" class="main-btn login-btn">🔐 Se connecter</a>
+  
+      <div class="dropdown">
+        <button class="main-btn register-btn" (click)="toggleDropdown()">
+          📝 S’inscrire
+        </button>
+        <div class="dropdown-content" *ngIf="dropdownOpen">
+          <a routerLink="/register-stagiaire">👨‍🎓 Stagiaire</a>
+          <a routerLink="/register-recruteur">🏢 Recruteur</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>Bienvenue chez Seomaniak</div>
+  <ng-container *ngIf="isLoggedIn()">
+    <nav class="navbar">
+      <span class="logo">📘 StageFinder</span>
+      <div class="nav-links">
+        <a *ngIf="isStagiaire()" routerLink="/stagiaire">Stagiaire</a>
+        <a *ngIf="isRecruteur()" routerLink="/recruteur">Recruteur</a>
+        <a *ngIf="isAdmin()" routerLink="/admin">Admin</a>
+      </div>
+      <div class="navbar-right" *ngIf="isLoggedIn()">
+        <button pButton type="button" class="p-button p-button-danger" (click)="logout()">Déconnexion</button>
+      </div>    </nav>
+  
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </ng-container>
+  

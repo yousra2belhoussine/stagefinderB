@@ -1,0 +1,52 @@
+<div class="register-container">
+    <h2>Inscription Recruteur</h2>
+  
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label for="nom">Nom</label>
+        <input id="nom" type="text" pInputText formControlName="nom" />
+      </div>
+  
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" pInputText formControlName="email" />
+      </div>
+  
+      <div class="form-field">
+        <label for="tel">Téléphone</label>
+        <input id="tel" type="tel" pInputText formControlName="tel" />
+      </div>
+  
+      <div class="form-field">
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" pPassword formControlName="password" />
+      </div>
+  
+      <div class="form-field">
+        <label for="nomEntreprise">Nom de l'entreprise</label>
+        <input id="nomEntreprise" type="text" pInputText formControlName="nomEntreprise" />
+      </div>
+  
+      <div class="form-field">
+        <label for="RC">RC</label>
+        <input id="RC" type="text" pInputText formControlName="RC" />
+      </div>
+  
+      <div class="form-field">
+        <label for="ICE">ICE</label>
+        <input id="ICE" type="text" pInputText formControlName="ICE" />
+      </div>
+  
+      <div class="form-field">
+        <label for="image">Logo </label>
+        <input id="image" type="file" (change)="onImageSelected($event)" />
+        <small>Le fichier sera envoyé et stocké côté serveur.</small>
+      </div>
+      
+  
+      <button pButton type="submit" label="S'inscrire" [disabled]="registerForm.invalid"></button>
+  
+      <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+    </form>
+  </div>
+  

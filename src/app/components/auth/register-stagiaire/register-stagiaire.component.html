@@ -1,0 +1,52 @@
+<div class="register-container">
+  <h2>Inscription Stagiaire</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="nom">Nom</label>
+      <input id="nom" type="text" pInputText formControlName="nom" placeholder="Votre nom" />
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input id="email" type="email" pInputText formControlName="email" />
+    </div>
+
+    <div class="form-field">
+      <label for="tel">Téléphone</label>
+      <input id="tel" type="tel" pInputText formControlName="tel" />
+    </div>
+
+    <div class="form-field">
+      <label for="password">Mot de passe</label>
+      <input id="password" type="password" pPassword formControlName="password" />
+    </div>
+
+    <div class="form-field">
+      <label for="cvFile">CV</label>
+      <input
+        id="cvFile"
+        type="file"
+        (change)="onFileSelected($event, 'cv')"
+        accept=".pdf,.doc,.docx"
+      />
+      <small>Le fichier sera envoyé et stocké côté serveur.</small>
+    </div>
+
+    <div class="form-field">
+      <label for="lettreMotivationFile">Lettre de motivation</label>
+      <input
+        id="lettreMotivationFile"
+        type="file"
+        (change)="onFileSelected($event, 'lettre')"
+        accept=".pdf,.doc,.docx"
+      />
+      <small>Le fichier sera envoyé et stocké côté serveur.</small>
+    </div>
+
+    <button pButton type="submit" label="S'inscrire" [disabled]="registerForm.invalid"></button>
+
+    <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+  </form>
+</div>
+
