@@ -19,6 +19,10 @@ public class Notification {
     @Column(name = "date_envoie")
     private LocalDateTime dateEnvoie;
 
+    @Column(name = "is_read")
+    private boolean isRead;
+
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

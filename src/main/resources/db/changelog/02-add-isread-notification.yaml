@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: you
+      changes:
+        - addColumn:
+            tableName: notification
+            columns:
+              - column:
+                  name: is_read
+                  type: boolean
+                  defaultValueBoolean: false
