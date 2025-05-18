@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,16 +70,18 @@ public class OffreServiceImpl implements OffreService {
         // Sauvegarder l'offre
         Offre savedOffre = offreRepository.save(offre);
 
-        // Créer la notification liée à la publication de l'offre
         try {
-            NotificationDTO notificationDTO = new NotificationDTO();
-            notificationDTO.setMessage("Nouvelle offre publiée par " + user.getNomEntreprise() + " !");
-            notificationDTO.setDateEnvoie(LocalDateTime.now());
-            notificationDTO.setUserId(1L);  // supposant que ta NotificationDTO a un champ userId
-            notificationService.addNotification(notificationDTO);
+            List<Long> stagiaireIds = Arrays.asList(1L, 2L);
+
+            for (Long stagiaireId : stagiaireIds) {
+                NotificationDTO notificationDTO = new NotificationDTO();
+                notificationDTO.setMessage("Nouvelle offre publiée par " + user.getNomEntreprise() + " !");
+                notificationDTO.setDateEnvoie(LocalDateTime.now());
+                notificationDTO.setUserId(stagiaireId);
+                notificationService.addNotification(notificationDTO);
+            }
         } catch (Exception e) {
-            // Log l'erreur sans bloquer la publication de l'offre
-            System.err.println("Erreur lors de la création de la notification : " + e.getMessage());
+            System.err.println("Erreur lors de la création des notifications : " + e.getMessage());
         }
 
         // Convertir en DTO et retourner

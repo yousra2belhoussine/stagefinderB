@@ -32,17 +32,7 @@ public class NotificationServiceImpl implements  NotificationService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public NotificationDTO getNotificationById(Long id) {
-        try {
-            Notification notification = notificationRepository.findById(id)
-                    .orElseThrow(() -> new Exception("Notification avec id " + id + " introuvable"));
 
-            return EntityMapper.INSTANCE.toNotificationDTO(notification);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public NotificationDTO addNotification(NotificationDTO notificationDTO) throws Exception {
@@ -78,38 +68,7 @@ public class NotificationServiceImpl implements  NotificationService {
     }
 
 
-    @Override
-    public NotificationDTO updateNotification(Long id, NotificationDTO notificationDTO) {
-        try {
-            Optional<Notification> optionalNotification = notificationRepository.findById(id);
 
-            if (optionalNotification.isPresent()) {
-                Notification notification = optionalNotification.get();
-
-                // mise à jour des champs
-                notification.setMessage(notificationDTO.getMessage());
-                notification.setDateEnvoie(notificationDTO.getDateEnvoie());
-
-                // on pourrait aussi updater user si بغيتي
-                // par exemple :
-                // User user = userRepository.findById(notificationDTO.getUserId()).orElse(null);
-                // notification.setUser(user);
-
-                // save
-                Notification updatedNotification = notificationRepository.save(notification);
-
-                return EntityMapper.INSTANCE.toNotificationDTO(updatedNotification);
-
-            } else {
-                System.out.println("Notification avec id " + id + " introuvable.");
-                return null;
-            }
-
-        } catch (Exception e) {
-            System.err.println("Erreur lors de la mise à jour : " + e.getMessage());
-            throw new RuntimeException("Erreur inattendue lors de l'update.");
-        }
-    }
 
     @Override
     public List<NotificationDTO> getNotificationsByUserId(Long userId) {
