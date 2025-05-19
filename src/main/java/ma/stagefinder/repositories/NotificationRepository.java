@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
-    List<Notification> findByUserId(Long userId);
+    List<Notification> findByUserIdOrderByDateEnvoieDesc(Long userId);
 
-    long countByUserIdAndIsReadFalse(Long userId);
+    long countByUserIdAndReadFalse(Long userId);
+
 }

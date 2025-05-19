@@ -20,7 +20,7 @@ public class Notification {
     private LocalDateTime dateEnvoie;
 
     @Column(name = "is_read")
-    private boolean isRead;
+    private boolean read;
 
 
     @ManyToOne

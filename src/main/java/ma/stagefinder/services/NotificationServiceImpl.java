@@ -69,7 +69,7 @@ public class NotificationServiceImpl implements  NotificationService {
 
     @Override
     public List<NotificationDTO> getNotificationsByUserId(Long userId) {
-        List<Notification> notifications = notificationRepository.findByUserId(userId);
+        List<Notification> notifications = notificationRepository.findByUserIdOrderByDateEnvoieDesc(userId);
         return notifications.stream()
                 .map(EntityMapper.INSTANCE::toNotificationDTO)
                 .collect(Collectors.toList());
@@ -77,7 +77,7 @@ public class NotificationServiceImpl implements  NotificationService {
 
     @Override
     public long countByUserIdAndIsReadFalse(Long userId) {
-        return notificationRepository.countByUserIdAndIsReadFalse(userId);
+        return notificationRepository.countByUserIdAndReadFalse(userId);
     }
 
 
