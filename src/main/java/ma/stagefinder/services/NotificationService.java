@@ -13,4 +13,6 @@ public interface NotificationService {
     List<NotificationDTO> getNotificationsByUserId(Long userId);
 
     long countByUserIdAndIsReadFalse(Long userId);
+
+    void markAllAsReadByUser(Long userId);
 }

@@ -1,5 +1,6 @@
 package ma.stagefinder.services;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import ma.stagefinder.dtos.NotificationDTO;
 import ma.stagefinder.entities.Notification;
@@ -79,6 +80,14 @@ public class NotificationServiceImpl implements  NotificationService {
     public long countByUserIdAndIsReadFalse(Long userId) {
         return notificationRepository.countByUserIdAndReadFalse(userId);
     }
+
+
+    @Override
+    @Transactional
+    public void markAllAsReadByUser(Long userId) {
+        notificationRepository.markAllNotificationsAsReadByUserId(userId);
+    }
+
 
 
 }

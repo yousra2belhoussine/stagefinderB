@@ -56,5 +56,11 @@ public class NotificationController {
         return ResponseEntity.ok(count);
     }
 
+    // Endpoint باش تحدث جميع التنبيهات المقروءة ديال المستخدم
+    @PutMapping("/mark-all-read/{userId}")
+    public ResponseEntity<Void> markAllAsRead(@PathVariable Long userId) {
+        notificationService.markAllAsReadByUser(userId);
+        return ResponseEntity.ok().build();
+    }
 
 }
