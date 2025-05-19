@@ -11,4 +11,6 @@ public interface NotificationService {
     NotificationDTO addNotification(NotificationDTO notificationDTO) throws Exception;
     void deleteNotification(Long id);
     List<NotificationDTO> getNotificationsByUserId(Long userId);
+
+    long countByUserIdAndIsReadFalse(Long userId);
 }

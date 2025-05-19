@@ -67,9 +67,6 @@ public class NotificationServiceImpl implements  NotificationService {
         }
     }
 
-
-
-
     @Override
     public List<NotificationDTO> getNotificationsByUserId(Long userId) {
         List<Notification> notifications = notificationRepository.findByUserId(userId);
@@ -78,6 +75,10 @@ public class NotificationServiceImpl implements  NotificationService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public long countByUserIdAndIsReadFalse(Long userId) {
+        return notificationRepository.countByUserIdAndIsReadFalse(userId);
+    }
 
 
 }

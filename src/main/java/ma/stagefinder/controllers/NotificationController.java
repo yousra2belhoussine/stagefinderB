@@ -50,4 +50,11 @@ public class NotificationController {
         return ResponseEntity.ok(notifications);
     }
 
+    @GetMapping("/unread/count/{userId}")
+    public ResponseEntity<Long> getUnreadNotificationsCount(@PathVariable Long userId) {
+        long count = notificationService.countByUserIdAndIsReadFalse(userId);
+        return ResponseEntity.ok(count);
+    }
+
+
 }
