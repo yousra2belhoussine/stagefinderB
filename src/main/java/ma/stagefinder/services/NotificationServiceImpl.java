@@ -11,9 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.*;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -86,6 +88,15 @@ public class NotificationServiceImpl implements  NotificationService {
     @Transactional
     public void markAllAsReadByUser(Long userId) {
         notificationRepository.markAllNotificationsAsReadByUserId(userId);
+    }
+
+    @Override
+    @Scheduled(fixedRate = 3600000)
+    public void deleteOldNotifications() {
+        // date dyal daba - 3 heures
+        LocalDateTime dateLimit = LocalDateTime.now().minusHours(1);
+        notificationRepository.deleteOldNotifications(dateLimit);
+
     }
 
 

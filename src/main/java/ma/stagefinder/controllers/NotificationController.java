@@ -63,4 +63,10 @@ public class NotificationController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/delete-old")
+    public ResponseEntity<String> deleteOldNotifications() {
+        notificationService.deleteOldNotifications();
+        return ResponseEntity.ok("Old notifications deleted successfully.");
+    }
+
 }

@@ -15,4 +15,6 @@ public interface NotificationService {
     long countByUserIdAndIsReadFalse(Long userId);
 
     void markAllAsReadByUser(Long userId);
+
+    void deleteOldNotifications();
 }
