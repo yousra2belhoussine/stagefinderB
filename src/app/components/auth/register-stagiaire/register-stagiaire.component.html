@@ -1,0 +1,87 @@
+<div class="register-page">
+  <!-- 🔸 Partie gauche : texte + image -->
+  <div class="left-side">
+    <h1 class="hero-title">
+      Trouve<br />
+      <span>ton stage</span><br />
+      avec <strong>StageFinder</strong>
+    </h1>
+
+    <p class="hero-subtitle">
+      <em>Lance ta carrière dès aujourd’hui avec StageFinder.</em><br />
+      Simplifie ta recherche, postule, et démarre dans les meilleures entreprises du Maroc.
+    </p>
+
+    <img src="assets/img/etudiant-recruteur.png" alt="Stagiaire avec recruteur" class="illustration-large" />
+  </div>
+
+  <!-- 🔹 Partie droite : formulaire -->
+  <div class="right-side">
+    <div class="register-card">
+      <h2>Créer un compte Stagiaire</h2>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="p-field">
+          <label for="nom">Nom</label>
+          <input id="nom" type="text" pInputText formControlName="nom" placeholder="Votre nom complet" />
+        </div>
+
+        <div class="p-field">
+          <label for="email">Email</label>
+          <input id="email" type="email" pInputText formControlName="email" placeholder="Votre adresse e-mail" />
+        </div>
+
+        <div class="p-field">
+          <label for="tel">Téléphone</label>
+          <input id="tel" type="tel" pInputText formControlName="tel" placeholder="Ex: 0612345678" />
+        </div>
+
+        <div class="p-field">
+          <label for="password">Mot de passe</label>
+          <input
+            id="password"
+            type="password"
+            pPassword
+            formControlName="password"
+            placeholder="Choisissez un mot de passe"
+            [feedback]="false"
+          />
+        </div>
+
+        <div class="p-field">
+          <label for="cvFile">CV</label>
+          <input
+            id="cvFile"
+            type="file"
+            (change)="onFileSelected($event, 'cv')"
+            accept=".pdf,.doc,.docx"
+          />
+        </div>
+
+        <div class="p-field">
+          <label for="lettreMotivationFile">Lettre de motivation</label>
+          <input
+            id="lettreMotivationFile"
+            type="file"
+            (change)="onFileSelected($event, 'lettre')"
+            accept=".pdf,.doc,.docx"
+          />
+        </div>
+
+        <button
+          pButton
+          type="submit"
+          label="S'inscrire"
+          class="p-button-primary p-mt-3"
+          [disabled]="registerForm.invalid"
+        ></button>
+
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+      </form>
+
+      <div class="login-link">
+        <p>Déjà inscrit ? <a routerLink="/login" class="btn-link">🔐 Se connecter</a></p>
+      </div>
+    </div>
+  </div>
+</div>

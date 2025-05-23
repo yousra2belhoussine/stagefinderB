@@ -1,0 +1,131 @@
+<h2>Gestion des utilisateurs</h2>
+
+<p-select 
+  [options]="roles"
+  [(ngModel)]="selectedRole"
+  placeholder="Filtrer par rôle"
+  (onChange)="applyFilter()"
+  class="mb-3 w-full">
+</p-select>
+
+<p-button 
+  label="Ajouter un utilisateur" 
+  icon="pi pi-plus" 
+  class="p-button-success mb-3" 
+  (click)="openModal()">
+</p-button>
+
+<p-table [value]="filteredUsers">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Nom</th>
+      <th>Email</th>
+      <th>Téléphone</th>
+      <th>CV</th>
+      <th>Lettre</th>
+      <th>Image</th>
+      <th>Rôle</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td>{{ user.nom }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.tel }}</td>
+      <td>
+        <button *ngIf="user.cvFile" (click)="download(user.cvFile)" class="p-button-text p-button-sm">
+          Voir CV
+        </button>
+      </td>
+      <td>
+        <button *ngIf="user.lettreMotivationFile" (click)="download(user.lettreMotivationFile)" class="p-button-text p-button-sm">
+          Voir Lettre
+        </button>
+      </td>
+      <td>
+        <img 
+          *ngIf="user.id && userImageUrls[user.id]" 
+          [src]="userImageUrls[user.id]" 
+          alt="Image" 
+          width="40" height="40" style="border-radius: 4px;" />
+      </td>
+      <td>{{ user.role }}</td>
+      <td>
+        <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-sm" (click)="openModal(user)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm" (click)="deleteUser(user.id)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!-- ✅ Modal de création/édition utilisateur -->
+<p-dialog [(visible)]="displayModal" modal="true" header="Utilisateur" [style]="{width: '400px'}">
+  <div class="p-fluid">
+    <div class="mb-2">
+      <label for="nom">Nom</label>
+      <input id="nom" type="text" [(ngModel)]="newUser.nom" class="w-full" />
+    </div>
+
+    <div class="mb-2">
+      <label for="email">Email</label>
+      <input id="email" type="email" [(ngModel)]="newUser.email" class="w-full" />
+    </div>
+
+    <div class="mb-2">
+      <label for="tel">Téléphone</label>
+      <input id="tel" type="text" [(ngModel)]="newUser.tel" class="w-full" />
+    </div>
+
+    <div class="mb-2" *ngIf="!isEditMode">
+      <label for="password">Mot de passe</label>
+      <input id="password" type="password" [(ngModel)]="newUser.password" class="w-full" />
+    </div>
+
+    <div class="mb-2">
+      <label for="role">Rôle</label>
+      <select id="role" [(ngModel)]="newUser.role" (change)="onRoleChange()" class="w-full">
+        <option value="STAGIAIRE">Stagiaire</option>
+        <option value="RECRUTEUR">Recruteur</option>
+      </select>
+    </div>
+
+    <!-- ✅ Champs pour STAGIAIRE -->
+    <div *ngIf="isStagiaire()">
+      <div class="mb-2">
+        <label for="cv">CV</label>
+        <input id="cv" type="file" (change)="onFileSelected($event, 'cv')" class="w-full" />
+      </div>
+      <div class="mb-2">
+        <label for="lettre">Lettre de motivation</label>
+        <input id="lettre" type="file" (change)="onFileSelected($event, 'lettre')" class="w-full" />
+      </div>
+    </div>
+
+    <!-- ✅ Champs pour RECRUTEUR -->
+    <div *ngIf="isRecruteur()">
+      <div class="mb-2">
+        <label for="nomEntreprise">Nom Entreprise</label>
+        <input id="nomEntreprise" type="text" [(ngModel)]="newUser.nomEntreprise" class="w-full" />
+      </div>
+      <div class="mb-2">
+        <label for="rc">RC</label>
+        <input id="rc" type="text" [(ngModel)]="newUser.RC" class="w-full" />
+      </div>
+      <div class="mb-2">
+        <label for="ice">ICE</label>
+        <input id="ice" type="text" [(ngModel)]="newUser.ICE" class="w-full" />
+      </div>
+      <div class="mb-2">
+        <label for="image">Logo_Entrperise</label>
+        <input id="image" type="file" (change)="onFileSelected($event, 'image')" class="w-full" />
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Annuler" icon="pi pi-times" (click)="displayModal=false" class="p-button-text"></button>
+    <button pButton label="Enregistrer" icon="pi pi-check" (click)="saveUser()" class="p-button-success"></button>
+  </ng-template>
+</p-dialog>

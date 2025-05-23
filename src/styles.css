@@ -1,1 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Styles globaux */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--surface-ground);
+  color: var(--text-color);
+}
+
+/* Styles pour les composants PrimeNG */
+.p-component {
+  font-family: var(--font-family);
+}
+
+.p-button {
+  margin-right: 0.5rem;
+}
+
+.p-card {
+  margin-bottom: 1rem;
+}
+
+.p-dialog {
+  max-width: 90vw;
+}
+
+.p-table {
+  margin-top: 1rem;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.5rem;
+}

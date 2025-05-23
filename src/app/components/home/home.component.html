@@ -1,0 +1,63 @@
+<header class="top-nav">
+  <div class="left-links">
+    <a href="#offres">Nos offres</a>
+    <a routerLink="#">Abonnements</a>
+  </div>
+
+  <div class="right-links">
+    <!-- Si non connecté -->
+    <ng-container *ngIf="!isLoggedIn()">
+      <a routerLink="/login" class="btn-header">Se connecter</a>
+
+      <div class="dropdown">
+        <button class="btn-header" (click)="toggleDropdown()">S’inscrire</button>
+        <div class="dropdown-content" *ngIf="dropdownOpen">
+          <a routerLink="/register-stagiaire">👨‍🎓 Stagiaire</a>
+          <a routerLink="/register-recruteur">🏢 Recruteur</a>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Si connecté -->
+    <ng-container *ngIf="isLoggedIn()">
+      <a *ngIf="isStagiaire()" routerLink="/stagiaire" class="btn-header">Mon espace</a>
+      <a *ngIf="isRecruteur()" routerLink="/recruteur" class="btn-header">Mon espace</a>
+      <a *ngIf="isAdmin()" routerLink="/admin" class="btn-header">Admin</a>
+
+      <button class="btn-header" (click)="logout()">Déconnexion</button>
+    </ng-container>
+  </div>
+</header>
+
+<section class="hero-section">
+  <div class="overlay">
+    <h1>Découvrez nos offres de stage<br>au Maroc</h1>
+    <p>Pour être assuré de trouver un bon stage dans votre ville</p>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Ex: marketing, développement, finance..." />
+      <select>
+        <option disabled selected>Choisir une ville</option>
+        <option>Casablanca</option>
+        <option>Rabat</option>
+        <option>Marrakech</option>
+        <option>Fès</option>
+        <option>Tanger</option>
+      </select>
+      <button class="btn-search">Rechercher</button>
+    </div>
+
+    <div class="popular-tags">
+      Recherches populaires : Développement, RH, Marketing digital, Comptabilité
+    </div>
+
+    <div class="illustration">
+      <img class="profile-image" src="assets/img/etudiant-recruteur.png" alt="Stagiaire au Maroc" />
+    </div>
+  </div>
+</section>
+
+<!-- Section offres -->
+<section id="offres">
+  <!-- (à ajouter plus tard) -->
+</section>

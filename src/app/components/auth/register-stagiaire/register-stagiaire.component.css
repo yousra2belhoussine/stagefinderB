@@ -1,0 +1,113 @@
+.register-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  padding: 3rem;
+  background: linear-gradient(to right, #f9f9f9, #eef2f7);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.left-side {
+  flex: 1;
+  padding: 2rem;
+  max-width: 50%;
+}
+
+.hero-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #ff7a00;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title span {
+  color: #1e2a39;
+}
+
+.hero-title strong {
+  color: #1e2a39;
+  font-weight: 900;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: #444;
+  line-height: 1.6;
+  max-width: 500px;
+  font-style: normal;
+  margin-bottom: 2rem;
+}
+
+.illustration-large {
+  max-width: 90%;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.right-side {
+  flex: 1;
+  max-width: 50%;
+}
+
+.register-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.register-card h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1e2a39;
+}
+
+.p-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+label {
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+input[type='file'] {
+  padding: 0.6rem;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s;
+}
+
+input[type='file']:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.error-message {
+  color: #d9534f;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.login-link a {
+  font-weight: 600;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,82 @@
+/* Disposition générale de la page */
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+/* Partie gauche (image) */
+.left-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0efff;
+}
+
+.left-side .illustration {
+  max-width: 80%;
+  height: auto;
+}
+
+/* Partie droite (formulaire) */
+.right-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.p-field {
+  margin-bottom: 1rem;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #555;
+}
+
+input {
+  width: 100%;
+}
+
+/* Message d’erreur */
+.error-message {
+  color: red;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* Liens d'inscription */
+.register-links {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.register-links a {
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-links a:hover {
+  text-decoration: underline;
+}

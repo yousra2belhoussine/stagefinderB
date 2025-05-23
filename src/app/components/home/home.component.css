@@ -1,0 +1,171 @@
+/* Reset de base */
+body, html {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* Barre de navigation principale */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+}
+
+/* Liens de gauche */
+.left-links a,
+.right-links a {
+  color: white;
+  margin: 0 14px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.left-links a:hover,
+.right-links a:hover {
+  color: #ffc107;
+}
+
+/* Alignement horizontal des boutons à droite */
+.right-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Style des boutons dans le header */
+.btn-header {
+  padding: 8px 16px;
+  background-color: white;
+  color: #333;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-header:hover {
+  background-color: #ff7a00;
+  color: white;
+}
+
+/* Menu déroulant (dropdown) */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 8px 0;
+  z-index: 100;
+  top: 100%;
+  right: 0;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 16px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Section avec image de fond */
+.hero-section {
+  height: 100vh;
+  background-image: url('/assets/img/bg-ville-stage.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* Bloc central semi-transparent */
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 40px 30px;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  width: 100%;
+}
+
+/* Titre et sous-titre */
+.overlay h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.overlay p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+/* Barre de recherche */
+.search-bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.search-bar input,
+.search-bar select {
+  padding: 12px;
+  width: 220px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+}
+
+.btn-search {
+  background-color: #ff7a00;
+  padding: 12px 24px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-search:hover {
+  background-color: #e06b00;
+}
+
+/* Tags populaires */
+.popular-tags {
+  color: #ddd;
+  font-size: 14px;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+/* Image centrale (étudiant + recruteur) */
+.profile-image {
+  width: 280px;
+  max-width: 90%;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  margin-top: 30px;
+}

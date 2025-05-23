@@ -1,0 +1,57 @@
+<div class="login-page">
+  <!-- Partie gauche avec illustration -->
+  <div class="left-side">
+    <img
+      src="assets/img/login-illustration.svg"
+      alt="Illustration de connexion"
+      class="illustration"
+    />
+  </div>
+
+  <!-- Partie droite avec le formulaire -->
+  <div class="right-side">
+    <div class="login-card">
+      <h2>Connexion</h2>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="p-field">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            pInputText
+            type="email"
+            formControlName="email"
+            placeholder="Entrez votre email"
+          />
+        </div>
+
+        <div class="p-field">
+          <label for="password">Mot de passe</label>
+          <input
+            id="password"
+            pPassword
+            formControlName="password"
+            [feedback]="false"
+            placeholder="Entrez votre mot de passe"
+          />
+        </div>
+
+        <button
+          pButton
+          type="submit"
+          label="Se connecter"
+          class="p-button-success p-mt-3"
+          [disabled]="loginForm.invalid"
+        ></button>
+
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+      </form>
+
+      <div class="register-links">
+        <p>Pas encore de compte ?</p>
+        <a routerLink="/register-stagiaire">Créer un compte Stagiaire</a> |
+        <a routerLink="/register-recruteur">Créer un compte Recruteur</a>
+      </div>
+    </div>
+  </div>
+</div>

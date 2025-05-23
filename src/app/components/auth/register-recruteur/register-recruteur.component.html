@@ -1,0 +1,52 @@
+<div class="register-page">
+  <div class="register-card">
+    <h2>Inscription Recruteur</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label for="nom">Nom</label>
+        <input id="nom" type="text" formControlName="nom" />
+      </div>
+
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" />
+      </div>
+
+      <div class="form-field">
+        <label for="tel">Téléphone</label>
+        <input id="tel" type="tel" formControlName="tel" />
+      </div>
+
+      <div class="form-field">
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" formControlName="password" />
+      </div>
+
+      <div class="form-field">
+        <label for="nomEntreprise">Nom de l'entreprise</label>
+        <input id="nomEntreprise" type="text" formControlName="nomEntreprise" />
+      </div>
+
+      <div class="form-field">
+        <label for="RC">RC</label>
+        <input id="RC" type="text" formControlName="RC" />
+      </div>
+
+      <div class="form-field">
+        <label for="ICE">ICE</label>
+        <input id="ICE" type="text" formControlName="ICE" />
+      </div>
+
+      <div class="form-field">
+        <label for="image">Logo</label>
+        <input id="image" type="file" (change)="onImageSelected($event)" />
+        <small>Le fichier sera envoyé et stocké côté serveur.</small>
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid">S'inscrire</button>
+
+      <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+    </form>
+  </div>
+</div>

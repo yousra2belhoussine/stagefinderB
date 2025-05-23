@@ -1,0 +1,89 @@
+.illustration-large {
+  max-width: 85%;
+  height: auto;
+  margin-bottom: 1.5rem;
+}
+
+
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f2f6fa;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.register-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+.register-card h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1e2a39;
+  font-size: 1.7rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+label {
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='tel'],
+input[type='password'],
+input[type='file'] {
+  padding: 0.7rem;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.error-message {
+  color: #d9534f;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+button {
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+small {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 4px;
+}
