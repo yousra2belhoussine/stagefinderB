@@ -33,3 +33,6 @@ build/
 .vscode/
 ### Uploads (fichiers utilisateur à ne pas versionner) ###
 /uploads/
+# Liquibase (évite de versionner les fichiers temporaires ou de lock)
+.liquibase/
+liquibase.lock

@@ -122,6 +122,7 @@ public class OffreServiceImpl implements OffreService {
 
         Offre offre = optionalOffre.get();
 
+
         // Mettre à jour les champs de l'offre
         offre.setAnneesExperience(offreDTO.getAnneesExperience());
         offre.setDescription(offreDTO.getDescription());

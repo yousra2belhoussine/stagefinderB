@@ -43,6 +43,11 @@ public class SecurityConfig {
       .authorizeHttpRequests(auth -> auth
         .requestMatchers("/auth/**", "/error").permitAll()
         .requestMatchers("/api/users/**").hasRole("ADMINISTRATEUR")
+          .requestMatchers("/api/offres/**").hasRole("RECRUTEUR")
+          .requestMatchers("/api/favoris/**").hasRole("STAGIAIRE")
+// ou "RECRUTEUR", "ADMINISTRATEUR", etc.
+          .requestMatchers("/api/avis/**").hasRole("STAGIAIRE")
+
           .requestMatchers("/api/files/**").hasRole("ADMINISTRATEUR")
           .requestMatchers("/uploads/**").hasRole("ADMINISTRATEUR") // ✅ obligatoire ici
 //        .requestMatchers("/uploads/**").permitAll()
