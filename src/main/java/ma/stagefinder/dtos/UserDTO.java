@@ -2,6 +2,7 @@ package ma.stagefinder.dtos;
 
 import lombok.Data;
 import ma.stagefinder.entities.enums.Role;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class UserDTO {
@@ -12,9 +13,9 @@ public class UserDTO {
     private String RC;
     private String ICE;
     private String tel;
-    private String cvFile;
+    private MultipartFile cvFile; // Changé en MultipartFile pour l'upload
     private boolean estValide;
     private String adresse;
-    private String image;
+    private MultipartFile image;  // Changé en MultipartFile pour l'upload
     private Role role;
 }

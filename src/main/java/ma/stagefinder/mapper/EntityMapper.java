@@ -12,7 +12,13 @@ public interface EntityMapper {
     EntityMapper INSTANCE = Mappers.getMapper(EntityMapper.class);
 
     // User
+    @Mapping(source = "role", target = "role")
+    @Mapping(target = "cvFile", ignore = true)
+    @Mapping(target = "image", ignore = true)
     UserDTO toUserDTO(User user);
+
+    @Mapping(target = "cvFile", ignore = true)
+    @Mapping(target = "image", ignore = true)
     User toUser(UserDTO userDTO);
 
     // Categorie
@@ -52,20 +58,29 @@ public interface EntityMapper {
     // Candidature
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "offre.id", target = "offreId")
+    @Mapping(source = "offre", target = "offre")
+    @Mapping(target = "cvChoisi", ignore = true)
+    @Mapping(target = "lettreMotivation", ignore = true)
+    @Mapping(source = "user.nom", target = "userNom")
+    @Mapping(source = "user.email", target = "userEmail")
+    @Mapping(source = "cvChoisi", target = "cvFileName")
+    @Mapping(source = "lettreMotivation", target = "lettreMotivationFileName")
     CandidatureDTO toCandidatureDTO(Candidature candidature);
 
     @Mapping(source = "userId", target = "user.id")
     @Mapping(source = "offreId", target = "offre.id")
+    @Mapping(target = "cvChoisi", ignore = true)
+    @Mapping(target = "lettreMotivation", ignore = true)
     Candidature toCandidature(CandidatureDTO candidatureDTO);
 
     // Avis
     @Mapping(source = "auteur.id", target = "auteurId")
     @Mapping(source = "destinataire.id", target = "destinataireId")
-    @Mapping(source = "offre.id", target = "offreId")
+    //@Mapping(source = "offre.id", target = "offreId")
     AvisDTO toAvisDTO(Avis avis);
 
     @Mapping(source = "auteurId", target = "auteur.id")
     @Mapping(source = "destinataireId", target = "destinataire.id")
-    @Mapping(source = "offreId", target = "offre.id")
+    //@Mapping(source = "offreId", target = "offreId")
     Avis toAvis(AvisDTO avisDTO);
 }
