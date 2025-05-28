@@ -3,6 +3,7 @@ package ma.stagefinder.security;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -42,7 +43,14 @@ public class SecurityConfig {
       .csrf(AbstractHttpConfigurer::disable)
       .authorizeHttpRequests(auth -> auth
         .requestMatchers("/auth/**", "/error").permitAll()
+          .requestMatchers(HttpMethod.PUT, "/api/users/*/profile").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
+          .requestMatchers(HttpMethod.GET, "/api/users/*/profile").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
         .requestMatchers("/api/users/**").hasRole("ADMINISTRATEUR")
+          //.requestMatchers( "/api/users/multipart").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
+          //.requestMatchers("/api/users/create").hasRole("ADMINISTRATEUR")
+         // .requestMatchers("/api/users/count").hasRole("ADMINISTRATEUR")
+
+
           .requestMatchers("/api/offres/**").hasRole("RECRUTEUR")
           .requestMatchers("/api/favoris/**").hasRole("STAGIAIRE")
 // ou "RECRUTEUR", "ADMINISTRATEUR", etc.

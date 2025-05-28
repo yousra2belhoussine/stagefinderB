@@ -41,8 +41,7 @@ public class User {
   @Column(name = "cv_file")
   private String cvFile;
 
-  @Column(name = "lettre_motivation_file")
-  private String lettreMotivationFile;
+
 
   @Column(name = "est_valide")
   private Boolean estValide;

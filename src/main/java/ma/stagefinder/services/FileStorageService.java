@@ -6,6 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FileStorageService {
@@ -18,6 +21,9 @@ public class FileStorageService {
 
   @Value("${app.upload.lettre-dir}")
   private String lettreMotivationDirectory;
+
+  private static final List<String> IMAGE_EXTENSIONS = Arrays.asList(".jpg", ".jpeg", ".png", ".gif");
+  private static final List<String> DOCUMENT_EXTENSIONS = Arrays.asList(".pdf", ".docx");
 
   /**
    * Enregistre un fichier dans le bon répertoire selon son type.
@@ -54,5 +60,56 @@ public class FileStorageService {
     Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
     return fileName;
+  }
+
+  /**
+   * Enregistre un fichier en détectant son extension et son type automatiquement.
+   */
+  public String storeFile(MultipartFile file, String fileType) throws IOException {
+    if (file.isEmpty()) {
+      throw new IOException("Le fichier est vide");
+    }
+
+    String originalFilename = file.getOriginalFilename();
+    if (originalFilename == null) {
+      throw new IOException("Nom de fichier non valide");
+    }
+    String fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
+    String newFilename = UUID.randomUUID().toString() + fileExtension;
+
+    String targetDir;
+    if (IMAGE_EXTENSIONS.contains(fileExtension) && fileType.equals("image")) {
+      targetDir = logoDirectory;
+    } else if (DOCUMENT_EXTENSIONS.contains(fileExtension) &&
+      (fileType.equals("cv") || fileType.equals("lettre"))) {
+      targetDir = fileType.equals("cv") ? cvDirectory : lettreMotivationDirectory;
+    } else {
+      throw new IOException("Type de fichier non supporté ou type incorrect : " + fileExtension);
+    }
+
+    Path filePath = Paths.get(targetDir, newFilename);
+    Files.write(filePath, file.getBytes());
+
+    return newFilename;
+  }
+
+  public Path getFilePath(String fileName, String type) {
+    String directory;
+
+    switch (type.toLowerCase()) {
+      case "cv":
+        directory = cvDirectory;
+        break;
+      case "logo":
+        directory = logoDirectory;
+        break;
+      case "lettre":
+        directory = lettreMotivationDirectory;
+        break;
+      default:
+        throw new IllegalArgumentException("Type de fichier non pris en charge : " + type);
+    }
+
+    return Paths.get(directory).resolve(fileName);
   }
 }

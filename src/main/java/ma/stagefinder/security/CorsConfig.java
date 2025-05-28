@@ -1,4 +1,4 @@
-package com.stagefinder.security;
+package ma.stagefinder.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +14,10 @@ public class CorsConfig {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-          .allowedOrigins("http://localhost:4200") // ✅ Spécifie clairement l'origine autorisée
+          .allowedOriginPatterns("*") // ✅ Autorise toutes les origines même avec credentials
           .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
           .allowedHeaders("*")
-          .allowCredentials(true); // ✅ Autorise les cookies, headers d'auth…
+          .allowCredentials(true); // ✅ Nécessaire si tu envoies des cookies ou JWT
       }
     };
   }

@@ -13,7 +13,6 @@ public class UserDTO {
     private String ICE;
     private String tel;
     private String cvFile;
-    private String lettreMotivationFile;
     private boolean estValide;
     private String adresse;
     private String image;

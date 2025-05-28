@@ -4,24 +4,31 @@ import ma.stagefinder.dtos.*;
 import ma.stagefinder.entities.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface EntityMapper {
 
-  // ✅ Mappings automatiques pour User
-  @Mapping(target = "lettreMotivationFile", source = "lettreMotivationFile")
+  EntityMapper INSTANCE = Mappers.getMapper(EntityMapper.class);
 
+  // User
+  @Mapping(source = "role", target = "role")
+  @Mapping(target = "cvFile", ignore = true)
+  @Mapping(target = "image", ignore = true)
   UserDTO toUserDTO(User user);
+
+  @Mapping(target = "cvFile", ignore = true)
+  @Mapping(target = "image", ignore = true)
   User toUser(UserDTO userDTO);
 
-  // ✅ Categorie
+  // Categorie
   CategorieDTO toCategorieDTO(Categorie categorie);
   Categorie toCategorie(CategorieDTO categorieDTO);
 
-  // ✅ Offre
+  // Offre
   @Mapping(source = "categorie.typeCategorie", target = "categorieNom")
   @Mapping(source = "publiePar.nom", target = "publieParNom")
-  @Mapping(source = "publiePar.nomEntreprise", target = "nomEntreprise")
+  @Mapping(source = "nomEntreprise", target = "nomEntreprise")
   @Mapping(source = "publiePar.id", target = "publieParId")
   @Mapping(source = "categorie.id", target = "categorieId")
   OffreDTO toOffreDTO(Offre offre);
@@ -32,14 +39,14 @@ public interface EntityMapper {
   @Mapping(target = "publiePar", ignore = true)
   Offre toOffre(OffreDTO offreDTO);
 
-  // ✅ Notification
+  // Notification
   @Mapping(source = "user.id", target = "userId")
   NotificationDTO toNotificationDTO(Notification notification);
 
   @Mapping(source = "userId", target = "user.id")
   Notification toNotification(NotificationDTO notificationDTO);
 
-  // ✅ Favoris
+  // Favoris
   @Mapping(source = "user.id", target = "userId")
   @Mapping(source = "offre.id", target = "offreId")
   FavorisDTO toFavorisDTO(Favoris favoris);
@@ -48,24 +55,32 @@ public interface EntityMapper {
   @Mapping(source = "offreId", target = "offre.id")
   Favoris toFavoris(FavorisDTO favorisDTO);
 
-  // ✅ Candidature
+  // Candidature
   @Mapping(source = "user.id", target = "userId")
   @Mapping(source = "offre.id", target = "offreId")
+  @Mapping(source = "offre", target = "offre")
+  @Mapping(target = "cvChoisi", ignore = true)
+  @Mapping(target = "lettreMotivation", ignore = true)
+  @Mapping(source = "user.nom", target = "userNom")
+  @Mapping(source = "user.email", target = "userEmail")
+  @Mapping(source = "cvChoisi", target = "cvFileName")
+  @Mapping(source = "lettreMotivation", target = "lettreMotivationFileName")
   CandidatureDTO toCandidatureDTO(Candidature candidature);
 
   @Mapping(source = "userId", target = "user.id")
   @Mapping(source = "offreId", target = "offre.id")
+  @Mapping(target = "cvChoisi", ignore = true)
+  @Mapping(target = "lettreMotivation", ignore = true)
   Candidature toCandidature(CandidatureDTO candidatureDTO);
 
-  // ✅ Avis
+  // Avis
   @Mapping(source = "auteur.id", target = "auteurId")
   @Mapping(source = "destinataire.id", target = "destinataireId")
-  @Mapping(source = "offre.id", target = "offreId")
+  //@Mapping(source = "offre.id", target = "offreId")
   AvisDTO toAvisDTO(Avis avis);
 
   @Mapping(source = "auteurId", target = "auteur.id")
   @Mapping(source = "destinataireId", target = "destinataire.id")
-  @Mapping(source = "offreId", target = "offre.id")
+    //@Mapping(source = "offreId", target = "offreId")
   Avis toAvis(AvisDTO avisDTO);
 }
-

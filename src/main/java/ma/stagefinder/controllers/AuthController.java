@@ -1,7 +1,7 @@
 package ma.stagefinder.controllers;
 
 import lombok.RequiredArgsConstructor;
-import ma.stagefinder.auth.AuthenticationService;
+import ma.stagefinder.services.AuthenticationService;
 import ma.stagefinder.dtos.AuthRequest;
 import ma.stagefinder.dtos.AuthResponse;
 import ma.stagefinder.entities.User;
@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -30,8 +29,7 @@ public class AuthController {
   public ResponseEntity<AuthResponse> register(
     @RequestPart("user") User user,
     @RequestPart(value = "cv", required = false) MultipartFile cvFile,
-    @RequestPart(value = "logo", required = false) MultipartFile logoFile,
-    @RequestPart(value = "lettre", required = false) MultipartFile lettreFile
+    @RequestPart(value = "logo", required = false) MultipartFile logoFile
 
     ) {
     try {
@@ -39,10 +37,7 @@ public class AuthController {
         String storedCV = fileStorageService.saveFile(cvFile, "cv");
         user.setCvFile(storedCV);
       }
-      if (lettreFile != null && !lettreFile.isEmpty()) {
-        String storedLettre = fileStorageService.saveFile(lettreFile, "lettre");
-        user.setLettreMotivationFile(storedLettre);
-      }
+
 
       if (logoFile != null && !logoFile.isEmpty()) {
         String storedLogo = fileStorageService.saveFile(logoFile, "logo");

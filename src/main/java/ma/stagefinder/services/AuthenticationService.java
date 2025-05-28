@@ -1,4 +1,4 @@
-package ma.stagefinder.auth;
+package ma.stagefinder.services;
 
 import ma.stagefinder.dtos.AuthRequest;
 import ma.stagefinder.dtos.AuthResponse;
