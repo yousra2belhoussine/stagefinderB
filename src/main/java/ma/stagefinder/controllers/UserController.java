@@ -1,6 +1,7 @@
 package ma.stagefinder.controllers;
 
 import lombok.RequiredArgsConstructor;
+import ma.stagefinder.dtos.UpdateEstValideRequest;
 import ma.stagefinder.dtos.UserDTO;
 import ma.stagefinder.entities.enums.Role;
 import ma.stagefinder.services.FileStorageService;
@@ -15,59 +16,43 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class UserController {
 
   private final UserService userService;
   private final FileStorageService fileStorageService;
 
-  // 🔹 Création avec données JSON uniquement
-  @PostMapping
-  public ResponseEntity<UserDTO> create(@RequestBody UserDTO dto) {
-    return ResponseEntity.ok(userService.create(dto));
-  }
   @GetMapping("/count")
   public long countUsers(@RequestParam(value = "role", required = false) Role role) {
     return (role != null) ? userService.countByRole(role) : userService.count();
   }
 
+  @PostMapping
+  public ResponseEntity<UserDTO> create(@RequestBody UserDTO dto) {
+    return ResponseEntity.ok(userService.create(dto));
+  }
 
-  // 🔹 Création avec FormData (CV, Lettre, Image)
   @PostMapping(value = "/multipart", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<UserDTO> createWithFiles(
     @RequestPart("user") UserDTO userDto,
     @RequestPart(value = "cv", required = false) MultipartFile cv,
-    //@RequestPart(value = "lettre", required = false) MultipartFile lettre,
     @RequestPart(value = "image", required = false) MultipartFile image
+    //  @RequestPart(value = "lettre", required = false) MultipartFile lettre
   ) {
-    if (userDto.getRole().equals(Role.ADMINISTRATEUR) ) {
-      throw new RuntimeException("❌ Création d'ADMIN ou SUPERADMIN via /multipart interdite");
-    }
     try {
       if (cv != null && !cv.isEmpty()) {
-        String cvFileName = fileStorageService.saveFile(cv, "cv");
-        System.out.println("✅ CV enregistré : " + cvFileName);
+        String cvFileName = fileStorageService.storeFile(cv, "cv");
         userDto.setCvFile(cvFileName);
       }
-
-     /* if (lettre != null && !lettre.isEmpty()) {
-        System.out.println("📨 Lettre reçue : " + lettre.getOriginalFilename());
-        String lettreFileName = fileStorageService.saveFile(lettre, "lettre");
-        System.out.println("✅ Lettre enregistrée sous : " + lettreFileName);
-        userDto.setLettreMotivationFile(lettreFileName);
-      }*/
-
       if (image != null && !image.isEmpty()) {
-        String imageFileName = fileStorageService.saveFile(image, "logo");
-        System.out.println("🖼️ Image enregistrée : " + imageFileName);
+        String imageFileName = fileStorageService.storeFile(image, "image");
         userDto.setImage(imageFileName);
       }
-
-      System.out.println("📦 Données envoyées à userService.create : " + userDto);
-
-      UserDTO saved = userService.create(userDto);
-      return ResponseEntity.ok(saved);
-
+      //  if (lettre != null && !lettre.isEmpty()) {
+      //  String lettreFileName = fileStorageService.storeFile(lettre, "lettre");
+      //}
+      return ResponseEntity.ok(userService.create(userDto));
     } catch (IOException e) {
       e.printStackTrace();
       return ResponseEntity.internalServerError().body(null);
@@ -82,6 +67,22 @@ public class UserController {
   @PatchMapping("/{id}")
   public ResponseEntity<UserDTO> partialUpdate(@PathVariable Long id, @RequestBody UserDTO dto) {
     return ResponseEntity.ok(userService.partialUpdate(id, dto));
+  }
+
+  @PatchMapping("/{id}/validate")
+  public ResponseEntity<UserDTO> updateEstValide(@PathVariable Long id, @RequestBody UpdateEstValideRequest request) {
+    return ResponseEntity.ok(userService.updateEstValide(id, request.isEstValide()));
+  }
+
+ /* @PutMapping("/{userId}/profile")
+  public ResponseEntity<UserDTO> updateUserProfile(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
+    return ResponseEntity.ok(userService.updateUserProfile(userId, userDTO));
+  }*/
+
+
+  @GetMapping("/{userId}/profile")
+  public ResponseEntity<UserDTO> getUserProfile(@PathVariable Long userId) {
+    return ResponseEntity.ok(userService.getUserProfile(userId));
   }
 
   @GetMapping("/{id}")
@@ -103,22 +104,20 @@ public class UserController {
   @DeleteMapping
   public ResponseEntity<Void> deleteAll() {
     userService.deleteAll();
-    return ResponseEntity.noContent().build(); // Code HTTP 204
+    return ResponseEntity.noContent().build();
+  }
+
+  // Endpoint pour tester le stockage de fichiers indépendamment
+  @PostMapping("/upload-file")
+  public ResponseEntity<String> uploadnFile(
+    @RequestParam("file") MultipartFile file,
+    @RequestParam("type") String type
+  ) {
+    try {
+      String fileName = userService.storeFile(file, type);
+      return ResponseEntity.ok(fileName);
+    } catch (IOException e) {
+      return ResponseEntity.internalServerError().body("Erreur lors du chargement du fichier");
+    }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-// @GetMapping("/count")
-  //public long countUsers(@RequestParam(value = "role", required = false) Role role) {
-   // return (role != null) ? userService.countByRole(role) : userService.count();
-  //}
-

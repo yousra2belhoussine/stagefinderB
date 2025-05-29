@@ -35,7 +35,7 @@ public class OffreController {
     return offreService.countOffres();
   }
 
-  @PostMapping(value = "/publier")
+  @PostMapping("")
   public ResponseEntity<ma.stagefinder.dtos.OffreDTO> publierOffre(
     @RequestBody Offre offre,
     @RequestParam Long userId,

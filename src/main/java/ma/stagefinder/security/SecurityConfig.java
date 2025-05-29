@@ -42,11 +42,13 @@ public class SecurityConfig {
       .cors(cors -> cors.configurationSource(corsConfigurationSource()))
       .csrf(AbstractHttpConfigurer::disable)
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/auth/**", "/error").permitAll()
-        .requestMatchers("/api/users/**").hasRole("ADMINISTRATEUR")
+          .requestMatchers("/auth/**", "/error").permitAll()
+     //     .requestMatchers(HttpMethod.PUT, "/api/users/*/profile").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
+          ////.requestMatchers(HttpMethod.GET, "/api/users/*/profile").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
+          .requestMatchers("/api/users/**").hasRole("ADMINISTRATEUR")
           //.requestMatchers( "/api/users/multipart").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
           //.requestMatchers("/api/users/create").hasRole("ADMINISTRATEUR")
-         // .requestMatchers("/api/users/count").hasRole("ADMINISTRATEUR")
+          // .requestMatchers("/api/users/count").hasRole("ADMINISTRATEUR")
 
 
           .requestMatchers("/api/offres/**").hasRole("RECRUTEUR")
@@ -59,7 +61,7 @@ public class SecurityConfig {
 //        .requestMatchers("/uploads/**").permitAll()
 
 
-        .anyRequest().authenticated()
+          .anyRequest().authenticated()
       )
       .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authenticationProvider(authenticationProvider())
