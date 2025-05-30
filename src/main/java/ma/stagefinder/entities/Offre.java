@@ -40,16 +40,22 @@ public class Offre {
     @JsonIgnore
     private Categorie categorie;
 
-    @OneToMany(mappedBy = "offre")
+    //@OneToMany(mappedBy = "offre")
+    @OneToMany(mappedBy = "offre", cascade = CascadeType.ALL, orphanRemoval = true)
+
     @JsonIgnore
     private List<Candidature> candidatures;
 
-    @OneToMany(mappedBy = "offre")
+    //@OneToMany(mappedBy = "offre")
+    @OneToMany(mappedBy = "offre", cascade = CascadeType.ALL, orphanRemoval = true)
+
     @JsonIgnore
     private List<Avis> avis;
 
-    @OneToMany(mappedBy = "offre")
-    @JsonIgnore
+  //  @OneToMany(mappedBy = "offre")
+  @OneToMany(mappedBy = "offre", cascade = CascadeType.ALL, orphanRemoval = true)
+
+  @JsonIgnore
     private List<Favoris> favoris;
 
     @ManyToOne

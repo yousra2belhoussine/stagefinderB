@@ -56,11 +56,13 @@ public class User {
   @JsonIgnore
   private List<Candidature> candidatures;
 
-  @OneToMany(mappedBy = "publiePar")
+  //@OneToMany(mappedBy = "publiePar")
+  @OneToMany(mappedBy = "publiePar", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
   private List<Offre> offres;
 
-  @OneToMany(mappedBy = "user")
+  //@OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
   private List<Favoris> favoris;
 
@@ -68,11 +70,15 @@ public class User {
   @JsonIgnore
   private List<Notification> notifications;
 
-  @OneToMany(mappedBy = "auteur")
+  //@OneToMany(mappedBy = "auteur")
+  @OneToMany(mappedBy = "auteur", cascade = CascadeType.ALL, orphanRemoval = true)
+
   @JsonIgnore
   private List<Avis> avisLaisses;
 
-  @OneToMany(mappedBy = "destinataire")
+  //@OneToMany(mappedBy = "destinataire")
+  @OneToMany(mappedBy = "destinataire", cascade = CascadeType.ALL, orphanRemoval = true)
+
   @JsonIgnore
   private List<Avis> avisRecus;
 

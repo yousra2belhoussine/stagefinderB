@@ -57,8 +57,10 @@ public class SecurityConfig {
           .requestMatchers("/api/avis/**").hasRole("STAGIAIRE")
 
           .requestMatchers("/api/files/**").hasRole("ADMINISTRATEUR")
-          .requestMatchers("/uploads/**").hasRole("ADMINISTRATEUR") // ✅ obligatoire ici
-//        .requestMatchers("/uploads/**").permitAll()
+          //.requestMatchers("/api/files/**").permitAll()
+
+          //.requestMatchers("/uploads/**").hasRole("ADMINISTRATEUR") // ✅ obligatoire ici
+        .requestMatchers("/uploads/**").permitAll()
 
 
           .anyRequest().authenticated()

@@ -12,14 +12,14 @@ public interface EntityMapper {
   EntityMapper INSTANCE = Mappers.getMapper(EntityMapper.class);
 
   // User
+// User
   @Mapping(source = "role", target = "role")
-  @Mapping(target = "cvFile", ignore = true)
-  @Mapping(target = "image", ignore = true)
   UserDTO toUserDTO(User user);
 
-  @Mapping(target = "cvFile", ignore = true)
-  @Mapping(target = "image", ignore = true)
+
+
   User toUser(UserDTO userDTO);
+
 
   // Categorie
   CategorieDTO toCategorieDTO(Categorie categorie);

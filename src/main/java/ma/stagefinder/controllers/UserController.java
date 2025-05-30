@@ -36,7 +36,7 @@ public class UserController {
   @PostMapping(value = "/multipart", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<UserDTO> createWithFiles(
     @RequestPart("user") UserDTO userDto,
-    @RequestPart(value = "cv", required = false) MultipartFile cv,
+    @RequestPart(value = "cvFile", required = false) MultipartFile cv,
     @RequestPart(value = "image", required = false) MultipartFile image
     //  @RequestPart(value = "lettre", required = false) MultipartFile lettre
   ) {
