@@ -1,0 +1,40 @@
+<div class="offre-container">
+  <h2>Liste des Offres</h2>
+
+  <div *ngIf="offres.length === 0" class="no-offres">
+    Aucune offre disponible pour le moment.
+  </div>
+
+  <div *ngFor="let offre of offres" class="offre-card">
+    <div class="offre-header">
+      <h3>{{ offre.nomEntreprise }}</h3>
+      <span class="badge">{{ offre.ville }}</span>
+    </div>
+
+    <p>{{ offre.description }}</p>
+
+    <div class="offre-details">
+      <span>Date publication : {{ offre.datePublication | date:'shortDate' }}</span> |
+      <span>Compétence exigée : {{ offre.competenceExigee }}</span> |
+      <span>Salaire : {{ offre.salaire }} DH</span> |
+      <span>Expérience : {{ offre.anneesExperience }}</span>
+    </div>
+
+    <!-- Affiche boutons uniquement si id existe -->
+    <div class="actions" *ngIf="offre.id !== undefined && offre.id !== null">
+      <button pButton class="p-button-warning" (click)="navigateToModifier(offre.id)">
+        Modifier
+      </button>
+      <button pButton class="p-button-danger" (click)="deleteOffre(offre.id)">
+        Supprimer
+      </button>
+    </div>
+  </div>
+
+  <p-paginator
+    [rows]="rowsPerPage"
+    [totalRecords]="totalRecords"
+    [first]="currentPage * rowsPerPage"
+    (onPageChange)="loadOffres($event.page ?? 0, $event.rows ?? rowsPerPage)">
+  </p-paginator>
+</div>

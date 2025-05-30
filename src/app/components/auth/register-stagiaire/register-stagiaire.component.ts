@@ -9,6 +9,7 @@ import { User } from '../../../models/user.model';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-register-stagiaire',
@@ -20,15 +21,14 @@ import { ButtonModule } from 'primeng/button';
     ReactiveFormsModule,
     InputTextModule,
     PasswordModule,
-    ButtonModule
+    ButtonModule,
+    FileUploadModule
   ]
 })
 export class RegisterStagiaireComponent {
   registerForm: FormGroup;
   errorMessage = '';
   cvFile: File | null = null;
-  lettreMotivationFile: File | null = null;
-
 
   constructor(
     private fb: FormBuilder,
@@ -43,42 +43,32 @@ export class RegisterStagiaireComponent {
     });
   }
 
-  onFileSelected(event: Event, type: 'cv' | 'lettre') {
+  onCvSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      if (type === 'cv') {
-        this.cvFile = file;
-      } else if (type === 'lettre') {
-        this.lettreMotivationFile = file;
-      }
+      this.cvFile = input.files[0];
+      console.log("📄 CV sélectionné :", this.cvFile.name);
     }
   }
-  
+
   onSubmit() {
     if (this.registerForm.invalid) {
       this.errorMessage = 'Veuillez remplir tous les champs requis.';
       return;
     }
-  
+
     const user: User = {
       ...this.registerForm.value,
       role: 'STAGIAIRE'
     };
-  
+
     const formData = new FormData();
     formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
-  
+
     if (this.cvFile) {
-      formData.append('cv', this.cvFile);
-      console.log("📄 CV sélectionné :", this.cvFile.name);
+      formData.append('cv', this.cvFile); // le nom 'cv' doit correspondre à celui attendu dans le backend
     }
-  
-    if (this.lettreMotivationFile) {
-      formData.append('lettre', this.lettreMotivationFile); // ✅ correction ici
-      console.log("📨 Lettre sélectionnée :", this.lettreMotivationFile.name);
-    }
-  
+
     this.authService.registerWithFormData(formData).subscribe({
       next: () => {
         console.log("✅ Stagiaire enregistré avec succès");
@@ -90,6 +80,4 @@ export class RegisterStagiaireComponent {
       }
     });
   }
-  
-
 }

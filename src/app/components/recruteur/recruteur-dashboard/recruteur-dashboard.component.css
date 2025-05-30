@@ -1,0 +1,43 @@
+.dashboard {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+  background-color: #f5f8fa;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.dashboard h2 {
+  margin-bottom: 2rem;
+  font-size: 24px;
+  color: #333;
+}
+
+.dashboard-buttons {
+  display: flex;
+  flex-direction: row;       /* ✅ les boutons sur la même ligne */
+  justify-content: center;   /* ✅ centrés horizontalement */
+  gap: 1rem;                 /* ✅ espace entre les boutons */
+  flex-wrap: wrap;           /* ✅ passent à la ligne si trop nombreux */
+}
+
+.dashboard-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 200px;           /* ✅ permet la même largeur adaptable */
+  max-width: 250px;
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dashboard-btn:hover {
+  background-color: #0056b3;
+}

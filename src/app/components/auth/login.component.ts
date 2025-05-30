@@ -63,10 +63,10 @@ if (!decoded || !decoded.role || !decoded.id) {
         localStorage.setItem('user_id', userId);
 
 
-        if (role === 'ADMINISTRATEUR') this.router.navigate(['/admin']);
-        else if (role === 'RECRUTEUR') this.router.navigate(['/recruteur']);
-        else if (role === 'STAGIAIRE') this.router.navigate(['/stagiaire']);
-        else this.errorMessage = 'Rôle non reconnu';
+if (role === 'ADMINISTRATEUR') this.router.navigate(['/admin']);
+else if (role === 'RECRUTEUR') this.router.navigate(['/recruteur']); // redirection vers offres
+else if (role === 'STAGIAIRE') this.router.navigate(['/stagiaire']);
+else this.errorMessage = 'Rôle non reconnu';
       },
       error: () => {
         this.errorMessage = 'Identifiants invalides';

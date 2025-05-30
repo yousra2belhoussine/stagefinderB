@@ -1,0 +1,55 @@
+.add-offre-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.add-offre-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1e2a39;
+  font-size: 1.8rem;
+}
+
+.p-field {
+  margin-bottom: 1.2rem;
+}
+
+.p-field label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  display: block;
+  color: #2c3e50;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+button.p-button-success {
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button.p-button-success:hover {
+  background-color: #0056b3 !important;
+}

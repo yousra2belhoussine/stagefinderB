@@ -21,9 +21,13 @@
       <th>Nom</th>
       <th>Email</th>
       <th>Téléphone</th>
-      <th>CV</th>
-      <th>Lettre</th>
-      <th>Image</th>
+
+      <!-- CV: visible sauf si rôle sélectionné est RECRUTEUR ou ADMIN -->
+      <th *ngIf="selectedRole !== 'RECRUTEUR' && selectedRole !== 'ADMINISTRATEUR'">CV</th>
+
+      <!-- Image: visible sauf si rôle sélectionné est STAGIAIRE ou ADMIN -->
+      <th *ngIf="selectedRole !== 'STAGIAIRE' && selectedRole !== 'ADMINISTRATEUR'">Image</th>
+
       <th>Rôle</th>
       <th>Actions</th>
     </tr>
@@ -34,23 +38,26 @@
       <td>{{ user.nom }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.tel }}</td>
-      <td>
-        <button *ngIf="user.cvFile" (click)="download(user.cvFile)" class="p-button-text p-button-sm">
+
+      <!-- CV cell -->
+      <td *ngIf="selectedRole !== 'RECRUTEUR' && selectedRole !== 'ADMINISTRATEUR'">
+        <a *ngIf="user.cvFile" 
+           [href]="'http://localhost:8080/api/files/' + user.cvFile" 
+           target="_blank"
+           class="p-button p-button-text p-button-sm">
           Voir CV
-        </button>
+        </a>
       </td>
-      <td>
-        <button *ngIf="user.lettreMotivationFile" (click)="download(user.lettreMotivationFile)" class="p-button-text p-button-sm">
-          Voir Lettre
-        </button>
-      </td>
-      <td>
+
+      <!-- Image cell -->
+      <td *ngIf="selectedRole !== 'STAGIAIRE' && selectedRole !== 'ADMINISTRATEUR'">
         <img 
           *ngIf="user.id && userImageUrls[user.id]" 
           [src]="userImageUrls[user.id]" 
           alt="Image" 
           width="40" height="40" style="border-radius: 4px;" />
       </td>
+
       <td>{{ user.role }}</td>
       <td>
         <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-sm" (click)="openModal(user)"></button>
@@ -60,7 +67,6 @@
   </ng-template>
 </p-table>
 
-<!-- ✅ Modal de création/édition utilisateur -->
 <p-dialog [(visible)]="displayModal" modal="true" header="Utilisateur" [style]="{width: '400px'}">
   <div class="p-fluid">
     <div class="mb-2">
@@ -91,19 +97,13 @@
       </select>
     </div>
 
-    <!-- ✅ Champs pour STAGIAIRE -->
-    <div *ngIf="isStagiaire()">
-      <div class="mb-2">
-        <label for="cv">CV</label>
-        <input id="cv" type="file" (change)="onFileSelected($event, 'cv')" class="w-full" />
-      </div>
-      <div class="mb-2">
-        <label for="lettre">Lettre de motivation</label>
-        <input id="lettre" type="file" (change)="onFileSelected($event, 'lettre')" class="w-full" />
-      </div>
+    <!-- Champ CV (sauf RECRUTEUR et ADMINISTRATEUR) -->
+    <div *ngIf="newUser.role !== 'RECRUTEUR' && newUser.role !== 'ADMINISTRATEUR'" class="mb-2">
+      <label for="cv">CV</label>
+      <input id="cv" type="file" (change)="onFileSelected($event, 'cv')" class="w-full" />
     </div>
 
-    <!-- ✅ Champs pour RECRUTEUR -->
+    <!-- Champs spécifiques RECRUTEUR -->
     <div *ngIf="isRecruteur()">
       <div class="mb-2">
         <label for="nomEntreprise">Nom Entreprise</label>
@@ -117,10 +117,12 @@
         <label for="ice">ICE</label>
         <input id="ice" type="text" [(ngModel)]="newUser.ICE" class="w-full" />
       </div>
-      <div class="mb-2">
-        <label for="image">Logo_Entrperise</label>
-        <input id="image" type="file" (change)="onFileSelected($event, 'image')" class="w-full" />
-      </div>
+    </div>
+
+    <!-- Champ image (sauf STAGIAIRE et ADMINISTRATEUR) -->
+    <div *ngIf="newUser.role !== 'STAGIAIRE' && newUser.role !== 'ADMINISTRATEUR'" class="mb-2">
+      <label for="image">Logo</label>
+      <input id="image" type="file" (change)="onFileSelected($event, 'image')" class="w-full" />
     </div>
   </div>
 

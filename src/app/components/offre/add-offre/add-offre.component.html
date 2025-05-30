@@ -1,0 +1,106 @@
+<div class="add-offre-container">
+  <h2>Ajouter une nouvelle offre</h2>
+
+  <form (ngSubmit)="saveOffre()" #offreForm="ngForm" novalidate>
+                                                                                                                                                                
+    <div class="field">
+      <label for="anneesExperience">Années d'expérience</label>
+      <input
+        id="anneesExperience"
+        name="anneesExperience"
+        type="text"
+        [(ngModel)]="newOffre.anneesExperience"
+        required
+        pInputText
+      />
+    </div>
+
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        name="description"
+        rows="4"
+        [(ngModel)]="newOffre.description"
+        required
+        pInputTextarea
+      ></textarea>
+    </div>
+
+    <div class="field">
+      <label for="ville">Ville</label>
+      <input
+        id="ville"
+        name="ville"
+        type="text"
+        [(ngModel)]="newOffre.ville"
+        required
+        pInputText
+      />
+    </div>
+
+    <div class="field">
+      <label for="salaire">Salaire (DH)</label>
+      <input
+        id="salaire"
+        name="salaire"
+        type="number"
+        [(ngModel)]="newOffre.salaire"
+        required
+        pInputText
+      />
+    </div>
+
+    <div class="field">
+      <label for="competenceExigee">Compétences exigées</label>
+      <input
+        id="competenceExigee"
+        name="competenceExigee"
+        type="text"
+        [(ngModel)]="newOffre.competenceExigee"
+        required
+        pInputText
+      />
+    </div>
+
+    <div class="field">
+      <label for="dateExpiration">Date d'expiration</label>
+      <p-calendar
+        id="dateExpiration"
+        name="dateExpiration"
+        [(ngModel)]="newOffre.dateExpiration"
+        dateFormat="dd/mm/yy"
+        required
+      ></p-calendar>
+    </div>
+
+    <div class="field">
+      <label for="datePublication">Date de publication</label>
+      <p-calendar
+        id="datePublication"
+        name="datePublication"
+        [(ngModel)]="newOffre.datePublication"
+        dateFormat="dd/mm/yy"
+        required
+      ></p-calendar>
+    </div>
+
+    <div class="field">
+      <label for="categorie">Catégorie</label>
+      <p-dropdown
+        id="categorie"
+        name="categorieId"
+        [options]="categories"
+        [(ngModel)]="newOffre.categorieId"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Sélectionnez une catégorie"
+        required
+      >
+      </p-dropdown>
+    </div>
+
+    <button pButton type="submit" label="Publier l'offre" [disabled]="offreForm.invalid"></button>
+
+  </form>
+</div>

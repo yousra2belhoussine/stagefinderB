@@ -50,23 +50,16 @@
 
         <div class="p-field">
           <label for="cvFile">CV</label>
-          <input
-            id="cvFile"
-            type="file"
-            (change)="onFileSelected($event, 'cv')"
-            accept=".pdf,.doc,.docx"
-          />
+<input
+  id="cvFile"
+  type="file"
+  (change)="onCvSelected($event)"
+  accept=".pdf,.doc,.docx"
+/>
+
         </div>
 
-        <div class="p-field">
-          <label for="lettreMotivationFile">Lettre de motivation</label>
-          <input
-            id="lettreMotivationFile"
-            type="file"
-            (change)="onFileSelected($event, 'lettre')"
-            accept=".pdf,.doc,.docx"
-          />
-        </div>
+   
 
         <button
           pButton
@@ -79,9 +72,11 @@
         <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
       </form>
 
-      <div class="login-link">
-        <p>Déjà inscrit ? <a routerLink="/login" class="btn-link">🔐 Se connecter</a></p>
-      </div>
+<p class="login-link">
+  Déjà inscrit ?
+  <a routerLink="/login" class="btn-link">🔐 Se connecter</a>
+</p>
+
     </div>
   </div>
 </div>

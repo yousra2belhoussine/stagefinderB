@@ -1,0 +1,61 @@
+<div class="edit-offre-container">
+  <h2>✏️ Modifier l'Offre de Stage</h2>
+
+  <form (ngSubmit)="updateOffre()">
+    <div class="p-field">
+      <label>Nom de l'entreprise</label>
+      <input type="text" pInputText [(ngModel)]="offre.nomEntreprise" name="entreprise" required />
+    </div>
+
+    <div class="p-field">
+      <label>Description</label>
+      <input type="text" pInputText [(ngModel)]="offre.description" name="description" required />
+    </div>
+
+    <div class="p-field">
+      <label>Ville</label>
+      <input type="text" pInputText [(ngModel)]="offre.ville" name="ville" required />
+    </div>
+
+    <div class="p-field">
+      <label>Compétence exigée</label>
+      <input type="text" pInputText [(ngModel)]="offre.competenceExigee" name="competence" required />
+    </div>
+
+    <div class="p-field">
+      <label>Années d'expérience</label>
+      <input type="text" pInputText [(ngModel)]="offre.anneesExperience" name="experience" required />
+    </div>
+
+    <div class="p-field">
+      <label>Salaire</label>
+      <input type="number" pInputText [(ngModel)]="offre.salaire" name="salaire" required />
+    </div>
+
+    <div class="p-field">
+      <label>Date de publication</label>
+      <p-calendar [(ngModel)]="offre.datePublication" name="publication" dateFormat="yy-mm-dd"></p-calendar>
+    </div>
+
+    <div class="p-field">
+      <label>Date d'expiration</label>
+      <p-calendar [(ngModel)]="offre.dateExpiration" name="expiration" dateFormat="yy-mm-dd"></p-calendar>
+    </div>
+
+    <div class="p-field">
+      <label>Catégorie</label>
+      <p-dropdown
+        [options]="categories"
+        optionLabel="name"
+        [(ngModel)]="offre.categorieId"
+        name="categorie"
+        [filter]="true"
+        placeholder="Choisir une catégorie"
+      ></p-dropdown>
+    </div>
+
+    <button pButton type="submit" label="Mettre à jour l'offre" class="p-button-warning"></button>
+  </form>
+  <p-toast position="top-right"></p-toast>
+
+</div>

@@ -1,19 +1,15 @@
-//import { bootstrapApplication } from '@angular/platform-browser';
-//import { appConfig } from './app/app.config';
-//import { AppComponent } from './app/app.component';
-
-//bootstrapApplication(AppComponent, appConfig)
-  //.catch(err => console.error(err));
-  import { bootstrapApplication } from '@angular/platform-browser';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideRouter } from '@angular/router';
-import { routes } from './app/app.routes'; // 👉 assure-toi que le chemin est correct
+import { routes } from './app/app.routes';
 import { appConfig } from './app/app.config';
+import { provideHttpClient } from '@angular/common/http';
 
 bootstrapApplication(AppComponent, {
   ...appConfig,
   providers: [
-    ...appConfig.providers || [], // conserve les autres providers de appConfig
-    provideRouter(routes)        // 👉 active le router
+    ...appConfig.providers || [],
+    provideRouter(routes),
+    provideHttpClient()
   ]
 }).catch(err => console.error(err));

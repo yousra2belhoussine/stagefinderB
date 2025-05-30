@@ -74,7 +74,7 @@ export class RegisterRecruteurComponent {
     formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
   
     if (this.logoFile) {
-      formData.append('logo', this.logoFile);
+      formData.append('image', this.logoFile);
     }
   
     this.authService.registerWithFormData(formData).subscribe({

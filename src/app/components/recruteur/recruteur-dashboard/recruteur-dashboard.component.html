@@ -1,2 +1,14 @@
-<p>recruteur-dashboard works!</p>
-<h2>Bienvenue sur le tableau de bord recruteur</h2>
+<div class="dashboard">
+  <h2>Bienvenue sur votre tableau de bord, Recruteur !</h2>
+
+  <div class="dashboard-buttons">
+    <button pButton type="button" label="📄 Voir les offres publiées" class="p-button p-button-info"
+            (click)="goTo('/offres')"></button>
+
+    <button pButton type="button" label="➕ Ajouter une offre" class="p-button p-button-success"
+            (click)="goTo('/offres/ajouter')"></button>
+
+    <button pButton type="button" label="📬 Voir les candidatures reçues" class="p-button p-button-warning"
+            (click)="goTo('/candidatures')"></button>
+  </div>
+</div>

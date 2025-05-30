@@ -68,9 +68,22 @@ export class AuthService {
     }
   }
 
+ // isLoggedIn(): boolean {
+   // return !!this.getToken();
+  //}
   isLoggedIn(): boolean {
-    return !!this.getToken();
+  const token = this.getToken();
+  if (!token) return false;
+
+  try {
+    const decoded: any = jwtDecode(token);
+    const now = Math.floor(Date.now() / 1000); // en secondes
+    return decoded.exp && decoded.exp > now;
+  } catch (e) {
+    return false;
   }
+}
+
 
   refreshToken(): Observable<AuthResponse> {
     const refreshToken = localStorage.getItem('refresh_token');

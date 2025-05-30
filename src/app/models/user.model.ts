@@ -7,7 +7,6 @@ export interface User {
   adresse?: string;
   image?: string;
   cvFile?: string;
-  lettreMotivationFile?: string; // ✅ ajouté
   estValide?: boolean;
   nomEntreprise?: string;
   RC?: string;
