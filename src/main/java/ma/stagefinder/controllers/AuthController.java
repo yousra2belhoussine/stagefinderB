@@ -29,7 +29,7 @@ public class AuthController {
   public ResponseEntity<AuthResponse> register(
     @RequestPart("user") User user,
     @RequestPart(value = "cv", required = false) MultipartFile cvFile,
-    @RequestPart(value = "logo", required = false) MultipartFile logoFile
+    @RequestPart(value = "image", required = false) MultipartFile logoFile
 
     ) {
     try {
@@ -43,6 +43,8 @@ public class AuthController {
         String storedLogo = fileStorageService.saveFile(logoFile, "logo");
         user.setImage(storedLogo);
       }
+      System.out.println("✅ Image reçue côté backend (user.getImage()) : " + user.getImage());
+      System.out.println("✅ CV reçu côté backend (user.getCvFile()) : " + user.getCvFile());
 
       return authenticationService.register(user);
 

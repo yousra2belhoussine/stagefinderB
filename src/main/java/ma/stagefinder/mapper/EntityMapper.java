@@ -14,11 +14,13 @@ public interface EntityMapper {
   // User
 // User
   @Mapping(source = "role", target = "role")
+  @Mapping(source = "image", target = "image")//j ai ajoute
   UserDTO toUserDTO(User user);
 
 
-
+  @Mapping(source = "image", target = "image")
   User toUser(UserDTO userDTO);
+
 
 
   // Categorie

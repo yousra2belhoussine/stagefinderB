@@ -56,8 +56,8 @@ public class SecurityConfig {
 // ou "RECRUTEUR", "ADMINISTRATEUR", etc.
           .requestMatchers("/api/avis/**").hasRole("STAGIAIRE")
 
-          //.requestMatchers("/api/files/**").hasRole("ADMINISTRATEUR")
-           .requestMatchers("/api/files/**").permitAll()
+          .requestMatchers("/api/files/**").hasRole("ADMINISTRATEUR")
+          // .requestMatchers("/api/files/**").permitAll()
 
           //.requestMatchers("/uploads/**").hasRole("ADMINISTRATEUR") // ✅ obligatoire ici
         .requestMatchers("/uploads/**").permitAll()
