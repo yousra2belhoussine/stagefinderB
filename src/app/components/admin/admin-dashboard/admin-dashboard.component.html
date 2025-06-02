@@ -41,12 +41,13 @@
 
       <!-- CV cell -->
       <td *ngIf="selectedRole !== 'RECRUTEUR' && selectedRole !== 'ADMINISTRATEUR'">
-        <a *ngIf="user.cvFile" 
-           [href]="'http://localhost:8080/api/files/' + user.cvFile" 
-           target="_blank"
-           class="p-button p-button-text p-button-sm">
-          Voir CV
-        </a>
+       <button *ngIf="user.cvFile"
+        pButton
+        label="Voir CV"
+        class="p-button-text p-button-sm"
+        (click)="openCv(user.cvFile)">
+</button>
+
       </td>
 
       <!-- Image cell -->

@@ -45,7 +45,22 @@ export class HomeComponent {
     return this.role === 'RECRUTEUR';
   }
 
+ // isLoggedIn(): boolean {
+   // return !!localStorage.getItem('access_token');
+  //}
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('access_token');
+  return this.authService.isLoggedIn(); // prend en compte expiration du token
+}
+getRole(): string | null {
+  const token = this.authService.getToken();
+  if (!token) return null;
+
+  try {
+    const decoded: any = jwtDecode(token);
+    return decoded.role || null;
+  } catch (e) {
+    return null;
   }
+}
+
 }

@@ -1,9 +1,3 @@
-
-
-
-
-
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -100,6 +94,11 @@ export class AdminDashboardComponent {
     this.fileService.downloadFile(fileName);
   }
 
+  /** 👁️ Ouvre un fichier CV dans un nouvel onglet avec token JWT */
+  openCv(fileName: string): void {
+    this.fileService.openFileInNewTab(fileName);
+  }
+
   loadUsers() {
     this.userService.getUsers().subscribe({
       next: (data) => {
@@ -137,26 +136,30 @@ export class AdminDashboardComponent {
     }
     this.displayModal = true;
   }
+saveUser() {
+  if (this.isEditMode && 'id' in this.newUser) {
+    const userToUpdate = this.newUser as User;
+    this.userService.updateUser(userToUpdate.id, userToUpdate).subscribe(() => this.loadUsers());
+  } else {
+    const formData = new FormData();
+    formData.append('user', new Blob([JSON.stringify(this.newUser)], { type: 'application/json' }));
 
-  saveUser() {
-    if (this.isEditMode && 'id' in this.newUser) {
-      const userToUpdate = this.newUser as User;
-      this.userService.updateUser(userToUpdate.id, userToUpdate).subscribe(() => this.loadUsers());
-    } else {
-      if (!this.newUser.cvFile) this.newUser.cvFile = '';
-      if (!this.newUser.image) this.newUser.image = '';
-
-      const formData = new FormData();
-      formData.append('user', new Blob([JSON.stringify(this.newUser)], { type: 'application/json' }));
-
-      if (this.cvFile) formData.append('cv', this.cvFile);
-      if (this.imageFile) formData.append('image', this.imageFile);
-
-      this.userService.registerWithFormData(formData).subscribe(() => this.loadUsers());
+    if (this.cvFile) {
+      formData.append('cvFile', this.cvFile);//ici
+      this.newUser.cvFile = this.cvFile.name; // optionnel, utile pour prévisualisation
     }
 
-    this.displayModal = false;
+    if (this.imageFile) {
+      formData.append('image', this.imageFile);
+      this.newUser.image = this.imageFile.name; // optionnel, utile pour affichage
+    }
+
+    this.userService.registerWithFormData(formData).subscribe(() => this.loadUsers());
   }
+
+  this.displayModal = false;
+}
+
 
   deleteUser(id: number) {
     this.userService.deleteUser(id).subscribe(() => this.loadUsers());
