@@ -38,15 +38,16 @@ export class RegisterRecruteurComponent {
     private authService: AuthService,
     private router: Router
   ) {
-    this.registerForm = this.fb.group({
-      nom: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      tel: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      password: ['', Validators.required],
-      nomEntreprise: ['', Validators.required],
-      RC: ['', Validators.required],
-      ICE: ['', Validators.required]
-    });
+   this.registerForm = this.fb.group({
+  nom: ['', Validators.required],
+  email: ['', [Validators.required, Validators.email]],
+  tel: ['', [Validators.required, Validators.pattern('^(06|07)[0-9]{8}$')]],
+  password: ['', Validators.required],
+  nomEntreprise: ['', [Validators.required, Validators.pattern('^[A-Za-zÀ-ÿ0-9 \'\-]{2,}$')]],
+  RC: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9]{4,20}$')]],
+  ICE: ['', [Validators.required, Validators.pattern('^[0-9]{15}$')]]
+});
+
   }
   
 
@@ -57,12 +58,15 @@ export class RegisterRecruteurComponent {
       console.log('CV sélectionné :', file.name);
     }
   }
+  submitted = false;
 
   onSubmit() {
-    if (this.registerForm.invalid) {
-      this.errorMessage = 'Veuillez remplir tous les champs requis.';
-      return;
-    }
+  this.submitted = true; // Sert à afficher les messages d'erreur dans le HTML
+
+  if (this.registerForm.invalid || !this.logoFile) {
+    this.errorMessage = 'Veuillez remplir tous les champs requis.';
+    return;
+  }
   
     const formData = new FormData();
   

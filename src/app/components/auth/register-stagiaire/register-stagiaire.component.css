@@ -111,3 +111,30 @@ input[type='file']:focus {
 .login-link a:hover {
   text-decoration: underline;
 }
+/* 🔴 Messages d’erreur sous les champs individuels */
+.p-field .error-message {
+  color: #d9534f;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  text-align: left;
+  font-weight: 500;
+}
+
+/* 🔴 Bordure rouge pour les champs invalides */
+input.ng-invalid.ng-touched,
+input.ng-invalid.ng-dirty {
+  border-color: #d9534f;
+}
+
+/* 🔴 Bordure rouge pour le champ fichier si erreur */
+input[type='file'].error {
+  border: 1px solid #d9534f;
+}
+
+/* Facultatif : met en valeur les champs focus */
+input:focus,
+input[type='file']:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}

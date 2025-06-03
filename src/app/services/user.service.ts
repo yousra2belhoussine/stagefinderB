@@ -43,6 +43,18 @@ export class UserService {
       catchError(error => throwError(() => error))
     );
   }
+  updateUserWithFormData(id: number, formData: FormData): Observable<User> {
+  const token = this.authService.getToken();
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`
+    // Ne pas définir Content-Type → Angular le gère
+  });
+
+  return this.http.put<User>(`${this.apiUrl}/multipart/${id}`, formData, { headers }).pipe(
+    catchError(error => throwError(() => error))
+  );
+}
+
 
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(

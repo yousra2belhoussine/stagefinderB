@@ -6,52 +6,100 @@
   <p>Créez votre compte entreprise pour publier vos offres de stage</p>
 </div>
 
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <!-- Nom -->
+  <div class="form-field">
+    <label for="nom">Nom</label>
+    <input id="nom" type="text" formControlName="nom" />
+    <small *ngIf="registerForm.get('nom')?.touched && registerForm.get('nom')?.hasError('required')">
+      Le nom est obligatoire.
+    </small>
+  </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="form-field">
-        <label for="nom">Nom</label>
-        <input id="nom" type="text" formControlName="nom" />
-      </div>
+  <!-- Email -->
+  <div class="form-field">
+    <label for="email">Email</label>
+    <input id="email" type="email" formControlName="email" />
+    <small *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')">
+      L'email est obligatoire.
+    </small>
+    <small *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('email')">
+      L'adresse email n'est pas valide.
+    </small>
+  </div>
 
-      <div class="form-field">
-        <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" />
-      </div>
+  <!-- Téléphone -->
+  <div class="form-field">
+    <label for="tel">Téléphone</label>
+    <input id="tel" type="tel" formControlName="tel" />
+    <small *ngIf="registerForm.get('tel')?.touched && registerForm.get('tel')?.hasError('required')">
+      Le numéro de téléphone est obligatoire.
+    </small>
+    <small *ngIf="registerForm.get('tel')?.touched && registerForm.get('tel')?.hasError('pattern')">
+      Le numéro doit commencer par 06 ou 07 et contenir 10 chiffres.
+    </small>
+  </div>
 
-      <div class="form-field">
-        <label for="tel">Téléphone</label>
-        <input id="tel" type="tel" formControlName="tel" />
-      </div>
+  <!-- Mot de passe -->
+  <div class="form-field">
+    <label for="password">Mot de passe</label>
+    <input id="password" type="password" formControlName="password" />
+    <small *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')">
+      Le mot de passe est obligatoire.
+    </small>
+  </div>
 
-      <div class="form-field">
-        <label for="password">Mot de passe</label>
-        <input id="password" type="password" formControlName="password" />
-      </div>
+  <!-- Nom de l'entreprise -->
+  <div class="form-field">
+    <label for="nomEntreprise">Nom de l'entreprise</label>
+    <input id="nomEntreprise" type="text" formControlName="nomEntreprise" />
+    <small *ngIf="registerForm.get('nomEntreprise')?.touched && registerForm.get('nomEntreprise')?.hasError('required')">
+      Le nom de l'entreprise est obligatoire.
+    </small>
+    <small *ngIf="registerForm.get('nomEntreprise')?.touched && registerForm.get('nomEntreprise')?.hasError('pattern')">
+      Le nom de l'entreprise n'est pas valide.
+    </small>
+  </div>
 
-      <div class="form-field">
-        <label for="nomEntreprise">Nom de l'entreprise</label>
-        <input id="nomEntreprise" type="text" formControlName="nomEntreprise" />
-      </div>
+  <!-- RC -->
+  <div class="form-field">
+    <label for="RC">RC</label>
+    <input id="RC" type="text" formControlName="RC" />
+    <small *ngIf="registerForm.get('RC')?.touched && registerForm.get('RC')?.hasError('required')">
+      Le RC est obligatoire.
+    </small>
+    <small *ngIf="registerForm.get('RC')?.touched && registerForm.get('RC')?.hasError('pattern')">
+      Le RC doit contenir 4 à 20 caractères alphanumériques.
+    </small>
+  </div>
 
-      <div class="form-field">
-        <label for="RC">RC</label>
-        <input id="RC" type="text" formControlName="RC" />
-      </div>
+  <!-- ICE -->
+  <div class="form-field">
+    <label for="ICE">ICE</label>
+    <input id="ICE" type="text" formControlName="ICE" />
+    <small *ngIf="registerForm.get('ICE')?.touched && registerForm.get('ICE')?.hasError('required')">
+      L'ICE est obligatoire.
+    </small>
+    <small *ngIf="registerForm.get('ICE')?.touched && registerForm.get('ICE')?.hasError('pattern')">
+      L'ICE doit contenir exactement 15 chiffres.
+    </small>
+  </div>
 
-      <div class="form-field">
-        <label for="ICE">ICE</label>
-        <input id="ICE" type="text" formControlName="ICE" />
-      </div>
+  <!-- Logo -->
+<div class="form-field">
+  <label for="image">Logo</label>
+  <input id="image" type="file" (change)="onImageSelected($event)" />
+  <small *ngIf="submitted && !logoFile" class="error-message">
+    Le logo est obligatoire.
+  </small>
+</div>
 
-      <div class="form-field">
-        <label for="image">Logo</label>
-        <input id="image" type="file" (change)="onImageSelected($event)" />
-        <small>Le fichier sera envoyé et stocké côté serveur.</small>
-      </div>
+  <!-- Bouton -->
+  <button type="submit" [disabled]="registerForm.invalid">S'inscrire</button>
 
-      <button type="submit" [disabled]="registerForm.invalid">S'inscrire</button>
+  <!-- Erreur générale -->
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+</form>
 
-      <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
-    </form>
   </div>
 </div>
