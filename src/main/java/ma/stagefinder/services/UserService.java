@@ -38,4 +38,6 @@ public interface UserService {
   List<UserDTO> getUsers();
 
   String storeFile(MultipartFile file, String type) throws IOException;
+  UserDTO updateWithFiles(Long id, UserDTO dto, MultipartFile cv, MultipartFile image) throws IOException;
+
 }

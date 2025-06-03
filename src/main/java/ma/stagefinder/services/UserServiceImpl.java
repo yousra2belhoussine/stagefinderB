@@ -45,20 +45,46 @@ public class UserServiceImpl implements UserService {
     User user = userRepository.findById(id)
       .orElseThrow(() -> new RuntimeException("User not found"));
 
-    user.setNom(dto.getNom());
-    user.setEmail(dto.getEmail());
-    user.setTel(dto.getTel());
-    user.setRole(dto.getRole());
-    user.setImage(dto.getImage());
-    user.setCvFile(dto.getCvFile());
+    if (dto.getNom() != null) user.setNom(dto.getNom());
+    if (dto.getEmail() != null) user.setEmail(dto.getEmail());
+    if (dto.getTel() != null) user.setTel(dto.getTel());
+    if (dto.getRole() != null) user.setRole(dto.getRole());
+
+    // Ne remplacer l'image et le cv que s'ils sont envoyés
+    if (dto.getImage() != null && !dto.getImage().isEmpty()) {
+      user.setImage(dto.getImage());
+    }
+
+    if (dto.getCvFile() != null && !dto.getCvFile().isEmpty()) {
+      user.setCvFile(dto.getCvFile());
+    }
+
+    // Mise à jour du champ estValide
     user.setEstValide(dto.isEstValide());
 
     return entityMapper.toUserDTO(userRepository.save(user));
   }
+  @Override
+  public UserDTO updateWithFiles(Long id, UserDTO dto, MultipartFile cv, MultipartFile image) throws IOException {
+    if (cv != null && !cv.isEmpty()) {
+      String cvFileName = fileStorageService.storeFile(cv, "cv");
+      dto.setCvFile(cvFileName);
+    }
+
+    if (image != null && !image.isEmpty()) {
+      String imageFileName = fileStorageService.storeFile(image, "image");
+      dto.setImage(imageFileName);
+    }
+
+    return update(id, dto); // réutilise la méthode existante
+  }
+
+
 
 
   @Override
-  public UserDTO partialUpdate(Long id, UserDTO dto) {
+  public UserDTO
+   partialUpdate(Long id, UserDTO dto) {
     User user = userRepository.findById(id)
       .orElseThrow(() -> new RuntimeException("User not found"));
 
