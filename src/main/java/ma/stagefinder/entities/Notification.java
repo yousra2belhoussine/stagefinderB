@@ -19,6 +19,9 @@ public class Notification {
     @Column(name = "date_envoie")
     private LocalDateTime dateEnvoie;
 
+    @Column(name = "is_read", nullable = false)
+    private Boolean isRead = false;  // ← Ajouté avec valeur par défaut
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

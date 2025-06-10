@@ -36,20 +36,32 @@ databaseChangeLog:
                   name: competence_exigee
                   type: VARCHAR(1000)
               - column:
+                  name: pre_embauche
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+                  defaultValue: false
+              - column:
                   name: categorie_id
                   type: BIGINT
+                  constraints:
+                    nullable: false
               - column:
                   name: publie_par_id
                   type: BIGINT
+                  constraints:
+                    nullable: false
         - addForeignKeyConstraint:
             baseTableName: offre
             baseColumnNames: categorie_id
             referencedTableName: categorie
             referencedColumnNames: id
             constraintName: fk_offre_categorie
+            onDelete: CASCADE
         - addForeignKeyConstraint:
             baseTableName: offre
             baseColumnNames: publie_par_id
             referencedTableName: users
             referencedColumnNames: id
             constraintName: fk_offre_user
+            onDelete: CASCADE

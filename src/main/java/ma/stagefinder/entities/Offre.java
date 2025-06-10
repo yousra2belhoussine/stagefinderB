@@ -21,6 +21,7 @@ public class Offre {
     private String description;
     private String ville;
     private String anneesExperience;
+
     @Column(name = "nom_entreprise")
     private String nomEntreprise;
 
@@ -35,27 +36,24 @@ public class Offre {
     @Column(name = "competence_exigee")
     private String competenceExigee;
 
+    @Column(name = "pre_embauche", nullable = false)
+    private Boolean preEmbauche = false;  // ← Ajouté avec valeur par défaut
+
     @ManyToOne
     @JoinColumn(name = "categorie_id")
     @JsonIgnore
     private Categorie categorie;
 
-    //@OneToMany(mappedBy = "offre")
     @OneToMany(mappedBy = "offre", cascade = CascadeType.ALL, orphanRemoval = true)
-
     @JsonIgnore
     private List<Candidature> candidatures;
 
-    //@OneToMany(mappedBy = "offre")
     @OneToMany(mappedBy = "offre", cascade = CascadeType.ALL, orphanRemoval = true)
-
     @JsonIgnore
     private List<Avis> avis;
 
-  //  @OneToMany(mappedBy = "offre")
-  @OneToMany(mappedBy = "offre", cascade = CascadeType.ALL, orphanRemoval = true)
-
-  @JsonIgnore
+    @OneToMany(mappedBy = "offre", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Favoris> favoris;
 
     @ManyToOne

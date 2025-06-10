@@ -35,6 +35,11 @@ databaseChangeLog:
                   constraints:
                     unique: true
               - column:
+                  name: verified_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
                   name: password
                   type: VARCHAR(255)
               - column:
