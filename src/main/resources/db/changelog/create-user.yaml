@@ -4,7 +4,7 @@ databaseChangeLog:
       author: auto-gen
       changes:
         - createTable:
-            tableName: user
+            tableName: users
             columns:
               - column:
                   name: id

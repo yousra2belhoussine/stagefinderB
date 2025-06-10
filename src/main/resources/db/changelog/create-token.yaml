@@ -35,6 +35,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseTableName: token
             baseColumnNames: user_id
-            referencedTableName: user
+            referencedTableName: users
             referencedColumnNames: id
             constraintName: fk_token_user

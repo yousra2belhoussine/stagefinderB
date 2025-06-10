@@ -50,6 +50,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseTableName: offre
             baseColumnNames: publie_par_id
-            referencedTableName: user
+            referencedTableName: users
             referencedColumnNames: id
             constraintName: fk_offre_user

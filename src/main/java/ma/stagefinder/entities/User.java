@@ -18,7 +18,6 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(unique = true)
   private String nom;
 
   @Column(unique = true)
@@ -27,10 +26,10 @@ public class User {
   @Column(name = "nom_entreprise")
   private String nomEntreprise;
 
-  @Column(unique = true, nullable = true)
+  @Column(nullable = true)
   private String RC;
 
-  @Column(unique = true, nullable = true)
+  @Column(nullable = true)
   private String ICE;
 
   private String password;

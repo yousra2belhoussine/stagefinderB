@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: remove-nom-unique-constraint
+      author: ilyas
+      changes:
+        - sql:
+            sql: |
+              -- Supprime la contrainte unique sur le nom
+              ALTER TABLE public.users DROP CONSTRAINT IF EXISTS users_nom_key;

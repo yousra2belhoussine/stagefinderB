@@ -32,13 +32,13 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseTableName: avis
             baseColumnNames: auteur_id
-            referencedTableName: user
+            referencedTableName: users
             referencedColumnNames: id
             constraintName: fk_avis_auteur
         - addForeignKeyConstraint:
             baseTableName: avis
             baseColumnNames: destinataire_id
-            referencedTableName: user
+            referencedTableName: users
             referencedColumnNames: id
             constraintName: fk_avis_destinataire
         - addForeignKeyConstraint:

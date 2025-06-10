@@ -23,6 +23,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseTableName: notification
             baseColumnNames: user_id
-            referencedTableName: user
+            referencedTableName: users
             referencedColumnNames: id
             constraintName: fk_notification_user

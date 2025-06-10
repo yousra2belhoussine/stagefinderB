@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: fix-rc-constraint-final
+      author: ilyas
+      changes:
+        - sql:
+            sql: |
+              -- 1. Supprime la contrainte unique normale
+              ALTER TABLE public.users DROP CONSTRAINT IF EXISTS users_rc_key;
+              
+              -- 2. Supprime tous les anciens index partiels
+              DROP INDEX IF EXISTS idx_users_rc_unique_not_null;
+              DROP INDEX IF EXISTS idx_users_rc_unique_not_null_not_empty;
+              
+              -- 3. Convertit les chaînes vides existantes en NULL
+              UPDATE public.users SET rc = NULL WHERE rc = '';
+              
+              -- 4. Crée le nouvel index partiel qui ignore NULL et chaînes vides
+              CREATE UNIQUE INDEX idx_users_rc_unique_not_null_not_empty 
+                ON public.users (rc) 
+                WHERE rc IS NOT NULL AND rc != '';

@@ -23,7 +23,7 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseTableName: favoris
             baseColumnNames: user_id
-            referencedTableName: user
+            referencedTableName: users
             referencedColumnNames: id
             constraintName: fk_favoris_user
         - addForeignKeyConstraint:
