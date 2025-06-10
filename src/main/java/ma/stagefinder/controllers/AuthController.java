@@ -24,34 +24,72 @@ public class AuthController {
   private final JwtUtil jwtUtil;
   private final UserRepository userRepository;
 
-  // ✅ Enregistrement avec CV et logo facultatifs
   @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<AuthResponse> register(
-    @RequestPart("user") User user,
-    @RequestPart(value = "cv", required = false) MultipartFile cvFile,
-    @RequestPart(value = "image", required = false) MultipartFile logoFile
-
-    ) {
+          @RequestParam("nom") String nom,
+          @RequestParam("email") String email,
+          @RequestParam("password") String password,
+          @RequestParam("tele") String tele,
+          @RequestParam(value = "nomEntreprise", required = false) String nomEntreprise,
+          @RequestParam(value = "RC", required = false) String RC,
+          @RequestParam(value = "ICE", required = false) String ICE,
+          @RequestParam(value = "adresse", required = false) String adresse,
+          @RequestParam(value = "estValide", required = false, defaultValue = "true") boolean estValide,
+          @RequestParam(value = "role", required = false, defaultValue = "STAGIAIRE") String roleStr,
+          @RequestParam(value = "cv", required = false) MultipartFile cvFile,
+          @RequestParam(value = "image", required = false) MultipartFile logoFile
+  ) {
     try {
+      // Créer l'objet User
+      User user = new User();
+      user.setNom(nom);
+      user.setEmail(email);
+      user.setPassword(password); // Ajouter le mot de passe
+      user.setTel(tele);
+      user.setNomEntreprise(nomEntreprise);
+      user.setRC(RC);
+      user.setICE(ICE);
+      user.setAdresse(adresse);
+      user.setEstValide(estValide);
+
+      // Convertir le role string en enum
+      try {
+        user.setRole(Role.valueOf(roleStr.toUpperCase()));
+      } catch (IllegalArgumentException e) {
+        user.setRole(Role.STAGIAIRE); // Valeur par défaut
+      }
+
+      // Gestion des fichiers
       if (cvFile != null && !cvFile.isEmpty()) {
         String storedCV = fileStorageService.saveFile(cvFile, "cv");
         user.setCvFile(storedCV);
       }
 
-
       if (logoFile != null && !logoFile.isEmpty()) {
         String storedLogo = fileStorageService.saveFile(logoFile, "logo");
         user.setImage(storedLogo);
       }
-      System.out.println("✅ Image reçue côté backend (user.getImage()) : " + user.getImage());
-      System.out.println("✅ CV reçu côté backend (user.getCvFile()) : " + user.getCvFile());
+
+      System.out.println("✅ Données reçues:");
+      System.out.println("   - Nom: " + nom);
+      System.out.println("   - Email: " + email);
+      System.out.println("   - Password: " + (password != null ? "***" : "null"));
+      System.out.println("   - Téléphone: " + tele);
+      System.out.println("   - Nom Entreprise: " + nomEntreprise);
+      System.out.println("   - RC: " + RC);
+      System.out.println("   - ICE: " + ICE);
+      System.out.println("   - Adresse: " + adresse);
+      System.out.println("   - Est Validé: " + estValide);
+      System.out.println("   - Rôle: " + user.getRole());
+      System.out.println("   - CV: " + user.getCvFile());
+      System.out.println("   - Image: " + user.getImage());
 
       return authenticationService.register(user);
 
     } catch (Exception e) {
-      e.printStackTrace(); // Affiche l’erreur dans la console backend
+      e.printStackTrace();
       return ResponseEntity.internalServerError()
-        .body(new AuthResponse(null, null, "Erreur lors de l'inscription avec fichier: " + e.getMessage()));
+              .body(new AuthResponse(null, null, "Erreur lors de l'inscription: " + e.getMessage()));
     }
   }
   //jou temporaire de cette methode

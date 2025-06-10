@@ -1,9 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: remove-lettre-motivation-column
-      author: ilyas
-      changes:
-        - dropColumn:
-            columnName: lettre_motivation_file
-            tableName: users
-
