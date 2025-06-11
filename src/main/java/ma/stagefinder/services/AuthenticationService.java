@@ -39,31 +39,40 @@ public class AuthenticationService {
   private JwtUtil jwtUtil;
 
   public ResponseEntity<AuthResponse> register(User request) {
+    // 1. Vérifier si l'email existe déjà
     Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
     if (existingUser.isPresent()) {
       return ResponseEntity.badRequest().body(new AuthResponse(null, null, "Email déjà utilisé"));
     }
 
-    // Encode le mot de passe
-    request.setPassword(passwordEncoder.encode(request.getPassword()));
+    // 2. VALIDATION DU PASSWORD AVANT HACHAGE
+    if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
+      return ResponseEntity.badRequest().body(new AuthResponse(null, null, "Le mot de passe est obligatoire"));
+    }
 
-    // Par défaut, rôle = STAGIAIRE
-   // if (request.getRole() == null) {
-      //request.setRole(Role.STAGIAIRE);
-    //}
-    //request.setEstValide(true);
+    // Validation avec regex
+    String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{6,}$";
+    if (!request.getPassword().matches(passwordRegex)) {
+      return ResponseEntity.badRequest().body(new AuthResponse(null, null,
+              "doza doza"));
+    }
+
+    // 3. Vérifier le rôle
     if (request.getRole() == null) {
       return ResponseEntity.badRequest().body(new AuthResponse(null, null, "Le rôle est obligatoire pour l'inscription"));
     }
 
-    // Sauvegarde utilisateur
+    // 4. MAINTENANT on peut encoder le mot de passe
+    request.setPassword(passwordEncoder.encode(request.getPassword()));
+
+    // 5. Sauvegarde utilisateur
     User savedUser = userRepository.save(request);
 
-    // ✅ Génère les tokens avec email + rôle
+    // 6. Génère les tokens
     String accessToken = jwtUtil.generateToken(savedUser.getId(), savedUser.getEmail(), savedUser.getRole());
     String refreshToken = jwtUtil.generateRefreshToken(savedUser.getEmail());
 
-    // Sauvegarde en base
+    // 7. Sauvegarde en base
     saveUserTokens(savedUser, accessToken, TokenType.ACCESS);
     saveUserTokens(savedUser, refreshToken, TokenType.REFRESH);
 
