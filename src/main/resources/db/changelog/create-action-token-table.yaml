@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-action-token-table-1
+      author: malki.mohammed
+      changes:
+        - createTable:
+            tableName: action_token
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: token
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: type
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expires_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: action_token
+            baseColumnNames: user_id
+            constraintName: fk_action_token_on_user
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE

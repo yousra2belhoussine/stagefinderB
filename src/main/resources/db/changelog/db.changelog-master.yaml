@@ -21,3 +21,5 @@ databaseChangeLog:
       file: db/changelog/fix-rc-constraint-final.yaml
   - include:
       file: db/changelog/remove-nom-unique-constraint.yaml
+  - include: # <--- ZEDTHA HNA
+      file: db/changelog/create-action-token-table.yaml
