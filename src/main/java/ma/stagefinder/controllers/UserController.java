@@ -1,6 +1,8 @@
 package ma.stagefinder.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import ma.stagefinder.dtos.LoginRequest;
 import ma.stagefinder.dtos.UpdateEstValideRequest;
 import ma.stagefinder.dtos.UserDTO;
 import ma.stagefinder.entities.User;
@@ -58,4 +60,21 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    // Nouveau endpoint pour le login
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> login(
+            @RequestBody LoginRequest loginRequest,
+            HttpSession session) {
+        UserDTO userDTO = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+        session.setAttribute("user", userDTO); // Stocker l'utilisateur dans la session
+        return ResponseEntity.ok(userDTO);
+    }
+
+    // Nouveau endpoint pour le logout
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate(); // Détruire la session
+        return ResponseEntity.ok("Déconnexion réussie");
+    }
 }
+

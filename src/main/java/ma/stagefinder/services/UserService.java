@@ -12,4 +12,5 @@ public interface UserService {
     UserDTO updateEstValide(Long id, boolean estValide);
     UserDTO updateUserProfile(Long userId, UserDTO userDTO) ;
     UserDTO getUserProfile(Long userId);
+    UserDTO login(String email, String password);
 }

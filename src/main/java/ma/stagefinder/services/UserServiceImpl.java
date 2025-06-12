@@ -82,4 +82,13 @@ public class UserServiceImpl implements UserService {
         return userDTO;
     }
 
+    // Nouvelle méthode pour le login
+    public UserDTO login(String email, String password) {
+        User user = userRepository.findByEmailAndPassword(email, password)
+                .orElseThrow(() -> new RuntimeException("Email ou mot de passe incorrect"));
+        if (!user.isEstValide()) {
+            throw new RuntimeException("Compte non validé");
+        }
+        return entityMapper.toUserDTO(user);
+    }
 }
