@@ -30,7 +30,7 @@ public class ActionToken {
 
     private LocalDateTime expiresAt; // The timestamp when this token becomes invalid
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE) // If the user is deleted, delete their tokens too
     private User user;
