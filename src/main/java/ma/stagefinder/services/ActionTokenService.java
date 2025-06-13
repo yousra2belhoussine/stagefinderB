@@ -97,6 +97,61 @@ public class ActionTokenService {
         return Optional.of(token.getUser());
     }
 
+    // =================================================================
+    // ===========   NOUVELLES MÉTHODES POUR LE MOT DE PASSE   ===========
+    // =================================================================
+
+    /**
+     * Génère un token de réinitialisation de mot de passe pour un utilisateur.
+     * Le token expire après 1 heure pour des raisons de sécurité.
+     */
+    @Transactional
+    public String generatePasswordResetToken(User user) {
+        // Supprimer les anciens tokens de reset pour cet utilisateur pour éviter les abus
+        actionTokenRepository.deleteByUserAndType(user, ActionTokenType.PASSWORD_RESET);
+
+        // Générer un nouveau token
+        String tokenString = UUID.randomUUID().toString();
+
+        ActionToken token = ActionToken.builder()
+                .token(tokenString)
+                .type(ActionTokenType.PASSWORD_RESET)
+                .user(user)
+                // Mettre une expiration plus courte (ex: 1 heure) pour la sécurité
+                .expiresAt(LocalDateTime.now().plusHours(1))
+                .build();
+
+        actionTokenRepository.save(token);
+        log.info("Password reset token generated for user: {}", user.getEmail());
+
+        return tokenString;
+    }
+
+
+    /**
+     * Récupère un utilisateur à partir d'un token de réinitialisation de mot de passe valide.
+     * Si le token n'existe pas ou a expiré, il est nettoyé et la méthode retourne Optional.empty().
+     */
+    public Optional<User> getUserByPasswordResetToken(String tokenString) {
+        Optional<ActionToken> tokenOpt = actionTokenRepository
+                .findByTokenAndType(tokenString, ActionTokenType.PASSWORD_RESET);
+
+        if (tokenOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        ActionToken token = tokenOpt.get();
+
+        // Vérifier si le token a expiré
+        if (token.getExpiresAt().isBefore(LocalDateTime.now())) {
+            actionTokenRepository.delete(token); // Nettoyer le token expiré
+            log.warn("Attempted to use expired password reset token for user {}", token.getUser().getEmail());
+            return Optional.empty();
+        }
+
+        return Optional.of(token.getUser());
+    }
+
     /**
      * Clean up expired tokens (runs every hour)
      */
