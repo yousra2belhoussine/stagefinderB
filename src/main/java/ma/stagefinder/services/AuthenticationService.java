@@ -38,6 +38,12 @@ public class AuthenticationService {
   @Autowired
   private JwtUtil jwtUtil;
 
+  @Autowired
+  private ActionTokenService actionTokenService;
+
+  @Autowired
+  private EmailService emailService;
+
   public ResponseEntity<AuthResponse> register(User request) {
     // 1. Vérifier si l'email existe déjà
     Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
@@ -65,28 +71,44 @@ public class AuthenticationService {
     // 4. MAINTENANT on peut encoder le mot de passe
     request.setPassword(passwordEncoder.encode(request.getPassword()));
 
-    // 5. Sauvegarde utilisateur
+    // 5. Set verifiedAt to null (user not verified yet)
+    request.setVerifiedAt(null);
+
+    // 6. Sauvegarde utilisateur (NOT VERIFIED)
     User savedUser = userRepository.save(request);
 
-    // 6. Génère les tokens
-    String accessToken = jwtUtil.generateToken(savedUser.getId(), savedUser.getEmail(), savedUser.getRole());
-    String refreshToken = jwtUtil.generateRefreshToken(savedUser.getEmail());
+    try {
+      // 7. Generate email verification token
+      String verificationToken = actionTokenService.generateEmailVerificationToken(savedUser);
 
-    // 7. Sauvegarde en base
-    saveUserTokens(savedUser, accessToken, TokenType.ACCESS);
-    saveUserTokens(savedUser, refreshToken, TokenType.REFRESH);
+      // 8. Send verification email
+      emailService.sendVerificationEmail(savedUser.getEmail(), verificationToken);
 
-    return ResponseEntity.ok(new AuthResponse(accessToken, refreshToken, "Inscription réussie"));
+      // 9. Return success message WITHOUT tokens
+      return ResponseEntity.ok(new AuthResponse(null, null,
+              "Inscription réussie! Veuillez vérifier votre email pour activer votre compte."));
+
+    } catch (Exception e) {
+      // If email sending fails, still return success but mention the issue
+      return ResponseEntity.ok(new AuthResponse(null, null,
+              "Inscription réussie! Erreur d'envoi d'email - contactez le support."));
+    }
   }
 
   public ResponseEntity<AuthResponse> authenticate(AuthRequest request) {
     try {
       Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+              new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
       );
 
       User user = userRepository.findByEmail(request.getEmail())
-        .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+              .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+      // Check if user email is verified
+      if (user.getVerifiedAt() == null) {
+        return ResponseEntity.status(403)
+                .body(new AuthResponse(null, null, "Veuillez vérifier votre email avant de vous connecter"));
+      }
 
       // ✅ Inclut le rôle dans le accessToken
       String accessToken = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
@@ -99,19 +121,19 @@ public class AuthenticationService {
 
     } catch (Exception e) {
       return ResponseEntity.status(401)
-        .body(new AuthResponse(null, null, "Email ou mot de passe invalide"));
+              .body(new AuthResponse(null, null, "Email ou mot de passe invalide"));
     }
   }
 
   private void saveUserTokens(User user, String jwt, TokenType type) {
     Token token = Token.builder()
-      .token(jwt)
-      .tokenType(type)
-      .user(user)
-      .expired(false)
-      .revoked(false)
-      .createdAt(LocalDateTime.now())
-      .build();
+            .token(jwt)
+            .tokenType(type)
+            .user(user)
+            .expired(false)
+            .revoked(false)
+            .createdAt(LocalDateTime.now())
+            .build();
     tokenRepository.save(token);
   }
 }
