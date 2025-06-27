@@ -1,21 +1,20 @@
 package ma.stagefinder.services;
 
+import lombok.RequiredArgsConstructor; // ✅ Ziyada jdida
 import ma.stagefinder.dtos.AuthRequest;
 import ma.stagefinder.dtos.AuthResponse;
 import ma.stagefinder.entities.User;
 import ma.stagefinder.entities.Token;
 import ma.stagefinder.entities.enums.ActionTokenType;
-import ma.stagefinder.entities.enums.Role;
+import ma.stagefinder.entities.enums.Role; // ✅ Ziyada jdida
 import ma.stagefinder.entities.enums.TokenType;
 import ma.stagefinder.repositories.ActionTokenRepository;
 import ma.stagefinder.repositories.UserRepository;
 import ma.stagefinder.repositories.TokenRepository;
 import ma.stagefinder.security.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,33 +24,22 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor // ✅ B'blasset les @Autowired
 public class AuthenticationService {
 
-  @Autowired
-  private UserRepository userRepository;
+  // On utilise "final" pour que RequiredArgsConstructor les injecte
+  private final UserRepository userRepository;
+  private final TokenRepository tokenRepository;
+  private final ActionTokenRepository actionTokenRepository;
+  private final PasswordEncoder passwordEncoder;
+  private final AuthenticationManager authenticationManager;
+  private final JwtUtil jwtUtil;
+  private final ActionTokenService actionTokenService;
+  private final EmailService emailService;
+  private final AbonnementService abonnementService; // ✅ Injection n9iya
 
-  @Autowired
-  private TokenRepository tokenRepository;
 
-  // ✅ Injection ajoutée
-  @Autowired
-  private ActionTokenRepository actionTokenRepository;
-
-  @Autowired
-  private PasswordEncoder passwordEncoder;
-
-  @Autowired
-  private AuthenticationManager authenticationManager;
-
-  @Autowired
-  private JwtUtil jwtUtil;
-
-  @Autowired
-  private ActionTokenService actionTokenService;
-
-  @Autowired
-  private EmailService emailService;
-
+  @Transactional
   public ResponseEntity<AuthResponse> register(User request) {
     // 1. Vérifier si l'email existe déjà
     Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
@@ -59,12 +47,10 @@ public class AuthenticationService {
       return ResponseEntity.badRequest().body(new AuthResponse(null, null, "Email déjà utilisé"));
     }
 
-    // 2. VALIDATION DU PASSWORD AVANT HACHAGE
+    // 2. Validation du mot de passe...
     if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
       return ResponseEntity.badRequest().body(new AuthResponse(null, null, "Le mot de passe est obligatoire"));
     }
-
-    // Validation avec regex
     String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{6,}$";
     if (!request.getPassword().matches(passwordRegex)) {
       return ResponseEntity.badRequest().body(new AuthResponse(null, null,
@@ -76,28 +62,35 @@ public class AuthenticationService {
       return ResponseEntity.badRequest().body(new AuthResponse(null, null, "Le rôle est obligatoire pour l'inscription"));
     }
 
-    // 4. MAINTENANT on peut encoder le mot de passe
+    // 4. Encoder le mot de passe
     request.setPassword(passwordEncoder.encode(request.getPassword()));
 
-    // 5. Set verifiedAt to null (user not verified yet)
+    // 5. Mettre verifiedAt à null
     request.setVerifiedAt(null);
 
-    // 6. Sauvegarde utilisateur (NOT VERIFIED)
+    // 6. Sauvegarder l'utilisateur
     User savedUser = userRepository.save(request);
 
+    // ✅ ======================================================================
+    // ==     7. CORRECTION: On vérifie le rôle avant de créer l'abonnement    ==
+    // ======================================================================
+    if (savedUser.getRole() == Role.STAGIAIRE) {
+      abonnementService.createInitialAbonnementForUser(savedUser);
+    }
+
+
     try {
-      // 7. Generate email verification token
+      // 8. Générer le token de vérification d'email
       String verificationToken = actionTokenService.generateEmailVerificationToken(savedUser);
 
-      // 8. Send verification email
+      // 9. Envoyer l'email de vérification
       emailService.sendVerificationEmail(savedUser.getEmail(), verificationToken);
 
-      // 9. Return success message WITHOUT tokens
+      // 10. Renvoyer le message de succès
       return ResponseEntity.ok(new AuthResponse(null, null,
               "Inscription réussie! Veuillez vérifier votre email pour activer votre compte."));
 
     } catch (Exception e) {
-      // If email sending fails, still return success but mention the issue
       return ResponseEntity.ok(new AuthResponse(null, null,
               "Inscription réussie! Erreur d'envoi d'email - contactez le support."));
     }
@@ -112,13 +105,11 @@ public class AuthenticationService {
       User user = userRepository.findByEmail(request.getEmail())
               .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
-      // Check if user email is verified
       if (user.getVerifiedAt() == null) {
         return ResponseEntity.status(403)
                 .body(new AuthResponse(null, null, "Veuillez vérifier votre email avant de vous connecter"));
       }
 
-      // ✅ Inclut le rôle dans le accessToken
       String accessToken = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
       String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
 
@@ -133,40 +124,22 @@ public class AuthenticationService {
     }
   }
 
-  // =====================================================================
-  // ===========   NOUVELLES MÉTHODES POUR LE MOT DE PASSE   ===========
-  // =====================================================================
+  // ... (le reste des méthodes handleForgotPassword, etc. ne changent pas)
 
-  /**
-   * Gère la demande de "mot de passe oublié".
-   * Trouve l'utilisateur, génère un token et envoie l'email de réinitialisation.
-   */
   @Transactional
   public void handleForgotPassword(String email) {
     Optional<User> userOpt = userRepository.findByEmail(email);
-
-    // On ne fait rien si l'utilisateur n'existe pas, pour des raisons de sécurité.
-    // L'action se poursuit uniquement si l'utilisateur est trouvé.
     if (userOpt.isPresent()) {
       User user = userOpt.get();
       String resetToken = actionTokenService.generatePasswordResetToken(user);
       emailService.sendPasswordResetEmail(user.getEmail(), resetToken);
     }
-    // Le contrôleur enverra une réponse générique dans tous les cas.
   }
 
-  /**
-   * Réinitialise le mot de passe de l'utilisateur après vérification du token.
-   * Met à jour le mot de passe et nettoie le token utilisé.
-   */
   @Transactional
   public void resetPassword(User user, String newPassword) {
-    // Encoder le nouveau mot de passe avant de le sauvegarder
     user.setPassword(passwordEncoder.encode(newPassword));
     userRepository.save(user);
-
-    // Très important : supprimer tous les tokens de reset pour cet utilisateur
-    // pour qu'ils ne puissent pas être réutilisés.
     actionTokenRepository.deleteByUserAndType(user, ActionTokenType.PASSWORD_RESET);
   }
 

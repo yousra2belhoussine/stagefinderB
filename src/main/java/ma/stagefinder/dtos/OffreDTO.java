@@ -14,6 +14,14 @@ public class OffreDTO {
     private LocalDateTime dateExpiration;
     private float salaire;
     private String competenceExigee;
+
+    // ✅ ==========================================================
+    // ==     ZIYADA JDIDA: Champ pour l'affichage premium       ==
+    // ==========================================================
+    private Boolean preEmbauche;
+
+
+    // Les champs qui restent les mêmes
     private String categorieNom;
     private String publieParNom;
     private String nomEntreprise;

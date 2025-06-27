@@ -9,5 +9,6 @@ public class NotificationDTO {
     private Long id;
     private String message;
     private LocalDateTime dateEnvoie;
+    private Boolean isRead;
     private Long userId;
 }

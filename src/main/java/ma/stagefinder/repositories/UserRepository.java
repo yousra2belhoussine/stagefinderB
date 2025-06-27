@@ -22,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     "GROUP BY TO_CHAR(created_at, 'YYYY-MM') " +
     "ORDER BY month", nativeQuery = true)
   List<Map<String, Object>> findUsersRegisteredPerMonth();
+
+  List<User> findByRole(Role role);
+
 }

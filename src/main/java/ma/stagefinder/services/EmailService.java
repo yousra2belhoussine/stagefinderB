@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -63,4 +64,27 @@ public class EmailService {
             throw new RuntimeException("Failed to send password reset email", e);
         }
     }
+
+    @Async // Hada howa l'sarout: kaygoul l Spring khdem had la méthode f thread bo7dha
+    public void sendNotificationEmail(String toEmail, String subject, String body) {
+        try {
+            // Log bach n3erfo l'khadma bdat
+            System.out.println("Début de l'envoi d'email en arrière-plan à: " + toEmail);
+
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(fromEmail);
+            message.setTo(toEmail);
+            message.setSubject(subject);
+            message.setText(body);
+
+            mailSender.send(message);
+
+            // Log bach n3erfo l'khadma salat
+            System.out.println("Email envoyé avec succès en arrière-plan à: " + toEmail);
+        } catch (Exception e) {
+            System.err.println("Échec de l'envoi de l'email asynchrone à " + toEmail + ". Erreur: " + e.getMessage());
+        }
+    }
+
+
 }

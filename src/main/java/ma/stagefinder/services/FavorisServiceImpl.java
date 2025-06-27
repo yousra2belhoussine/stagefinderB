@@ -1,77 +1,79 @@
 package ma.stagefinder.services;
 
 import lombok.RequiredArgsConstructor;
-import ma.stagefinder.dtos.FavorisDTO;
-import ma.stagefinder.entities.Favoris;
-import ma.stagefinder.entities.Offre;
-import ma.stagefinder.entities.User;
-import ma.stagefinder.mapper.EntityMapper;
-import ma.stagefinder.repositories.FavorisRepository;
 import ma.stagefinder.repositories.OffreRepository;
 import ma.stagefinder.repositories.UserRepository;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class FavorisServiceImpl implements FavorisService {
+public class FavorisServiceImpl implements FavorisService
+{
 
-  private final FavorisRepository favorisRepository;
+  // ZEDNA HADA : L-Outil dyal Redis
+  private final RedisTemplate<String, String> redisTemplate;
+
+  // KHELLINA HADO L-VALIDATION :
   private final UserRepository userRepository;
   private final OffreRepository offreRepository;
-  private final EntityMapper mapper;
 
-  @Override
-  public FavorisDTO ajouterFavoris(FavorisDTO dto) {
-    User user = userRepository.findById(dto.getUserId())
-      .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
-
-    Offre offre = offreRepository.findById(dto.getOffreId())
-      .orElseThrow(() -> new RuntimeException("Offre introuvable"));
-
-    Favoris favoris = mapper.toFavoris(dto);
-    favoris.setDateAjout(LocalDateTime.now());
-    favoris.setUser(user);
-    favoris.setOffre(offre);
-
-    return mapper.toFavorisDTO(favorisRepository.save(favoris));
+  // Helper method bach nssahlo l-khedma w manb9awch n3awdo l-code
+  private String getKeyForUserFavorites(Long userId) {
+    return "user:" + userId + ":favorites";
   }
 
-  @Override
-  public void supprimerFavoris(Long id) {
-    Favoris favoris = favorisRepository.findById(id)
-      .orElseThrow(() -> new RuntimeException("Favori introuvable"));
-    favorisRepository.delete(favoris);
+
+  /**
+   * Méthode Jdida : Ajoute une offre aux favoris d'un utilisateur dans Redis.
+   * @param userId L'ID de l'utilisateur
+   * @param offreId L'ID de l'offre à ajouter
+   */
+  public void ajouterFavoris(Long userId, Long offreId) {
+    // 1. Kan-vérifiw anaho l'user w l'offre kaynin bse7 9bel mandiro ay 7aja
+    if (!userRepository.existsById(userId)) {
+      throw new RuntimeException("Utilisateur introuvable avec l'ID: " + userId);
+    }
+    if (!offreRepository.existsById(offreId)) {
+      throw new RuntimeException("Offre introuvable avec l'ID: " + offreId);
+    }
+
+    // 2. Kanṣawbo l-clé dyal Redis
+    String key = getKeyForUserFavorites(userId);
+
+    // 3. Kanst3mlo RedisTemplate bach n'executiw SADD
+    redisTemplate.opsForSet().add(key, String.valueOf(offreId));
   }
 
-  @Override
-  public FavorisDTO getFavorisById(Long id) {
-    Favoris favoris = favorisRepository.findById(id)
-      .orElseThrow(() -> new RuntimeException("Favori introuvable"));
-    return mapper.toFavorisDTO(favoris);
+
+  /**
+   * Méthode Jdida : Supprime une offre des favoris d'un utilisateur dans Redis.
+   * @param userId L'ID de l'utilisateur
+   * @param offreId L'ID de l'offre à supprimer
+   */
+  public void supprimerFavoris(Long userId, Long offreId) {
+    // Kanṣawbo l-clé dyal Redis
+    String key = getKeyForUserFavorites(userId);
+
+    // Kanst3mlo RedisTemplate bach n'executiw SREM
+    redisTemplate.opsForSet().remove(key, String.valueOf(offreId));
   }
 
-  @Override
-  public List<FavorisDTO> getFavorisByUser(Long userId) {
-    return favorisRepository.findByUserId(userId).stream()
-      .map(mapper::toFavorisDTO)
-      .collect(Collectors.toList());
+
+  /**
+   * Méthode Jdida : Récupère la liste des IDs des offres favorites pour un utilisateur.
+   * @param userId L'ID de l'utilisateur
+   * @return Un Set<String> contenant les IDs des offres favorites.
+   */
+  public Set<String> getFavorisByUser(Long userId) {
+    // Kanṣawbo l-clé dyal Redis
+    String key = getKeyForUserFavorites(userId);
+
+    // Kanst3mlo RedisTemplate bach n'executiw SMEMBERS
+    return redisTemplate.opsForSet().members(key);
   }
 
-  @Override
-  public List<FavorisDTO> getFavorisByOffre(Long offreId) {
-    return favorisRepository.findByOffreId(offreId).stream()
-      .map(mapper::toFavorisDTO)
-      .collect(Collectors.toList());
-  }
-
-  @Override
-  public List<FavorisDTO> getAllFavoris() {
-    return favorisRepository.findAll().stream()
-      .map(mapper::toFavorisDTO)
-      .collect(Collectors.toList());
-  }
+  // GA3 LES MÉTHODES LOKHRIN T-SUPPRIMAW.
 }

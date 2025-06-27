@@ -11,28 +11,21 @@ public interface EntityMapper {
 
   EntityMapper INSTANCE = Mappers.getMapper(EntityMapper.class);
 
-  // User
-// User
-  @Mapping(source = "role", target = "role")
-  @Mapping(source = "image", target = "image")//j ai ajoute
+  // User Mappings
   UserDTO toUserDTO(User user);
-
-
-  @Mapping(source = "image", target = "image")
   User toUser(UserDTO userDTO);
 
-
-
-  // Categorie
+  // Categorie Mappings
   CategorieDTO toCategorieDTO(Categorie categorie);
   Categorie toCategorie(CategorieDTO categorieDTO);
 
-  // Offre
-  @Mapping(source = "categorie.typeCategorie", target = "categorieNom")
+  // Offre Mappings
+  @Mapping(source = "categorie.titre", target = "categorieNom")
   @Mapping(source = "publiePar.nom", target = "publieParNom")
-  @Mapping(source = "nomEntreprise", target = "nomEntreprise")
+  @Mapping(source = "publiePar.nomEntreprise", target = "nomEntreprise")
   @Mapping(source = "publiePar.id", target = "publieParId")
   @Mapping(source = "categorie.id", target = "categorieId")
+  @Mapping(source = "preEmbauche", target = "preEmbauche")
   OffreDTO toOffreDTO(Offre offre);
 
   @Mapping(source = "categorieId", target = "categorie.id")
@@ -41,48 +34,48 @@ public interface EntityMapper {
   @Mapping(target = "publiePar", ignore = true)
   Offre toOffre(OffreDTO offreDTO);
 
-  // Notification
+  // Notification Mappings
   @Mapping(source = "user.id", target = "userId")
   NotificationDTO toNotificationDTO(Notification notification);
-
-  @Mapping(source = "userId", target = "user.id")
   Notification toNotification(NotificationDTO notificationDTO);
 
-  // Favoris
+  // Favoris Mappings
   @Mapping(source = "user.id", target = "userId")
   @Mapping(source = "offre.id", target = "offreId")
   FavorisDTO toFavorisDTO(Favoris favoris);
-
-  @Mapping(source = "userId", target = "user.id")
-  @Mapping(source = "offreId", target = "offre.id")
   Favoris toFavoris(FavorisDTO favorisDTO);
 
-  // Candidature
+
+  // ✅ ==========================================================
+  // ==     CORRECTION PRINCIPALE: MAPPING POUR CANDIDATURE      ==
+  // ==========================================================
   @Mapping(source = "user.id", target = "userId")
   @Mapping(source = "offre.id", target = "offreId")
   @Mapping(source = "offre", target = "offre")
-  @Mapping(target = "cvChoisi", ignore = true)
-  @Mapping(target = "lettreMotivation", ignore = true)
   @Mapping(source = "user.nom", target = "userNom")
   @Mapping(source = "user.email", target = "userEmail")
   @Mapping(source = "cvChoisi", target = "cvFileName")
   @Mapping(source = "lettreMotivation", target = "lettreMotivationFileName")
+  @Mapping(source = "statutCandidature", target = "statutCandidature")
+  // On ignore les champs MultipartFile lors de la conversion de l'Entité vers le DTO
+  @Mapping(target = "cvChoisi", ignore = true)
+  @Mapping(target = "lettreMotivation", ignore = true)
   CandidatureDTO toCandidatureDTO(Candidature candidature);
 
+  // La conversion inverse est correcte, on ignore déjà les champs
   @Mapping(source = "userId", target = "user.id")
   @Mapping(source = "offreId", target = "offre.id")
   @Mapping(target = "cvChoisi", ignore = true)
   @Mapping(target = "lettreMotivation", ignore = true)
   Candidature toCandidature(CandidatureDTO candidatureDTO);
 
-  // Avis
+  // Avis Mappings
   @Mapping(source = "auteur.id", target = "auteurId")
   @Mapping(source = "destinataire.id", target = "destinataireId")
-  //@Mapping(source = "offre.id", target = "offreId")
   AvisDTO toAvisDTO(Avis avis);
-
-  @Mapping(source = "auteurId", target = "auteur.id")
-  @Mapping(source = "destinataireId", target = "destinataire.id")
-    //@Mapping(source = "offreId", target = "offreId")
   Avis toAvis(AvisDTO avisDTO);
+
+  // Abonnement Mappings
+  AbonnementDTO toAbonnementDTO(Abonnement abonnement);
+  Abonnement toAbonnement(AbonnementDTO abonnementDTO);
 }

@@ -45,4 +45,14 @@ public interface OffreRepository extends JpaRepository<Offre, Long> {
     "FROM public.offre o JOIN public.categorie c ON o.categorie_id = c.id " +
     "GROUP BY c.type_categorie ORDER BY count DESC LIMIT 10", nativeQuery = true)
   List<Map<String, Object>> findMostPublishedCategories();
+
+
+  /**
+   * ZEDNA HADI : Trouve toutes les offres dont l'ID est dans la liste fournie.
+   * Spring Data JPA va automatiquement créer la requête "WHERE id IN (...)".
+   * @param ids La liste des IDs des offres à rechercher.
+   * @return Une liste d'entités Offre.
+   */
+  List<Offre> findByIdIn(List<Long> ids);
+
 }

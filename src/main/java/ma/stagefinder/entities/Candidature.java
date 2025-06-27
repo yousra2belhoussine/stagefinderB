@@ -18,8 +18,13 @@ public class Candidature {
     @Column(name = "date_de_candidature")
     private LocalDateTime dateCandidature;
 
+    // ✅ ==========================================================
+    // ==     MODIFICATION: Valeur par défaut pour le statut     ==
+    // ==========================================================
     @Enumerated(EnumType.STRING)
-    private StatutCandidature statutCandidature;
+    @Column(nullable = false) // On s'assure qu'il n'est jamais null dans la BDD
+    private StatutCandidature statutCandidature = StatutCandidature.EN_ATTENTE;
+
 
     @Column(name = "lettre_de_motivation")
     private String lettreMotivation;

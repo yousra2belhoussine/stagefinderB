@@ -3,7 +3,7 @@ package ma.stagefinder.security;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpMethod; // <-- ZID HADA L'IMPORT
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -39,36 +39,25 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-      .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-      .csrf(AbstractHttpConfigurer::disable)
-      .authorizeHttpRequests(auth -> auth
-          .requestMatchers("/auth/**", "/error").permitAll()
-     //     .requestMatchers(HttpMethod.PUT, "/api/users/*/profile").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
-          ////.requestMatchers(HttpMethod.GET, "/api/users/*/profile").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
-          .requestMatchers("/api/users/**").hasRole("ADMINISTRATEUR")
-          //.requestMatchers( "/api/users/multipart").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
-          //.requestMatchers("/api/users/create").hasRole("ADMINISTRATEUR")
-          // .requestMatchers("/api/users/count").hasRole("ADMINISTRATEUR")
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/auth/**", "/error").permitAll()
+                    .requestMatchers("/api/stripe/webhook").permitAll()
+                    .requestMatchers("/uploads/**").permitAll()
 
+                    // ✅ ==========================================================
+                    // ==        AJOUTEZ CETTE LIGNE JUSTE POUR TESTER           ==
+                    // ==========================================================
+                    .requestMatchers("/api/categories/**").permitAll()
 
-          .requestMatchers("/api/offres/**").hasRole("RECRUTEUR")
-          .requestMatchers("/api/favoris/**").hasRole("STAGIAIRE")
-// ou "RECRUTEUR", "ADMINISTRATEUR", etc.
-          .requestMatchers("/api/avis/**").hasRole("STAGIAIRE")
-
-          .requestMatchers("/api/files/**").hasRole("ADMINISTRATEUR")
-          // .requestMatchers("/api/files/**").permitAll()
-
-          //.requestMatchers("/uploads/**").hasRole("ADMINISTRATEUR") // ✅ obligatoire ici
-        .requestMatchers("/uploads/**").permitAll()
-
-
-          .anyRequest().authenticated()
-      )
-      .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-      .authenticationProvider(authenticationProvider())
-      .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+                    // Le reste de vos règles...
+                    .requestMatchers("/api/candidatures/**").hasRole("STAGIAIRE")
+                    // ... etc.
+                    .anyRequest().authenticated()
+            )
+    // ... reste de la configuration
+    ;
     return http.build();
   }
 
@@ -90,11 +79,10 @@ public class SecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
-  // ✅ CORS Configuration propre pour Spring Security 6.1+
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(List.of("http://localhost:4200")); // ton frontend Angular
+    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(List.of("*"));
     configuration.setAllowCredentials(true);
@@ -103,7 +91,6 @@ public class SecurityConfig {
     return source;
   }
 
-  // ✅ Firewall pour % et ; si nécessaire
   @Bean
   public HttpFirewall allowUrlEncodedPercentHttpFirewall() {
     StrictHttpFirewall firewall = new StrictHttpFirewall();

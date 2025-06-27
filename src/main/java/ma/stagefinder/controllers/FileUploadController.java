@@ -27,11 +27,14 @@ public class FileUploadController {
 
   @PostMapping("/upload")
   public ResponseEntity<String> uploadFile(
-    @RequestParam("file") MultipartFile file,
-    @RequestParam("type") String type // "cv" ou "logo"
+          @RequestParam("file") MultipartFile file,
+          @RequestParam("type") String type // "cv" ou "logo"
   ) {
     try {
-      String filename = fileStorageService.saveFile(file, type);
+      // ✅ ==========================================================
+      // ==     CORRECTION: On utilise storeFile au lieu de saveFile    ==
+      // ==========================================================
+      String filename = fileStorageService.storeFile(file, type);
       return ResponseEntity.ok(filename);
     } catch (Exception e) {
       return ResponseEntity.internalServerError().body("Erreur lors de l’upload : " + e.getMessage());
@@ -43,9 +46,9 @@ public class FileUploadController {
   public ResponseEntity<Resource> getFile(@PathVariable String filename) {
     try {
       Path[] directories = new Path[] {
-        Paths.get("uploads/cvs"),
-        Paths.get("uploads/logos"),
-        Paths.get("uploads/lettres")
+              Paths.get("uploads/cvs"),
+              Paths.get("uploads/logos"),
+              Paths.get("uploads/lettres")
       };
 
       Path filePath = null;
@@ -78,9 +81,9 @@ public class FileUploadController {
       }
 
       return ResponseEntity.ok()
-        .contentType(MediaType.parseMediaType(contentType))
-        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
-        .body(resource);
+              .contentType(MediaType.parseMediaType(contentType))
+              .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+              .body(resource);
 
     } catch (IOException e) {
       return ResponseEntity.internalServerError().build();

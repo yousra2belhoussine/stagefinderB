@@ -10,4 +10,11 @@ public interface DashboardService {
   List<Map<String, Object>> getJobPostingsPerMonth() ;
 
   List<Map<String, Object>> getMostPublishedCategories() ;
+
+  // ✅ ==========================================================
+  // ==     MÉTHODE JDIDA POUR LES STATISTIQUES D'ABONNEMENT    ==
+  // ==========================================================
+  Map<String, Long> getAbonnementStatistiques();
+
+
 }

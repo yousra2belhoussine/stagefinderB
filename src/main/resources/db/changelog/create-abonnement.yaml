@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250615-1-create-abonnement-table
+      author: malki
+      changes:
+        - createTable:
+            tableName: abonnement
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: statut
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: prix
+                  type: DECIMAL(10, 2)
+              - column:
+                  name: date_paiement
+                  type: DATETIME
+              - column:
+                  name: stripe_transaction_id
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+                    uniqueConstraintName: ux_abonnement_stripe_transaction_id
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: ux_abonnement_user_id
+
+        - addForeignKeyConstraint:
+            baseTableName: abonnement
+            baseColumnNames: user_id
+            constraintName: fk_abonnement_on_user
+            referencedTableName: users
+            referencedColumnNames: id

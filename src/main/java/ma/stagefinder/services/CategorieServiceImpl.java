@@ -6,6 +6,7 @@ import ma.stagefinder.entities.Categorie;
 import ma.stagefinder.mapper.EntityMapper;
 import ma.stagefinder.repositories.CategorieRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class CategorieServiceImpl implements CategorieService {
       .orElseThrow(() -> new RuntimeException("Catégorie introuvable"));
   }
 
+  @Cacheable("categories")
   @Override
   public List<CategorieDTO> getAllCategories() {
     return categorieRepository.findAll()

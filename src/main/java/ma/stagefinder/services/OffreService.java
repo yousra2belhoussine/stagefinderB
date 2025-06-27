@@ -14,4 +14,6 @@ public interface OffreService {
   OffreDTO updateOffre(Long id, OffreDTO offreDTO);
   long countOffres();
   OffreDTO getOffreById(Long id);
+  List<OffreDTO> findOffresByIds(List<Long> ids);
+
 }

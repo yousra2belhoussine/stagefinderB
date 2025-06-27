@@ -66,7 +66,6 @@ public class AuthController {
     try {
       log.info("Tentative d'inscription pour l'email: {}", email);
 
-      // Validation du rôle
       Role role;
       try {
         role = Role.valueOf(roleStr.toUpperCase());
@@ -75,7 +74,6 @@ public class AuthController {
                 .body(new AuthResponse(null, null, "Rôle invalide. Rôles autorisés: STAGIAIRE, RECRUTEUR"));
       }
 
-      // Validation spécifique selon le rôle
       if (role == Role.RECRUTEUR) {
         if (isBlank(nomEntreprise)) {
           return ResponseEntity.badRequest()
@@ -83,7 +81,6 @@ public class AuthController {
         }
       }
 
-      // Validation des fichiers
       String cvValidationError = validateFile(cvFile, "CV", ALLOWED_CV_TYPES);
       if (cvValidationError != null) {
         return ResponseEntity.badRequest()
@@ -96,17 +93,18 @@ public class AuthController {
                 .body(new AuthResponse(null, null, imageValidationError));
       }
 
-      // Créer l'objet User
       User user = buildUser(nom, email, password, tele, nomEntreprise, RC, ICE, adresse, estValide, role);
 
-      // Gestion des fichiers
+      // ✅ ==========================================================
+      // ==     CORRECTION: On utilise storeFile au lieu de saveFile    ==
+      // ==========================================================
       if (cvFile != null && !cvFile.isEmpty()) {
-        String storedCV = fileStorageService.saveFile(cvFile, "cv");
+        String storedCV = fileStorageService.storeFile(cvFile, "cv");
         user.setCvFile(storedCV);
       }
 
       if (logoFile != null && !logoFile.isEmpty()) {
-        String storedLogo = fileStorageService.saveFile(logoFile, "logo");
+        String storedLogo = fileStorageService.storeFile(logoFile, "logo");
         user.setImage(storedLogo);
       }
 
@@ -119,6 +117,8 @@ public class AuthController {
               .body(new AuthResponse(null, null, "Erreur interne lors de l'inscription"));
     }
   }
+
+  // ... (le reste de la classe ne change pas)
 
   @PostMapping(value = "/register-admin", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<AuthResponse> registerAdmin(@Valid @RequestBody User admin) {
@@ -216,7 +216,6 @@ public class AuthController {
                 new AuthResponse(null, null, "Email vérifié avec succès! Vous pouvez maintenant vous connecter.")
         );
       } else {
-        // This case is unlikely if getUserBy... worked, but good for safety
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new AuthResponse(null, null, "Erreur lors de la vérification du token"));
       }
@@ -230,28 +229,14 @@ public class AuthController {
 
   @PostMapping("/resend-verification")
   public ResponseEntity<AuthResponse> resendVerification(@RequestParam("email") @Email String email) {
-    // Logic for resending verification email...
-    // This part remains unchanged
     return ResponseEntity.ok(new AuthResponse(null, null, "Not implemented in this version"));
   }
 
-  // =====================================================================
-  // ===========      NOUVEAUX ENDPOINTS POUR MOT DE PASSE     ===========
-  // =====================================================================
-
-  /**
-   * Endpoint pour la demande de réinitialisation de mot de passe (étape 1).
-   */
   @PostMapping("/forgot-password")
   public ResponseEntity<AuthResponse> forgotPassword(@Valid @RequestBody ForgotPasswordRequestDTO request) {
     try {
       log.info("Demande de réinitialisation de mot de passe pour l'email: {}", request.getEmail());
-
-      // Le service s'occupe de la logique d'envoi de l'email si l'utilisateur existe
       authenticationService.handleForgotPassword(request.getEmail());
-
-      // Pour la sécurité, on renvoie toujours une réponse positive
-      // pour ne pas révéler si un email est enregistré ou non.
       return ResponseEntity.ok(new AuthResponse(null, null,
               "Si un compte est associé à cet email, un lien de réinitialisation a été envoyé."));
 
@@ -262,15 +247,11 @@ public class AuthController {
     }
   }
 
-  /**
-   * Endpoint pour la réinitialisation effective du mot de passe (étape 2).
-   */
   @PostMapping("/reset-password")
   public ResponseEntity<AuthResponse> resetPassword(@Valid @RequestBody ResetPasswordRequestDTO request) {
     try {
       log.info("Tentative de réinitialisation de mot de passe avec le token...");
 
-      // 1. Valider le token et récupérer l'utilisateur
       Optional<User> userOpt = actionTokenService.getUserByPasswordResetToken(request.getToken());
 
       if (userOpt.isEmpty()) {
@@ -278,7 +259,6 @@ public class AuthController {
                 .body(new AuthResponse(null, null, "Le lien de réinitialisation est invalide ou a expiré."));
       }
 
-      // 2. Mettre à jour le mot de passe via le service
       authenticationService.resetPassword(userOpt.get(), request.getNewPassword());
 
       log.info("Mot de passe réinitialisé avec succès pour l'utilisateur: {}", userOpt.get().getEmail());
@@ -290,9 +270,6 @@ public class AuthController {
               .body(new AuthResponse(null, null, "Erreur interne lors de la mise à jour du mot de passe."));
     }
   }
-
-
-  // ===================== MÉTHODES UTILITAIRES =====================
 
   private User buildUser(String nom, String email, String password, String tele,
                          String nomEntreprise, String RC, String ICE, String adresse,
@@ -313,19 +290,16 @@ public class AuthController {
 
   private String validateFile(MultipartFile file, String fileType, List<String> allowedTypes) {
     if (file == null || file.isEmpty()) {
-      return null; // Fichier optionnel
+      return null;
     }
-
     if (file.getSize() > MAX_FILE_SIZE) {
       return fileType + " trop volumineux. Taille maximale: 5MB";
     }
-
     String contentType = file.getContentType();
     if (contentType == null || !allowedTypes.contains(contentType)) {
       return fileType + " format non autorisé. Types acceptés: " + allowedTypes;
     }
-
-    return null; // Pas d'erreur
+    return null;
   }
 
   private boolean isBlank(String str) {
