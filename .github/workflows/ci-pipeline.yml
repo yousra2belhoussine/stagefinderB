@@ -27,10 +27,4 @@ jobs:
 
       # L'khotwa 3 (L'mohimma): Kay'bni l'projet w kay'dewwez les tests
       - name: Build and Test with Maven
-        run: |
-          mvn -B verify --file pom.xml \
-          -DDB_PASSWORD=dummy \
-          -DJWT_SECRET=dummy \
-          -DMAIL_APP_PASSWORD=dummy \
-          -DSTRIPE_SECRET_KEY=dummy \
-          -DSTRIPE_WEBHOOK_SECRET=dummy
+        run: mvn -B verify -Pci --file pom.xml

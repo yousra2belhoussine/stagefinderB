@@ -118,12 +118,12 @@
     <dependency>
       <groupId>com.stripe</groupId>
       <artifactId>stripe-java</artifactId>
-      <version>25.13.0</version> <!-- T2ekked dima men akhir version f'site Maven Central -->
+      <version>25.13.0</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
-      <version>2.10.1</version> <!-- Version stable et récente -->
+      <version>2.10.1</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -139,6 +139,19 @@
     </dependency>
 
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>ci</id>
+      <properties>
+        <DB_PASSWORD>dummy</DB_PASSWORD>
+        <JWT_SECRET>dummy_jwt_secret_for_build</JWT_SECRET>
+        <MAIL_APP_PASSWORD>dummy_mail_password</MAIL_APP_PASSWORD>
+        <STRIPE_SECRET_KEY>dummy_stripe_key</STRIPE_SECRET_KEY>
+        <STRIPE_WEBHOOK_SECRET>dummy_webhook_secret</STRIPE_WEBHOOK_SECRET>
+      </properties>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
@@ -171,4 +184,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>
