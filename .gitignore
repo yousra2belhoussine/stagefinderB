@@ -36,3 +36,4 @@ build/
 # Liquibase (évite de versionner les fichiers temporaires ou de lock)
 .liquibase/
 liquibase.lock
+/src/main/resources/application-local.properties

@@ -1,0 +1,30 @@
+name: Java CI with Maven
+
+# L'workflow ghadi y'khedem melli dir push l'had l'branche
+on:
+  push:
+    branches: [ "back-final-malki" ]
+  workflow_dispatch: # Kat'khelik t'lanci l'workflow yeddawiyan men GitHub
+
+jobs:
+  # Job wa7ed, ghadi n'semmiwh build-and-test
+  build-and-test:
+    # Ghadi y'khedem 3la serveur virtual dial Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      # L'khotwa 1: Kay'telechargi l'code dialek men l'repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # L'khotwa 2: Kay'installi Java 21
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven # Kay'dir cache l'les dépendances bach y'zrreb l'build l'merra l'jaya
+
+      # L'khotwa 3 (L'mohimma): Kay'bni l'projet w kay'dewwez les tests
+      - name: Build and Test with Maven
+        run: mvn -B verify --file pom.xml
