@@ -166,6 +166,27 @@
         <STRIPE_WEBHOOK_SECRET>whsec_test_dummy_webhook_secret</STRIPE_WEBHOOK_SECRET>
       </properties>
     </profile>
+
+    <profile>
+      <id>test</id>
+      <properties>
+        <spring.profiles.active>test</spring.profiles.active>
+        <DB_PASSWORD>test_password</DB_PASSWORD>
+        <JWT_SECRET>ci_test_jwt_secret_key_minimum_256_bits_long_for_hs256_algorithm</JWT_SECRET>
+        <MAIL_APP_PASSWORD>test_password</MAIL_APP_PASSWORD>
+        <STRIPE_SECRET_KEY>sk_test_dummy_key_for_ci_build</STRIPE_SECRET_KEY>
+        <STRIPE_WEBHOOK_SECRET>whsec_test_dummy_webhook_secret</STRIPE_WEBHOOK_SECRET>
+      </properties>
+      <dependencies>
+        <!-- In-memory database for tests -->
+        <dependency>
+          <groupId>com.h2database</groupId>
+          <artifactId>h2</artifactId>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
   </profiles>
 
   <build>
