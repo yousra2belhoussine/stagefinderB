@@ -1,83 +1,63 @@
-name: Java CI with Maven
+# Smiya jdida kat'beyyen l'hadaf kaml
+name: Java CI, Build, and Push Docker Image
 
-# L'workflow ghadi y'khedem melli dir push l'had l'branche
 on:
   push:
     branches: [ "back-final-malki" ]
-  workflow_dispatch: # Kat'khelik t'lanci l'workflow yeddawiyan men GitHub
+  workflow_dispatch:
+
+# Ghadi n'3arfo smiy dial l'image hna bach t'koun waad7a
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }} # Hada ghay'akhod smiya "ahm-dev-cod/stagefinderB" automatiquement
 
 jobs:
-  # Job wa7ed, ghadi n'semmiwh build-and-test
-  build-and-test:
-    # Ghadi y'khedem 3la serveur virtual dial Ubuntu
+  build-test-and-push:
     runs-on: ubuntu-latest
+    # Kan'3tiw l'workflow permissions bach y'9der y'kteb f'l'package registry
+    permissions:
+      contents: read
+      packages: write
 
     steps:
-      # L'khotwa 1: Kay'telechargi l'code dialek men l'repository
+      # L'khotwa 1: Checkout (Nafs l'khadma)
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # L'khotwa 2: Kay'installi Java 21
+      # L'khotwa 2: Set up JDK (Nafs l'khadma)
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven # Kay'dir cache l'les dépendances bach y'zrreb l'build l'merra l'jaya
+          cache: maven
 
-      # L'khotwa 3 (L'mohimma): Kay'bni l'projet w kay'dewwez les tests
-      - name: Build with Maven (compile only first)
-        run: mvn -B compile -Pci --file pom.xml
-        env:
-          # Explicit environment variables for encoding
-          MAVEN_OPTS: "-Dfile.encoding=UTF-8 -Dproject.build.sourceEncoding=UTF-8"
-          # Environment variables for CI profile
-          SPRING_PROFILES_ACTIVE: ci
-          DB_PASSWORD: test_password
-          JWT_SECRET: ci_test_jwt_secret_key_minimum_256_bits_long_for_hs256_algorithm
-          MAIL_APP_PASSWORD: test_password
-          STRIPE_SECRET_KEY: sk_test_dummy_key_for_ci_build
-          STRIPE_WEBHOOK_SECRET: whsec_test_dummy_webhook_secret
+      # L'khotwa 3: Build & Test (Hia l'commande li nej7at lina f'l'kher)
+      - name: Build and Test with Maven
+        run: mvn -B verify -Pci --file pom.xml
 
-      # L'khotwa 4: Run tests with detailed output
-      - name: Run Tests with Maven
-        run: mvn -B test -Pci --file pom.xml -e -X
-        continue-on-error: true
-        env:
-          # Explicit environment variables for encoding
-          MAVEN_OPTS: "-Dfile.encoding=UTF-8 -Dproject.build.sourceEncoding=UTF-8"
-          # Environment variables for CI profile
-          SPRING_PROFILES_ACTIVE: ci
-          DB_PASSWORD: test_password
-          JWT_SECRET: ci_test_jwt_secret_key_minimum_256_bits_long_for_hs256_algorithm
-          MAIL_APP_PASSWORD: test_password
-          STRIPE_SECRET_KEY: sk_test_dummy_key_for_ci_build
-          STRIPE_WEBHOOK_SECRET: whsec_test_dummy_webhook_secret
+      # === KHOTOWAT JDAD DIAL DOCKER ===
 
-      # Alternative: Build without tests if tests are failing
-      - name: Build without Tests (Fallback)
-        if: failure()
-        run: mvn -B package -DskipTests -Pci --file pom.xml
-        env:
-          # Explicit environment variables for encoding
-          MAVEN_OPTS: "-Dfile.encoding=UTF-8 -Dproject.build.sourceEncoding=UTF-8"
-          # Environment variables for CI profile
-          SPRING_PROFILES_ACTIVE: ci
-          DB_PASSWORD: test_password
-          JWT_SECRET: ci_test_jwt_secret_key_minimum_256_bits_long_for_hs256_algorithm
-          MAIL_APP_PASSWORD: test_password
-          STRIPE_SECRET_KEY: sk_test_dummy_key_for_ci_build
-          STRIPE_WEBHOOK_SECRET: whsec_test_dummy_webhook_secret
-
-      # Optional: Upload build artifacts and test reports
-      - name: Upload test reports and logs
-        if: always()
-        uses: actions/upload-artifact@v4
+      # L'khotwa 4: T'connecta l'l'blassa fin ghadi n'khazno l'image (GitHub Container Registry)
+      - name: Log in to the GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-          name: test-reports-and-logs
-          path: |
-            target/surefire-reports/
-            target/*.log
-            target/test-results/
-            *.dump
-            *.dumpstream
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }} # Hada token automatique men GitHub
+
+      # L'khotwa 5: T'kherrej les métadonnées (bhal les tags) l'l'image
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      # L'khotwa 6 (L'khera): T'bni l'image men Dockerfile w t'pushiha l'l'registry
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: . # Kan'golo lih "Dockerfile kayn hna f'l'racine"
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
