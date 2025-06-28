@@ -12,6 +12,10 @@ COPY mvnw pom.xml ./
 # On copie le reste du code source de l'application
 COPY src ./src
 
+# ---> L'LIGNE L'JDIDA L'MOHIMMA <---
+# On donne la permission d'exécution au script mvnw pour éviter l'erreur 126
+RUN chmod +x ./mvnw
+
 # On exécute la commande Maven pour construire le projet et créer le .jar
 # -DskipTests pour ne pas ré-exécuter les tests qu'on a déjà fait dans le CI
 RUN ./mvnw package -DskipTests
