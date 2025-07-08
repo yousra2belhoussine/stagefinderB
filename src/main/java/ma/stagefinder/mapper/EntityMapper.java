@@ -11,51 +11,34 @@ public interface EntityMapper {
 
   EntityMapper INSTANCE = Mappers.getMapper(EntityMapper.class);
 
-  // User
-// User
-  @Mapping(source = "role", target = "role")
-  @Mapping(source = "image", target = "image")
-  //@Mapping(target = "cvFile", ignore = true)//j ai ajoute
-  @Mapping(source = "cvFile", target = "cvFile")
-
+  // --- User Mappings ---
   UserDTO toUserDTO(User user);
-
-
-
-  //@Mapping(target = "cvFile", ignore = true)
-  @Mapping(source = "cvFile", target = "cvFile")
-
-  @Mapping(source = "image", target = "image")
   User toUser(UserDTO userDTO);
 
-
-
-  // Categorie
+  // --- Categorie Mappings ---
   CategorieDTO toCategorieDTO(Categorie categorie);
   Categorie toCategorie(CategorieDTO categorieDTO);
 
-  // Offre
-  @Mapping(source = "categorie.typeCategorie", target = "categorieNom")
+  // --- Offre Mappings (Version améliorée) ---
+  @Mapping(source = "categorie.titre", target = "categorieNom")
   @Mapping(source = "publiePar.nom", target = "publieParNom")
-  @Mapping(source = "nomEntreprise", target = "nomEntreprise")
+  @Mapping(source = "publiePar.nomEntreprise", target = "nomEntreprise")
   @Mapping(source = "publiePar.id", target = "publieParId")
   @Mapping(source = "categorie.id", target = "categorieId")
   OffreDTO toOffreDTO(Offre offre);
 
   @Mapping(source = "categorieId", target = "categorie.id")
   @Mapping(source = "publieParId", target = "publiePar.id")
-  //@Mapping(target = "categorie", ignore = true)
-  //@Mapping(target = "publiePar", ignore = true)
   Offre toOffre(OffreDTO offreDTO);
 
-  // Notification
+  // --- Notification Mappings ---
   @Mapping(source = "user.id", target = "userId")
   NotificationDTO toNotificationDTO(Notification notification);
 
   @Mapping(source = "userId", target = "user.id")
   Notification toNotification(NotificationDTO notificationDTO);
 
-  // Favoris
+  // --- Favoris Mappings ---
   @Mapping(source = "user.id", target = "userId")
   @Mapping(source = "offre.id", target = "offreId")
   FavorisDTO toFavorisDTO(Favoris favoris);
@@ -64,16 +47,17 @@ public interface EntityMapper {
   @Mapping(source = "offreId", target = "offre.id")
   Favoris toFavoris(FavorisDTO favorisDTO);
 
-  // Candidature
+  // --- Candidature Mappings (Version améliorée) ---
   @Mapping(source = "user.id", target = "userId")
   @Mapping(source = "offre.id", target = "offreId")
   @Mapping(source = "offre", target = "offre")
-  @Mapping(target = "cvChoisi", ignore = true)
-  @Mapping(target = "lettreMotivation", ignore = true)
   @Mapping(source = "user.nom", target = "userNom")
   @Mapping(source = "user.email", target = "userEmail")
   @Mapping(source = "cvChoisi", target = "cvFileName")
   @Mapping(source = "lettreMotivation", target = "lettreMotivationFileName")
+  @Mapping(source = "statutCandidature", target = "statutCandidature")
+  @Mapping(target = "cvChoisi", ignore = true)
+  @Mapping(target = "lettreMotivation", ignore = true)
   CandidatureDTO toCandidatureDTO(Candidature candidature);
 
   @Mapping(source = "userId", target = "user.id")
@@ -82,6 +66,5 @@ public interface EntityMapper {
   @Mapping(target = "lettreMotivation", ignore = true)
   Candidature toCandidature(CandidatureDTO candidatureDTO);
 
-
-
+  // Les mappings pour Avis et Abonnement ont été supprimés car les entités n'existent plus.
 }

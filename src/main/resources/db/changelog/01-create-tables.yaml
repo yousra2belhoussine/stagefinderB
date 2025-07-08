@@ -6,74 +6,21 @@ databaseChangeLog:
         - createTable:
             tableName: user
             columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: nom
-                  type: varchar(255)
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: email
-                  type: varchar(255)
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: nom_entreprise
-                  type: varchar(255)
-                  constraints:
-                    nullable: true
-              - column:
-                  name: RC
-                  type: varchar(50)
-                  constraints:
-                    unique: true
-                    nullable: true
-              - column:
-                  name: ICE
-                  type: varchar(50)
-                  constraints:
-                    unique: true
-                    nullable: true
-              - column:
-                  name: password
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: tel
-                  type: varchar(20)
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: cv_file
-                  type: varchar(255)
-              - column:
-                  name: est_valide
-                  type: boolean
-                  defaultValue: false
-              - column:
-                  name: adresse
-                  type: varchar(255)
-              - column:
-                  name: image
-                  type: varchar(255)
-              - column:
-                  name: role
-                  type: varchar(20)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: created_at
-                  type: timestamp
-                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: nom, type: varchar(255), constraints: { unique: true, nullable: false } }
+              - column: { name: email, type: varchar(255), constraints: { unique: true, nullable: false } }
+              - column: { name: nom_entreprise, type: varchar(255), constraints: { nullable: true } }
+              - column: { name: RC, type: varchar(50), constraints: { unique: true, nullable: true } }
+              - column: { name: ICE, type: varchar(50), constraints: { unique: true, nullable: true } }
+              - column: { name: password, type: varchar(255), constraints: { nullable: false } }
+              - column: { name: tel, type: varchar(20), constraints: { unique: true, nullable: false } }
+              - column: { name: cv_file, type: varchar(255) }
+              - column: { name: est_valide, type: boolean, defaultValue: "false" }
+              - column: { name: verified_at, type: timestamp, constraints: { nullable: true } } # <--- HADA HOWA LI TZAD
+              - column: { name: adresse, type: varchar(255) }
+              - column: { name: image, type: varchar(255) }
+              - column: { name: role, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: created_at, type: timestamp, defaultValueComputed: "CURRENT_TIMESTAMP" }
 
   - changeSet:
       id: 2
@@ -82,22 +29,9 @@ databaseChangeLog:
         - createTable:
             tableName: categorie
             columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: titre
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: type_categorie
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: titre, type: varchar(255), constraints: { nullable: false } }
+              - column: { name: type_categorie, type: varchar(50), constraints: { nullable: false } }
 
   - changeSet:
       id: 3
@@ -106,50 +40,29 @@ databaseChangeLog:
         - createTable:
             tableName: offre
             columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: description
-                  type: text
-              - column:
-                  name: ville
-                  type: varchar(100)
-              - column:
-                  name: annees_experience
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: nom_entreprise
-                  type: varchar(255)
-              - column:
-                  name: date_publication
-                  type: timestamp
-              - column:
-                  name: date_expiration
-                  type: timestamp
-              - column:
-                  name: salaire
-                  type: float
-              - column:
-                  name: competence_exigee
-                  type: varchar(255)
-              - column:
-                  name: categorie_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_offre_categorie
-                    references: categorie(id)
-              - column:
-                  name: publie_par_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_offre_user
-                    references: user(id)
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: description, type: text }
+              - column: { name: ville, type: varchar(100) }
+              - column: { name: annees_experience, type: varchar(255), constraints: { nullable: false } }
+              - column: { name: nom_entreprise, type: varchar(255) }
+              - column: { name: date_publication, type: timestamp }
+              - column: { name: date_expiration, type: timestamp }
+              - column: { name: salaire, type: float }
+              - column: { name: competence_exigee, type: varchar(255) }
+              - column: { name: categorie_id, type: bigint, constraints: { nullable: false } }
+              - column: { name: publie_par_id, type: bigint, constraints: { nullable: false } }
+        - addForeignKeyConstraint:
+            baseTableName: offre
+            baseColumnNames: categorie_id
+            constraintName: fk_offre_categorie
+            referencedTableName: categorie
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: offre
+            baseColumnNames: publie_par_id
+            constraintName: fk_offre_user
+            referencedTableName: user
+            referencedColumnNames: id
 
   - changeSet:
       id: 4
@@ -158,38 +71,25 @@ databaseChangeLog:
         - createTable:
             tableName: candidature
             columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: date_de_candidature
-                  type: timestamp
-              - column:
-                  name: statut_candidature
-                  type: varchar(20)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: lettre_de_motivation
-                  type: text
-              - column:
-                  name: cv_choisi
-                  type: varchar(255)
-              - column:
-                  name: user_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_candidature_user
-                    references: user(id)
-              - column:
-                  name: offre_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_candidature_offre
-                    references: offre(id)
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: date_de_candidature, type: timestamp }
+              - column: { name: statut_candidature, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: lettre_de_motivation, type: text }
+              - column: { name: cv_choisi, type: varchar(255) }
+              - column: { name: user_id, type: bigint, constraints: { nullable: false } }
+              - column: { name: offre_id, type: bigint, constraints: { nullable: false } }
+        - addForeignKeyConstraint:
+            baseTableName: candidature
+            baseColumnNames: user_id
+            constraintName: fk_candidature_user
+            referencedTableName: user
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: candidature
+            baseColumnNames: offre_id
+            constraintName: fk_candidature_offre
+            referencedTableName: offre
+            referencedColumnNames: id
 
   - changeSet:
       id: 5
@@ -198,27 +98,22 @@ databaseChangeLog:
         - createTable:
             tableName: favoris
             columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: date_ajout
-                  type: timestamp
-              - column:
-                  name: user_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_favoris_user
-                    references: user(id)
-              - column:
-                  name: offre_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_favoris_offre
-                    references: offre(id)
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: date_ajout, type: timestamp }
+              - column: { name: user_id, type: bigint, constraints: { nullable: false } }
+              - column: { name: offre_id, type: bigint, constraints: { nullable: false } }
+        - addForeignKeyConstraint:
+            baseTableName: favoris
+            baseColumnNames: user_id
+            constraintName: fk_favoris_user
+            referencedTableName: user
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: favoris
+            baseColumnNames: offre_id
+            constraintName: fk_favoris_offre
+            referencedTableName: offre
+            referencedColumnNames: id
 
   - changeSet:
       id: 6
@@ -227,62 +122,29 @@ databaseChangeLog:
         - createTable:
             tableName: notification
             columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: message
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: date_envoie
-                  type: timestamp
-              - column:
-                  name: user_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_notification_user
-                    references: user(id)
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: message, type: varchar(255), constraints: { nullable: false } }
+              - column: { name: date_envoie, type: timestamp }
+              - column: { name: user_id, type: bigint, constraints: { nullable: false } }
+        - addForeignKeyConstraint:
+            baseTableName: notification
+            baseColumnNames: user_id
+            constraintName: fk_notification_user
+            referencedTableName: user
+            referencedColumnNames: id
 
   - changeSet:
-      id: 16 # ID unique pour la nouvelle table
+      id: 7
       author: malki.mohammed
       changes:
         - createTable:
             tableName: action_token
             columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: token
-                  type: VARCHAR(255)
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: type
-                  type: VARCHAR(50)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: expires_at
-                  type: TIMESTAMP
-                  constraints:
-                    nullable: false
-              - column:
-                  name: user_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: token, type: varchar(255), constraints: { unique: true, nullable: false } }
+              - column: { name: type, type: varchar(50), constraints: { nullable: false } }
+              - column: { name: expires_at, type: timestamp, constraints: { nullable: false } }
+              - column: { name: user_id, type: bigint, constraints: { nullable: false } }
         - addForeignKeyConstraint:
             baseTableName: action_token
             baseColumnNames: user_id
@@ -290,763 +152,3 @@ databaseChangeLog:
             referencedTableName: user
             referencedColumnNames: id
             onDelete: CASCADE
-
-  - changeSet:
-      id: 8
-      author: ahmed
-      changes:
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "TechNova"
-              - column:
-                  name: email
-                  value: "contact@technova.ma"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword1"
-              - column:
-                  name: tel
-                  value: "+212600123456"
-              - column:
-                  name: nom_entreprise
-                  value: "TechNova SARL"
-              - column:
-                  name: RC
-                  value: "RC100001"
-              - column:
-                  name: ICE
-                  value: "ICE000123456789"
-              - column:
-                  name: adresse
-                  value: "123 Rue Mohammed V, Casablanca"
-              - column:
-                  name: role
-                  value: "RECRUTEUR"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2024-01-15 10:00:00"
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "Inovatech"
-              - column:
-                  name: email
-                  value: "hr@inovatech.ma"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword2"
-              - column:
-                  name: tel
-                  value: "+212600789123"
-              - column:
-                  name: nom_entreprise
-                  value: "Inovatech SA"
-              - column:
-                  name: RC
-                  value: "RC100002"
-              - column:
-                  name: ICE
-                  value: "ICE000987654321"
-              - column:
-                  name: adresse
-                  value: "45 Avenue Hassan II, Rabat"
-              - column:
-                  name: role
-                  value: "RECRUTEUR"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2024-02-10 12:00:00"
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "GreenSolutions"
-              - column:
-                  name: email
-                  value: "recrutement@greensolutions.ma"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword3"
-              - column:
-                  name: tel
-                  value: "+212600456789"
-              - column:
-                  name: nom_entreprise
-                  value: "GreenSolutions SARL"
-              - column:
-                  name: RC
-                  value: "RC100003"
-              - column:
-                  name: ICE
-                  value: "ICE000456789123"
-              - column:
-                  name: adresse
-                  value: "78 Boulevard Al Massira, Marrakech"
-              - column:
-                  name: role
-                  value: "RECRUTEUR"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2024-03-05 15:00:00"
-
-  - changeSet:
-      id: 9
-      author: ahmed
-      changes:
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "Sara"
-              - column:
-                  name: email
-                  value: "sara.bensaid@example.com"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword4"
-              - column:
-                  name: tel
-                  value: "+212600111222"
-              - column:
-                  name: nom_entreprise
-                  value: null
-              - column:
-                  name: cv_file
-                  value: "sara_cv.pdf"
-              - column:
-                  name: adresse
-                  value: ""
-              - column:
-                  name: role
-                  value: "STAGIAIRE"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2024-04-20 09:00:00"
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "Admin"
-              - column:
-                  name: email
-                  value: "admin@example.com"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword5"
-              - column:
-                  name: tel
-                  value: "+212600333444"
-              - column:
-                  name: nom_entreprise
-                  value: ""
-              - column:
-                  name: adresse
-                  value: ""
-              - column:
-                  name: role
-                  value: "ADMINISTRATEUR"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2024-01-01 08:00:00"
-
-  - changeSet:
-      id: 10
-      author: ahmed
-      changes:
-        - insert:
-            tableName: categorie
-            columns:
-              - column: { name: id, value: 1 }
-              - column: { name: titre, value: "Informatique" }
-              - column: { name: type_categorie, value: "INFORMATIQUE" }
-        - insert:
-            tableName: categorie
-            columns:
-              - column: { name: id, value: 2 }
-              - column: { name: titre, value: "Développement" }
-              - column: { name: type_categorie, value: "DEVELOPPEMENT" }
-        - insert:
-            tableName: categorie
-            columns:
-              - column: { name: id, value: 3 }
-              - column: { name: titre, value: "Cybersécurité" }
-              - column: { name: type_categorie, value: "CYBERSECURITE" }
-        - insert:
-            tableName: categorie
-            columns:
-              - column: { name: id, value: 4 }
-              - column: { name: titre, value: "Cloud Computing" }
-              - column: { name: type_categorie, value: "CLOUD_COMPUTING" }
-        - insert:
-            tableName: categorie
-            columns:
-              - column: { name: id, value: 5 }
-              - column: { name: titre, value: "Data Science" }
-              - column: { name: type_categorie, value: "DATA_SCIENCE" }
-        - insert:
-            tableName: categorie
-            columns:
-              - column: { name: id, value: 10 }
-              - column: { name: titre, value: "Marketing" }
-              - column: { name: type_categorie, value: "MARKETING" }
-
-  - changeSet:
-      id: 11
-      author: ahmed
-      changes:
-        - insert:
-            tableName: offre
-            columns:
-              - column:
-                  name: description
-                  value: "Stage en développement web pour travailler sur des projets Angular et Spring Boot."
-              - column:
-                  name: ville
-                  value: "Casablanca"
-              - column:
-                  name: annees_experience
-                  value: "0-1 an"
-              - column:
-                  name: nom_entreprise
-                  value: "TechNova SARL"
-              - column:
-                  name: date_publication
-                  value: "2025-04-28 10:00:00"
-              - column:
-                  name: date_expiration
-                  value: "2025-05-28 10:00:00"
-              - column:
-                  name: salaire
-                  value: "5000.00"
-              - column:
-                  name: competence_exigee
-                  value: "Connaissances en Angular, Java, Git"
-              - column:
-                  name: categorie_id
-                  value: "1"
-              - column:
-                  name: publie_par_id
-                  value: "1"
-        - insert:
-            tableName: offre
-            columns:
-              - column:
-                  name: description
-                  value: "Stage en marketing digital pour gérer des campagnes publicitaires sur les réseaux sociaux."
-              - column:
-                  name: ville
-                  value: "Rabat"
-              - column:
-                  name: annees_experience
-                  value: "1-2 ans"
-              - column:
-                  name: nom_entreprise
-                  value: "Inovatech SA"
-              - column:
-                  name: date_publication
-                  value: "2025-03-15 10:00:00"
-              - column:
-                  name: date_expiration
-                  value: "2025-04-15 10:00:00"
-              - column:
-                  name: salaire
-                  value: "6000.00"
-              - column:
-                  name: competence_exigee
-                  value: "Maîtrise de Google Ads, SEO, réseaux sociaux"
-              - column:
-                  name: categorie_id
-                  value: "10"
-              - column:
-                  name: publie_par_id
-                  value: "2"
-        - insert:
-            tableName: offre
-            columns:
-              - column:
-                  name: description
-                  value: "Stage en cybersécurité pour analyser les vulnérabilités des systèmes internes."
-              - column:
-                  name: ville
-                  value: "Marrakech"
-              - column:
-                  name: annees_experience
-                  value: "0-1 an"
-              - column:
-                  name: nom_entreprise
-                  value: "GreenSolutions SARL"
-              - column:
-                  name: date_publication
-                  value: "2025-02-10 10:00:00"
-              - column:
-                  name: date_expiration
-                  value: "2025-03-10 10:00:00"
-              - column:
-                  name: salaire
-                  value: "5500.00"
-              - column:
-                  name: competence_exigee
-                  value: "Connaissances de base en cybersécurité, Linux, Wireshark"
-              - column:
-                  name: categorie_id
-                  value: "3"
-              - column:
-                  name: publie_par_id
-                  value: "3"
-
-  - changeSet:
-      id: 12
-      author: ahmed
-      changes:
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "DataCorp"
-              - column:
-                  name: email
-                  value: "contact@datacorp.ma"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword4"
-              - column:
-                  name: tel
-                  value: "+212600234567"
-              - column:
-                  name: nom_entreprise
-                  value: "DataCorp SARL"
-              - column:
-                  name: RC
-                  value: "RC100004"
-              - column:
-                  name: ICE
-                  value: "ICE000234567890"
-              - column:
-                  name: adresse
-                  value: "56 Rue Ibn Sina, Tanger"
-              - column:
-                  name: role
-                  value: "RECRUTEUR"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2024-05-12 14:00:00"
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "SkyTech"
-              - column:
-                  name: email
-                  value: "hr@skytech.ma"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword5"
-              - column:
-                  name: tel
-                  value: "+212600890123"
-              - column:
-                  name: nom_entreprise
-                  value: "SkyTech SA"
-              - column:
-                  name: RC
-                  value: "RC100005"
-              - column:
-                  name: ICE
-                  value: "ICE000890123456"
-              - column:
-                  name: adresse
-                  value: "12 Avenue Allal Ben Abdellah, Fès"
-              - column:
-                  name: role
-                  value: "RECRUTEUR"
-              - column:
-                  name: est_valide
-                  value: "false"
-              - column:
-                  name: created_at
-                  value: "2024-06-08 11:00:00"
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "EcoBuild"
-              - column:
-                  name: email
-                  value: "recrutement@ecobuild.ma"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword6"
-              - column:
-                  name: tel
-                  value: "+212600567890"
-              - column:
-                  name: nom_entreprise
-                  value: "EcoBuild SARL"
-              - column:
-                  name: RC
-                  value: "RC100006"
-              - column:
-                  name: ICE
-                  value: "ICE000567890123"
-              - column:
-                  name: adresse
-                  value: "90 Boulevard Zerktouni, Agadir"
-              - column:
-                  name: role
-                  value: "RECRUTEUR"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2024-07-01 16:00:00"
-
-  - changeSet:
-      id: 13
-      author: ahmed
-      changes:
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "NextGen"
-              - column:
-                  name: email
-                  value: "contact@nextgen.ma"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword7"
-              - column:
-                  name: tel
-                  value: "+212600345678"
-              - column:
-                  name: nom_entreprise
-                  value: "NextGen Solutions"
-              - column:
-                  name: RC
-                  value: "RC100007"
-              - column:
-                  name: ICE
-                  value: "ICE000345678901"
-              - column:
-                  name: adresse
-                  value: "34 Rue Al Farabi, Meknès"
-              - column:
-                  name: role
-                  value: "RECRUTEUR"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2024-08-25 13:00:00"
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "SmartSys"
-              - column:
-                  name: email
-                  value: "hr@smartsys.ma"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword8"
-              - column:
-                  name: tel
-                  value: "+212600901234"
-              - column:
-                  name: nom_entreprise
-                  value: "SmartSys SARL"
-              - column:
-                  name: RC
-                  value: "RC100008"
-              - column:
-                  name: ICE
-                  value: "ICE000901234567"
-              - column:
-                  name: adresse
-                  value: "67 Avenue Mohammed VI, Oujda"
-              - column:
-                  name: role
-                  value: "RECRUTEUR"
-              - column:
-                  name: est_valide
-                  value: "false"
-              - column:
-                  name: created_at
-                  value: "2024-09-18 10:00:00"
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "VisionCorp"
-              - column:
-                  name: email
-                  value: "recrutement@visioncorp.ma"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword9"
-              - column:
-                  name: tel
-                  value: "+212600678901"
-              - column:
-                  name: nom_entreprise
-                  value: "VisionCorp SA"
-              - column:
-                  name: RC
-                  value: "RC100009"
-              - column:
-                  name: ICE
-                  value: "ICE000678901234"
-              - column:
-                  name: adresse
-                  value: "23 Boulevard Anfa, Casablanca"
-              - column:
-                  name: role
-                  value: "RECRUTEUR"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2024-10-05 12:00:00"
-
-  - changeSet:
-      id: 14
-      author: ahmed
-      changes:
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "Hassan Lahlou"
-              - column:
-                  name: email
-                  value: "hassan.lahlou@example.com"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword13"
-              - column:
-                  name: tel
-                  value: "+212600444555"
-              - column:
-                  name: nom_entreprise
-                  value: null
-              - column:
-                  name: cv_file
-                  value: "hassan_cv.pdf"
-              - column:
-                  name: adresse
-                  value: "15 Rue Mohammed VI, Fès"
-              - column:
-                  name: role
-                  value: "STAGIAIRE"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2024-11-10 08:00:00"
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "Nadia Benali"
-              - column:
-                  name: email
-                  value: "nadia.benali@example.com"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword14"
-              - column:
-                  name: tel
-                  value: "+212600666777"
-              - column:
-                  name: nom_entreprise
-                  value: null
-              - column:
-                  name: cv_file
-                  value: "nadia_cv.pdf"
-              - column:
-                  name: adresse
-                  value: ""
-              - column:
-                  name: role
-                  value: "STAGIAIRE"
-              - column:
-                  name: est_valide
-                  value: "false"
-              - column:
-                  name: created_at
-                  value: "2024-12-15 14:00:00"
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "Rachid El Amri"
-              - column:
-                  name: email
-                  value: "rachid.elamri@example.com"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword15"
-              - column:
-                  name: tel
-                  value: "+212600888999"
-              - column:
-                  name: nom_entreprise
-                  value: null
-              - column:
-                  name: cv_file
-                  value: "rachid_cv.pdf"
-              - column:
-                  name: adresse
-                  value: "30 Avenue Allal Ben Abdellah, Tanger"
-              - column:
-                  name: role
-                  value: "STAGIAIRE"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2025-01-20 09:00:00"
-
-  - changeSet:
-      id: 15
-      author: ahmed
-      changes:
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "Sofia Chraibi"
-              - column:
-                  name: email
-                  value: "sofia.chraibi@example.com"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword16"
-              - column:
-                  name: tel
-                  value: "+212600555666"
-              - column:
-                  name: nom_entreprise
-                  value: null
-              - column:
-                  name: cv_file
-                  value: "sofia_cv.pdf"
-              - column:
-                  name: adresse
-                  value: "22 Boulevard Zerktouni, Marrakech"
-              - column:
-                  name: role
-                  value: "STAGIAIRE"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2025-02-05 11:00:00"
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "Imane Ouazzani"
-              - column:
-                  name: email
-                  value: "imane.ouazzani@example.com"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword17"
-              - column:
-                  name: tel
-                  value: "+212600777999"
-              - column:
-                  name: nom_entreprise
-                  value: null
-              - column:
-                  name: cv_file
-                  value: "imane_cv.pdf"
-              - column:
-                  name: adresse
-                  value: ""
-              - column:
-                  name: role
-                  value: "STAGIAIRE"
-              - column:
-                  name: est_valide
-                  value: "false"
-              - column:
-                  name: created_at
-                  value: "2025-03-12 15:00:00"
-        - insert:
-            tableName: user
-            columns:
-              - column:
-                  name: nom
-                  value: "Mehdi Kabbaj"
-              - column:
-                  name: email
-                  value: "mehdi.kabbaj@example.com"
-              - column:
-                  name: password
-                  value: "$2a$10$hashedPassword18"
-              - column:
-                  name: tel
-                  value: "+212600999111"
-              - column:
-                  name: nom_entreprise
-                  value: null
-              - column:
-                  name: cv_file
-                  value: "mehdi_cv.pdf"
-              - column:
-                  name: adresse
-                  value: "50 Rue Ibn Sina, Agadir"
-              - column:
-                  name: role
-                  value: "STAGIAIRE"
-              - column:
-                  name: est_valide
-                  value: "true"
-              - column:
-                  name: created_at
-                  value: "2025-04-01 10:00:00"
