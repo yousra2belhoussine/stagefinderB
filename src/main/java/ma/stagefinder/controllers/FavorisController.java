@@ -1,6 +1,7 @@
 package ma.stagefinder.controllers;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ma.stagefinder.dtos.FavorisDTO;
 import ma.stagefinder.services.FavorisService;
 import org.springframework.http.ResponseEntity;
@@ -11,38 +12,38 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/favoris")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
+@Slf4j
 public class FavorisController {
 
   private final FavorisService favorisService;
 
+  /**
+   * Ajoute une offre aux favoris d'un utilisateur.
+   */
   @PostMapping
   public ResponseEntity<FavorisDTO> ajouterFavoris(@RequestBody FavorisDTO dto) {
+    log.info("Requête pour ajouter un favori pour l'utilisateur ID: {} et l'offre ID: {}", dto.getUserId(), dto.getOffreId());
     return ResponseEntity.ok(favorisService.ajouterFavoris(dto));
   }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<FavorisDTO> getFavorisById(@PathVariable Long id) {
-    return ResponseEntity.ok(favorisService.getFavorisById(id));
-  }
-
+  /**
+   * Supprime un favori par son ID.
+   */
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> supprimerFavoris(@PathVariable Long id) {
+    log.info("Requête pour supprimer le favori avec l'ID: {}", id);
     favorisService.supprimerFavoris(id);
     return ResponseEntity.noContent().build();
   }
 
+  /**
+   * Récupère tous les favoris d'un utilisateur spécifique.
+   * Cette méthode utilise le cache Redis.
+   */
   @GetMapping("/user/{userId}")
   public ResponseEntity<List<FavorisDTO>> getFavorisByUser(@PathVariable Long userId) {
+    log.info("Requête pour récupérer les favoris de l'utilisateur ID: {}", userId);
     return ResponseEntity.ok(favorisService.getFavorisByUser(userId));
-  }
-
-  @GetMapping("/offre/{offreId}")
-  public ResponseEntity<List<FavorisDTO>> getFavorisByOffre(@PathVariable Long offreId) {
-    return ResponseEntity.ok(favorisService.getFavorisByOffre(offreId));
-  }
-
-  @GetMapping
-  public ResponseEntity<List<FavorisDTO>> getAllFavoris() {
-    return ResponseEntity.ok(favorisService.getAllFavoris());
   }
 }

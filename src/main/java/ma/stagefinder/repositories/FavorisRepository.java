@@ -8,5 +8,4 @@ import java.util.List;
 @Repository
 public interface FavorisRepository extends JpaRepository<Favoris, Long> {
     List<Favoris> findByUserId(Long userId);      // Favoris d'un utilisateur
-    List<Favoris> findByOffreId(Long offreId);    // Utilisateurs ayant mis une offre en favori
 }
