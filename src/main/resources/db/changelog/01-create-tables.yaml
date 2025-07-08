@@ -4,7 +4,7 @@ databaseChangeLog:
       author: ilyas
       changes:
         - createTable:
-            tableName: users # On garde "users" pour la cohérence
+            tableName: user # <-- CORRIGÉ: On garde "user"
             columns:
               - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
               - column: { name: nom, type: varchar(255), constraints: { unique: true, nullable: false } }
@@ -61,7 +61,7 @@ databaseChangeLog:
             baseTableName: offre
             baseColumnNames: publie_par_id
             constraintName: fk_offre_user
-            referencedTableName: users
+            referencedTableName: user # <-- CORRIGÉ
             referencedColumnNames: id
 
   - changeSet:
@@ -82,7 +82,7 @@ databaseChangeLog:
             baseTableName: candidature
             baseColumnNames: user_id
             constraintName: fk_candidature_user
-            referencedTableName: users
+            referencedTableName: user # <-- CORRIGÉ
             referencedColumnNames: id
         - addForeignKeyConstraint:
             baseTableName: candidature
@@ -106,7 +106,7 @@ databaseChangeLog:
             baseTableName: favoris
             baseColumnNames: user_id
             constraintName: fk_favoris_user
-            referencedTableName: users
+            referencedTableName: user # <-- CORRIGÉ
             referencedColumnNames: id
         - addForeignKeyConstraint:
             baseTableName: favoris
@@ -130,7 +130,7 @@ databaseChangeLog:
             baseTableName: notification
             baseColumnNames: user_id
             constraintName: fk_notification_user
-            referencedTableName: users
+            referencedTableName: user # <-- CORRIGÉ
             referencedColumnNames: id
 
   - changeSet:
@@ -149,12 +149,12 @@ databaseChangeLog:
             baseTableName: action_token
             baseColumnNames: user_id
             constraintName: fk_action_token_on_user
-            referencedTableName: users
+            referencedTableName: user # <-- CORRIGÉ
             referencedColumnNames: id
             onDelete: CASCADE
 
   - changeSet:
-      id: 17 # NOUVEAU: ID unique pour la table token
+      id: 18 # ID unique pour la table token
       author: malki.mohammed
       changes:
         - createTable:
@@ -162,15 +162,15 @@ databaseChangeLog:
             columns:
               - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
               - column: { name: token, type: varchar(255), constraints: { unique: true, nullable: false } }
-              - column: { name: token_type, type: varchar(50), constraints: { nullable: false } }
               - column: { name: expired, type: boolean, defaultValueBoolean: false }
               - column: { name: revoked, type: boolean, defaultValueBoolean: false }
+              - column: { name: token_type, type: varchar(50) }
               - column: { name: created_at, type: timestamp }
               - column: { name: user_id, type: bigint, constraints: { nullable: false } }
         - addForeignKeyConstraint:
             baseTableName: token
             baseColumnNames: user_id
             constraintName: fk_token_on_user
-            referencedTableName: users
+            referencedTableName: user # <-- CORRIGÉ
             referencedColumnNames: id
             onDelete: CASCADE
