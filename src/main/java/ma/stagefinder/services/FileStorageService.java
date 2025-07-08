@@ -25,7 +25,7 @@ public class FileStorageService {
   @Value("${file.documents-dir}")
   private String documentsDir;
 
-  private static final List<String> IMAGE_EXTENSIONS = Arrays.asList(".jpg", ".jpeg", ".png", ".gif");
+  private static final List<String> IMAGE_EXTENSIONS = Arrays.asList(".jpg", ".jpeg", ".png", ".gif",".jfif");
   private static final List<String> DOCUMENT_EXTENSIONS = Arrays.asList(".pdf", ".docx");
 
   public String storeFile(MultipartFile file, String fileType) throws IOException {

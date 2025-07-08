@@ -60,7 +60,7 @@ public class AuthenticationService {
     User savedUser = userRepository.save(request);
 
     // ✅ Génère les tokens avec email + rôle
-    String accessToken = jwtUtil.generateToken(savedUser.getId(), savedUser.getEmail(), savedUser.getRole());
+    String accessToken = jwtUtil.generateToken(savedUser.getId(), savedUser.getEmail(),savedUser.getRole());
     String refreshToken = jwtUtil.generateRefreshToken(savedUser.getEmail());
 
     // Sauvegarde en base

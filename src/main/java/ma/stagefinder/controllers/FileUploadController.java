@@ -69,4 +69,30 @@ public class FileUploadController {
       return ResponseEntity.internalServerError().build();
     }
   }
+  // ✅ Endpoint public pour afficher une image sans sécurité
+  @GetMapping("/view")
+  public ResponseEntity<Resource> viewImage(@RequestParam String filename) {
+    try {
+      Path filePath = fileStorageService.getFilePath(filename, "image");
+
+      if (!Files.exists(filePath) || !Files.isReadable(filePath)) {
+        return ResponseEntity.notFound().build();
+      }
+
+      Resource resource = new UrlResource(filePath.toUri());
+      String contentType = Files.probeContentType(filePath);
+      if (contentType == null) {
+        contentType = "image/jpeg"; // par défaut
+      }
+
+      return ResponseEntity.ok()
+              .contentType(MediaType.parseMediaType(contentType))
+              .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+              .body(resource);
+
+    } catch (IOException e) {
+      return ResponseEntity.internalServerError().build();
+    }
+  }
+
 }

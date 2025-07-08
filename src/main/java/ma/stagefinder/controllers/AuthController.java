@@ -39,7 +39,7 @@ public class AuthController {
       System.out.println("📥 Fichier CV reçu côté backend ? " + (cvFile != null));
 
       if (cvFile != null && !cvFile.isEmpty()) {
-        String storedCV = fileStorageService.storeFile(cvFile, "cvFile");
+        String storedCV = fileStorageService.storeFile(cvFile, "cv");
         user.setCvFile(storedCV);
       }
 
@@ -67,6 +67,23 @@ public class AuthController {
     admin.setRole(Role.ADMINISTRATEUR);
     return authenticationService.register(admin);
   }
+  @GetMapping("/me")
+  public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+      return ResponseEntity.badRequest().build();
+    }
+
+    try {
+      String token = authHeader.substring(7);
+      String email = jwtUtil.extractEmail(token);
+      return userRepository.findByEmail(email)
+              .map(ResponseEntity::ok)
+              .orElseGet(() -> ResponseEntity.notFound().build());
+    } catch (Exception e) {
+      return ResponseEntity.status(500).build();
+    }
+  }
+
 
 
   // ✅ Login classique
