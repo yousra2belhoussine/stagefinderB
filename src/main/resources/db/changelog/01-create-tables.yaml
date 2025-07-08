@@ -249,47 +249,47 @@ databaseChangeLog:
                     references: user(id)
 
   - changeSet:
-      id: 7
-      author: ahmed
+      id: 16 # ID unique pour la nouvelle table
+      author: malki.mohammed
       changes:
         - createTable:
-            tableName: avis
+            tableName: action_token
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: BIGINT
                   autoIncrement: true
                   constraints:
                     primaryKey: true
+                    nullable: false
               - column:
-                  name: commentaire
-                  type: text
-              - column:
-                  name: date_publication
-                  type: timestamp
-              - column:
-                  name: auteur_id
-                  type: bigint
+                  name: token
+                  type: VARCHAR(255)
                   constraints:
-                    foreignKeyName: fk_avis_auteur
-                    references: user(id)
+                    unique: true
+                    nullable: false
               - column:
-                  name: destinataire_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_avis_destinataire
-                    references: user(id)
-              - column:
-                  name: offre_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: fk_avis_offre
-                    references: offre(id)
-              - column:
-                  name: note
-                  type: int
+                  name: type
+                  type: VARCHAR(50)
                   constraints:
                     nullable: false
+              - column:
+                  name: expires_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: action_token
+            baseColumnNames: user_id
+            constraintName: fk_action_token_on_user
+            referencedTableName: user
+            referencedColumnNames: id
+            onDelete: CASCADE
 
   - changeSet:
       id: 8
@@ -479,615 +479,39 @@ databaseChangeLog:
         - insert:
             tableName: categorie
             columns:
-              - column:
-                  name: id
-                  value: 1
-              - column:
-                  name: titre
-                  value: "Informatique"
-              - column:
-                  name: type_categorie
-                  value: "INFORMATIQUE"
+              - column: { name: id, value: 1 }
+              - column: { name: titre, value: "Informatique" }
+              - column: { name: type_categorie, value: "INFORMATIQUE" }
         - insert:
             tableName: categorie
             columns:
-              - column:
-                  name: id
-                  value: 2
-              - column:
-                  name: titre
-                  value: "Développement"
-              - column:
-                  name: type_categorie
-                  value: "DEVELOPPEMENT"
+              - column: { name: id, value: 2 }
+              - column: { name: titre, value: "Développement" }
+              - column: { name: type_categorie, value: "DEVELOPPEMENT" }
         - insert:
             tableName: categorie
             columns:
-              - column:
-                  name: id
-                  value: 3
-              - column:
-                  name: titre
-                  value: "Cybersécurité"
-              - column:
-                  name: type_categorie
-                  value: "CYBERSECURITE"
+              - column: { name: id, value: 3 }
+              - column: { name: titre, value: "Cybersécurité" }
+              - column: { name: type_categorie, value: "CYBERSECURITE" }
         - insert:
             tableName: categorie
             columns:
-              - column:
-                  name: id
-                  value: 4
-              - column:
-                  name: titre
-                  value: "Cloud Computing"
-              - column:
-                  name: type_categorie
-                  value: "CLOUD_COMPUTING"
+              - column: { name: id, value: 4 }
+              - column: { name: titre, value: "Cloud Computing" }
+              - column: { name: type_categorie, value: "CLOUD_COMPUTING" }
         - insert:
             tableName: categorie
             columns:
-              - column:
-                  name: id
-                  value: 5
-              - column:
-                  name: titre
-                  value: "Data Science"
-              - column:
-                  name: type_categorie
-                  value: "DATA_SCIENCE"
+              - column: { name: id, value: 5 }
+              - column: { name: titre, value: "Data Science" }
+              - column: { name: type_categorie, value: "DATA_SCIENCE" }
         - insert:
             tableName: categorie
             columns:
-              - column:
-                  name: id
-                  value: 6
-              - column:
-                  name: titre
-                  value: "Intelligence Artificielle"
-              - column:
-                  name: type_categorie
-                  value: "IA"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 7
-              - column:
-                  name: titre
-                  value: "Réseaux"
-              - column:
-                  name: type_categorie
-                  value: "RESEAUX"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 8
-              - column:
-                  name: titre
-                  value: "Technologie"
-              - column:
-                  name: type_categorie
-                  value: "TECHNOLOGIE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 9
-              - column:
-                  name: titre
-                  value: "Jeux Vidéo"
-              - column:
-                  name: type_categorie
-                  value: "JEUX_VIDEO"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 10
-              - column:
-                  name: titre
-                  value: "Marketing"
-              - column:
-                  name: type_categorie
-                  value: "MARKETING"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 11
-              - column:
-                  name: titre
-                  value: "Finance"
-              - column:
-                  name: type_categorie
-                  value: "FINANCE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 12
-              - column:
-                  name: titre
-                  value: "Commerce"
-              - column:
-                  name: type_categorie
-                  value: "COMMERCE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 13
-              - column:
-                  name: titre
-                  value: "Consulting"
-              - column:
-                  name: type_categorie
-                  value: "CONSULTING"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 14
-              - column:
-                  name: titre
-                  value: "Entrepreneuriat"
-              - column:
-                  name: type_categorie
-                  value: "ENTREPRENEURIAT"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 15
-              - column:
-                  name: titre
-                  value: "Gestion de Projet"
-              - column:
-                  name: type_categorie
-                  value: "GESTION_PROJET"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 16
-              - column:
-                  name: titre
-                  value: "Logistique"
-              - column:
-                  name: type_categorie
-                  value: "LOGISTIQUE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 17
-              - column:
-                  name: titre
-                  value: "Audit"
-              - column:
-                  name: type_categorie
-                  value: "AUDIT"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 18
-              - column:
-                  name: titre
-                  value: "Comptabilité"
-              - column:
-                  name: type_categorie
-                  value: "COMPTABILITE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 19
-              - column:
-                  name: titre
-                  value: "Ingénierie"
-              - column:
-                  name: type_categorie
-                  value: "INGENIERIE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 20
-              - column:
-                  name: titre
-                  value: "Biotechnologie"
-              - column:
-                  name: type_categorie
-                  value: "BIOTECH"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 21
-              - column:
-                  name: titre
-                  value: "Environnement"
-              - column:
-                  name: type_categorie
-                  value: "ENVIRONNEMENT"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 22
-              - column:
-                  name: titre
-                  value: "Énergie"
-              - column:
-                  name: type_categorie
-                  value: "ENERGIE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 23
-              - column:
-                  name: titre
-                  value: "Aérospatial"
-              - column:
-                  name: type_categorie
-                  value: "AEROSPATIAL"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 24
-              - column:
-                  name: titre
-                  value: "Mécanique"
-              - column:
-                  name: type_categorie
-                  value: "MECANIQUE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 25
-              - column:
-                  name: titre
-                  value: "Électronique"
-              - column:
-                  name: type_categorie
-                  value: "ELECTRONIQUE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 26
-              - column:
-                  name: titre
-                  value: "Design"
-              - column:
-                  name: type_categorie
-                  value: "DESIGN"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 27
-              - column:
-                  name: titre
-                  value: "Communication"
-              - column:
-                  name: type_categorie
-                  value: "COMMUNICATION"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 28
-              - column:
-                  name: titre
-                  value: "Journalisme"
-              - column:
-                  name: type_categorie
-                  value: "JOURNALISME"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 29
-              - column:
-                  name: titre
-                  value: "Publicité"
-              - column:
-                  name: type_categorie
-                  value: "PUBLICITE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 30
-              - column:
-                  name: titre
-                  value: "Multimédia"
-              - column:
-                  name: type_categorie
-                  value: "MULTIMEDIA"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 31
-              - column:
-                  name: titre
-                  value: "Photographie"
-              - column:
-                  name: type_categorie
-                  value: "PHOTOGRAPHIE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 32
-              - column:
-                  name: titre
-                  value: "Mode"
-              - column:
-                  name: type_categorie
-                  value: "MODE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 33
-              - column:
-                  name: titre
-                  value: "Luxe"
-              - column:
-                  name: type_categorie
-                  value: "LUXE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 34
-              - column:
-                  name: titre
-                  value: "Ressources Humaines"
-              - column:
-                  name: type_categorie
-                  value: "RESSOURCES_HUMAINES"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 35
-              - column:
-                  name: titre
-                  value: "Droit"
-              - column:
-                  name: type_categorie
-                  value: "DROIT"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 36
-              - column:
-                  name: titre
-                  value: "Administration"
-              - column:
-                  name: type_categorie
-                  value: "ADMINISTRATION"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 37
-              - column:
-                  name: titre
-                  value: "Sociologie"
-              - column:
-                  name: type_categorie
-                  value: "SOCIOLOGIE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 38
-              - column:
-                  name: titre
-                  value: "Politique"
-              - column:
-                  name: type_categorie
-                  value: "POLITIQUE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 39
-              - column:
-                  name: titre
-                  value: "Tourisme"
-              - column:
-                  name: type_categorie
-                  value: "TOURISME"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 40
-              - column:
-                  name: titre
-                  value: "Restauration"
-              - column:
-                  name: type_categorie
-                  value: "RESTAURATION"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 41
-              - column:
-                  name: titre
-                  value: "Éducation"
-              - column:
-                  name: type_categorie
-                  value: "EDUCATION"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 42
-              - column:
-                  name: titre
-                  value: "Langue"
-              - column:
-                  name: type_categorie
-                  value: "LANGUE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 43
-              - column:
-                  name: titre
-                  value: "Santé"
-              - column:
-                  name: type_categorie
-                  value: "SANTE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 44
-              - column:
-                  name: titre
-                  value: "Pharmacie"
-              - column:
-                  name: type_categorie
-                  value: "PHARMACIE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 45
-              - column:
-                  name: titre
-                  value: "Psychologie"
-              - column:
-                  name: type_categorie
-                  value: "PSYCHOLOGIE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 46
-              - column:
-                  name: titre
-                  value: "Social"
-              - column:
-                  name: type_categorie
-                  value: "SOCIAL"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 47
-              - column:
-                  name: titre
-                  value: "Sport"
-              - column:
-                  name: type_categorie
-                  value: "SPORT"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 48
-              - column:
-                  name: titre
-                  value: "Biologie"
-              - column:
-                  name: type_categorie
-                  value: "BIOLOGIE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 49
-              - column:
-                  name: titre
-                  value: "Agriculture"
-              - column:
-                  name: type_categorie
-                  value: "AGRICULTURE"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 50
-              - column:
-                  name: titre
-                  value: "Artisanat"
-              - column:
-                  name: type_categorie
-                  value: "ARTISANAT"
-        - insert:
-            tableName: categorie
-            columns:
-              - column:
-                  name: id
-                  value: 51
-              - column:
-                  name: titre
-                  value: "Autre"
-              - column:
-                  name: type_categorie
-                  value: "AUTRE"
+              - column: { name: id, value: 10 }
+              - column: { name: titre, value: "Marketing" }
+              - column: { name: type_categorie, value: "MARKETING" }
 
   - changeSet:
       id: 11
