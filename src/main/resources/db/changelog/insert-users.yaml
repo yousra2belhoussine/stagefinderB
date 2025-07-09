@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-basic-users
+      author: yasser
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: email, value: "youssra@gmail.com" }
+              - column: { name: password, value: "$2a$10$tFVl2h1chOCDzWWkDpI4Ru7vlc8SRypAPvA4UKDJ2ahRiyTcQiJ2a" }  # "youssra"
+              - column: { name: role, value: "ADMINISTRATEUR" }
+
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: email, value: "hamada@gmail.com" }
+              - column: { name: password, value: "$2a$10$9YkT1WxUDHtk7XWjCQUM6.ZN9M5Z9X13u/LDZTqXK6kR6.1XPEUbq" }  # "hamada"
+              - column: { name: role, value: "RECRUTEUR" }
+
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: email, value: "mal@gmail.com" }
+              - column: { name: password, value: "$2a$10$B7kNJzmKM1ow9O2clp6l3.MKWBknyGccESKbdFgHgCxlR1rQ8TGye" }  # "mal"
+              - column: { name: role, value: "STAGIAIRE" }
