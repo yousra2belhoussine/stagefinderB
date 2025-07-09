@@ -24,11 +24,13 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-  private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  // On n'a plus besoin d'injecter le filtre ici pour le moment
+  // private final JwtAuthenticationFilter jwtAuthenticationFilter;
   private final CustomUserDetailsService userDetailsService;
 
-  public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, CustomUserDetailsService userDetailsService) {
-    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+  // On supprime JwtAuthenticationFilter du constructeur
+  public SecurityConfig(CustomUserDetailsService userDetailsService) {
+    // this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     this.userDetailsService = userDetailsService;
   }
 
@@ -37,15 +39,13 @@ public class SecurityConfig {
     http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(AbstractHttpConfigurer::disable)
-            // ✅ ==========================================================
-            // ==      CORRECTION: ON PERMET TOUTES LES REQUÊTES         ==
-            // ==========================================================
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/**").permitAll() // Khelli kolchi idouz
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            .authenticationProvider(authenticationProvider());
+    // On supprime le filtre JWT de la chaîne pour le test
+    // .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
@@ -71,10 +71,11 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+    // ✅ CORRECTION: On permet toutes les origines pour le test
+    configuration.setAllowedOrigins(List.of("*"));
     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(List.of("*"));
-    configuration.setAllowCredentials(true);
+    // configuration.setAllowCredentials(true); // Pas nécessaire pour ce test simple
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;
