@@ -39,7 +39,7 @@ public class AuthController {
       System.out.println("📥 Fichier CV reçu côté backend ? " + (cvFile != null));
 
       if (cvFile != null && !cvFile.isEmpty()) {
-        String storedCV = fileStorageService.storeFile(cvFile, "cv");
+        String storedCV = fileStorageService.storeFile(cvFile, "cvFile");
         user.setCvFile(storedCV);
       }
 
