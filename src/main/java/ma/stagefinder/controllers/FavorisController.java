@@ -3,6 +3,7 @@ package ma.stagefinder.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.stagefinder.dtos.FavorisDTO;
+import ma.stagefinder.dtos.OffreDTO; // <-- 1. ZEDNA IMPORT J'DID
 import ma.stagefinder.services.FavorisService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +39,13 @@ public class FavorisController {
   }
 
   /**
-   * Récupère tous les favoris d'un utilisateur spécifique.
+   * Récupère toutes les offres favorites d'un utilisateur spécifique.
    * Cette méthode utilise le cache Redis.
    */
   @GetMapping("/user/{userId}")
-  public ResponseEntity<List<FavorisDTO>> getFavorisByUser(@PathVariable Long userId) {
-    log.info("Requête pour récupérer les favoris de l'utilisateur ID: {}", userId);
+  // ✅ CORRECTION: On change le type de retour en List<OffreDTO>
+  public ResponseEntity<List<OffreDTO>> getFavorisByUser(@PathVariable Long userId) {
+    log.info("Requête pour récupérer les offres favorites de l'utilisateur ID: {}", userId);
     return ResponseEntity.ok(favorisService.getFavorisByUser(userId));
   }
 }

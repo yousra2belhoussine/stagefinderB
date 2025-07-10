@@ -2,6 +2,7 @@ package ma.stagefinder.services;
 
 import lombok.RequiredArgsConstructor;
 import ma.stagefinder.dtos.FavorisDTO;
+import ma.stagefinder.dtos.OffreDTO; // <-- IMPORT J'DID
 import ma.stagefinder.entities.Favoris;
 import ma.stagefinder.entities.Offre;
 import ma.stagefinder.entities.User;
@@ -30,7 +31,6 @@ public class FavorisServiceImpl implements FavorisService {
   @Override
   @Transactional
   // ✅ CacheEvict: Melli n'zid chi favori, kan mes7o l'cache dyal had l'utilisateur
-  // bach l'merra jaya i'jib la liste j'dida.
   @CacheEvict(value = "userFavorites", key = "#dto.userId")
   public FavorisDTO ajouterFavoris(FavorisDTO dto) {
     User user = userRepository.findById(dto.getUserId())
@@ -39,7 +39,7 @@ public class FavorisServiceImpl implements FavorisService {
     Offre offre = offreRepository.findById(dto.getOffreId())
             .orElseThrow(() -> new RuntimeException("Offre introuvable"));
 
-    Favoris favoris = new Favoris(); // On crée une nouvelle instance
+    Favoris favoris = new Favoris();
     favoris.setDateAjout(LocalDateTime.now());
     favoris.setUser(user);
     favoris.setOffre(offre);
@@ -50,9 +50,9 @@ public class FavorisServiceImpl implements FavorisService {
 
   @Override
   @Transactional
-  // ✅ CacheEvict: Melli n'supprimiw chi favori, kan mes7o l'cache dyal l'utilisateur
-  // li kanet 3ndo had l'favori.
-  @CacheEvict(value = "userFavorites", key = "#favoris.user.id")
+  // ✅ CacheEvict: Melli n'supprimiw chi favori, kan mes7o l'cache dyal kolchi.
+  // Hada 7el sehel o mdmoun.
+  @CacheEvict(value = "userFavorites", allEntries = true)
   public void supprimerFavoris(Long id) {
     Favoris favoris = favorisRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Favori introuvable"));
@@ -60,13 +60,21 @@ public class FavorisServiceImpl implements FavorisService {
   }
 
   @Override
-  @Transactional(readOnly = true) // Mzyan l les opérations dyal l'9raya
-  // ✅ Cacheable: L'merra l'wla ghadi tjib la liste men PostgreSQL o t'khebbiha f Redis.
-  // L'merrat jaya, ghadi tjibha direct men Redis.
+  @Transactional(readOnly = true)
+  // ✅ Cacheable: L'merra l'wla ghadi tjib la liste dyal les Offres o t'khebbiha f Redis.
   @Cacheable(value = "userFavorites", key = "#userId")
-  public List<FavorisDTO> getFavorisByUser(Long userId) {
-    return favorisRepository.findByUserId(userId).stream()
-            .map(mapper::toFavorisDTO)
+  public List<OffreDTO> getFavorisByUser(Long userId) {
+    // 1. On récupère la liste des entités Favoris
+    List<Favoris> favorisList = favorisRepository.findByUserId(userId);
+
+    // 2. On extrait uniquement les entités Offre de chaque favori
+    List<Offre> offresFavorites = favorisList.stream()
+            .map(Favoris::getOffre)
+            .collect(Collectors.toList());
+
+    // 3. On convertit la liste d'entités Offre en une liste de DTOs
+    return offresFavorites.stream()
+            .map(mapper::toOffreDTO)
             .collect(Collectors.toList());
   }
 }
