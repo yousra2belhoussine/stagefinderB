@@ -9,67 +9,76 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(unique = true)
-    private String nom;
-    @Column(unique = true)
-    private String email;
 
-    @Column(name = "nom_entreprise")
-    private String nomEntreprise;
-    @Column(unique = true, nullable = true)
-     private String RC;
-    @Column(unique = true, nullable = true)
-     private String ICE;
-    private String password;
-    @Column(unique = true)
-    private String tel;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(name = "cv_file")
-    private String cvFile;
+  @Column(unique = true)
+  private String nom;
 
-    @Column(name = "est_valide")
-    private boolean estValide;
+  @Column(unique = true)
+  private String email;
 
-    private String adresse;
-    private String image;
-    @Enumerated(EnumType.STRING)
-    private Role role;
+  @Column(name = "nom_entreprise")
+  private String nomEntreprise;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+  @Column(unique = true, nullable = true)
+  private String RC;
+
+  @Column(unique = true, nullable = true)
+  private String ICE;
+
+  private String password;
+
+  @Column(unique = true)
+  private String tel;
+
+  @Column(name = "cv_file")
+  private String cvFile;
 
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Candidature> candidatures;
 
-    @OneToMany(mappedBy = "publiePar")
-    @JsonIgnore
-    private List<Offre> offres;
+  @Column(name = "est_valide")
+  private Boolean estValide;
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Favoris> favoris;
+  private String adresse;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Abonnement> abonnements;
+  private String image;
+//ajoute pour db
+  @Column(name = "created_at")
+  private LocalDateTime createdAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Notification> notifications;
+  @Enumerated(EnumType.STRING)
+  private Role role;
 
-    @OneToMany(mappedBy = "auteur")
-    @JsonIgnore
-    private List<Avis> avisLaisses;
+  @OneToMany(mappedBy = "user")
+  @JsonIgnore
+  private List<Candidature> candidatures;
 
-    @OneToMany(mappedBy = "destinataire")
-    @JsonIgnore
-    private List<Avis> avisRecus; // Les avis reçus par cet utilisateur (par exemple, sur une entreprise)
+  //@OneToMany(mappedBy = "publiePar")
+  @OneToMany(mappedBy = "publiePar", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonIgnore
+  private List<Offre> offres;
+
+  //@OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonIgnore
+  private List<Favoris> favoris;
+
+  @OneToMany(mappedBy = "user")
+  @JsonIgnore
+  private List<Notification> notifications;
+
+
+  //  Ajouté pour cascade delete automatique des tokens
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonIgnore
+  private List<Token> tokens;
+
 }

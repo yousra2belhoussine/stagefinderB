@@ -9,6 +9,7 @@ public class OffreDTO {
     private Long id;
     private String description;
     private String ville;
+    private Boolean preEmbauche;
     private String anneesExperience;
     private LocalDateTime datePublication;
     private LocalDateTime dateExpiration;

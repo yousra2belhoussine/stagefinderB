@@ -15,21 +15,21 @@ import java.util.Map;
 @AllArgsConstructor
 public class DashboardController {
 
-    @Autowired
-    private DashboardService dashboardService;
+  @Autowired
+  private DashboardService dashboardService;
 
-    @GetMapping("/users-registered-per-month")
-    public List<Map<String, Object>> getUsersRegisteredPerMonth() {
-        return dashboardService.getUsersRegisteredPerMonth();
-    }
+  @GetMapping("/users-registered-per-month")
+  public List<Map<String, Object>> getUsersRegisteredPerMonth() {
+    return dashboardService.getUsersRegisteredPerMonth();
+  }
 
-    @GetMapping("/job-postings-per-month")
-    public List<Map<String, Object>> getJobPostingsPerMonth() {
-        return dashboardService.getJobPostingsPerMonth();
-    }
+  @GetMapping("/job-postings-per-month")
+  public List<Map<String, Object>> getJobPostingsPerMonth() {
+    return dashboardService.getJobPostingsPerMonth();
+  }
 
-    @GetMapping("/most-published-categories")
-    public List<Map<String, Object>> getMostPublishedCategories() {
-        return dashboardService.getMostPublishedCategories();
-    }
+  @GetMapping("/most-published-categories")
+  public List<Map<String, Object>> getMostPublishedCategories() {
+    return dashboardService.getMostPublishedCategories();
+  }
 }

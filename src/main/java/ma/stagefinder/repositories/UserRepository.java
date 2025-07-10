@@ -11,17 +11,15 @@ import java.util.Map;
 import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+  long countByRole(Role role);
+  Optional<User> findByEmail(String email);
+  Optional<User> findById(Long id);
 
-    Optional<User> findByEmailAndPassword(String email, String password);
-    long countByRole(Role role);
-    Optional<User> findByEmail(String email);
-    Optional<User> findById(Long id);
+  Optional<User> findByNom(String nom);
 
-    Optional<User> findByNom(String nom);
-
-    @Query(value = "SELECT TO_CHAR(created_at, 'YYYY-MM') AS month, COUNT(*) AS count " +
-            "FROM public.user WHERE role IN ('STAGIAIRE', 'RECRUTEUR') " +
-            "GROUP BY TO_CHAR(created_at, 'YYYY-MM') " +
-            "ORDER BY month", nativeQuery = true)
-    List<Map<String, Object>> findUsersRegisteredPerMonth();
+  @Query(value = "SELECT TO_CHAR(created_at, 'YYYY-MM') AS month, COUNT(*) AS count " +
+    "FROM public.user WHERE role IN ('STAGIAIRE', 'RECRUTEUR') " +
+    "GROUP BY TO_CHAR(created_at, 'YYYY-MM') " +
+    "ORDER BY month", nativeQuery = true)
+  List<Map<String, Object>> findUsersRegisteredPerMonth();
 }

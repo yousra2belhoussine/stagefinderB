@@ -1,13 +1,13 @@
 package ma.stagefinder.dtos;
 
 public class UpdateStatusRequest {
-    private String statutCandidature;
+  private String statutCandidature;
 
-    public String getStatutCandidature() {
-        return statutCandidature;
-    }
+  public String getStatutCandidature() {
+    return statutCandidature;
+  }
 
-    public void setStatutCandidature(String statutCandidature) {
-        this.statutCandidature = statutCandidature;
-    }
+  public void setStatutCandidature(String statutCandidature) {
+    this.statutCandidature = statutCandidature;
+  }
 }

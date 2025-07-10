@@ -31,3 +31,16 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
+=======
+### Uploads (fichiers utilisateur à ne pas versionner) ###
+/uploads/
+# Liquibase (évite de versionner les fichiers temporaires ou de lock)
+.liquibase/
+liquibase.lock
+### Uploads (fichiers utilisateur à ne pas versionner) ###
+/uploads/
+# Liquibase (évite de versionner les fichiers temporaires ou de lock)
+.liquibase/
+liquibase.lock
+>>>>>>> ce99b492ad05e74ee4221ebf570f148f334fd543

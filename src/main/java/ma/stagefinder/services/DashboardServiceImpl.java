@@ -13,21 +13,21 @@ import java.util.Map;
 @AllArgsConstructor
 public class DashboardServiceImpl implements DashboardService {
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired
+  private UserRepository userRepository;
 
-    @Autowired
-    private OffreRepository offreRepository;
+  @Autowired
+  private OffreRepository offreRepository;
 
-    public List<Map<String, Object>> getUsersRegisteredPerMonth() {
-        return userRepository.findUsersRegisteredPerMonth();
-    }
+  public List<Map<String, Object>> getUsersRegisteredPerMonth() {
+    return userRepository.findUsersRegisteredPerMonth();
+  }
 
-    public List<Map<String, Object>> getJobPostingsPerMonth() {
-        return offreRepository.findJobPostingsPerMonth();
-    }
+  public List<Map<String, Object>> getJobPostingsPerMonth() {
+    return offreRepository.findJobPostingsPerMonth();
+  }
 
-    public List<Map<String, Object>> getMostPublishedCategories() {
-        return offreRepository.findMostPublishedCategories();
-    }
+  public List<Map<String, Object>> getMostPublishedCategories() {
+    return offreRepository.findMostPublishedCategories();
+  }
 }

@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-basic-users
+      author: yasser
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: nom, value: "Adminn" }
+              - column: { name: email, value: "admin@gmail.com" }
+              - column: { name: password, value: "$2a$10$SRA9whlj7LkFrhxuhdcwC.w0FbyE7IKLoCRt7nKAs3bh/hOAZSnPK" }  # administrateur
+              - column: { name: tel, value: "0600000040" }
+              - column: { name: role, value: "ADMINISTRATEUR" }
+
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: nom, value: "Recruteurr" }
+              - column: { name: email, value: "recruteur@gmail.com" }
+              - column: { name: password, value: "$2a$10$s3AVknm9z8mN7NRWzRvZ9uHRvoC/FHBGKxZklm5IgO1Clxn7dc6ai" }  # recruteur
+              - column: { name: tel, value: "0622222222" }
+              - column: { name: image, value: "1a5cca43-74de-4e88-9149-da7325846f87.png" }  # <- image ajoutée
+              - column: { name: role, value: "RECRUTEUR" }
+
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: nom, value: "Stagiairre" }
+              - column: { name: email, value: "stagiaire@gmail.com" }
+              - column: { name: password, value: "$2a$10$gl9GceHHj6CSd7YHjOLJceIbvO.XKiGlBWmYh8lVpU4ydZWev9zFS" }  # stagiaire
+              - column: { name: tel, value: "0633333333" }
+              - column: { name: cv_file, value: "378a689e-cbed-4dfa-8a13-5fff43f92a83.pdf" }  # <- CV ajouté
+              - column: { name: role, value: "STAGIAIRE" }

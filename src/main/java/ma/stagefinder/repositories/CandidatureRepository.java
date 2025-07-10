@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 @Repository
 public interface CandidatureRepository extends JpaRepository<Candidature, Long> {
-    List<Candidature> findByUserId(Long userId);    // Candidatures d'un utilisateur
-    List<Candidature> findByOffreId(Long offreId);  // Candidatures pour une offre
-    Page<Candidature> findByOffreId(Long offreId, Pageable pageable);
+  List<Candidature> findByUserId(Long userId);    // Candidatures d'un utilisateur
+  List<Candidature> findByOffreId(Long offreId);  // Candidatures pour une offre
+  Page<Candidature> findByOffreId(Long offreId, Pageable pageable);
 }

@@ -1,8 +1,8 @@
 package ma.stagefinder.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import ma.stagefinder.entities.enums.Role;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class UserDTO {
@@ -10,12 +10,17 @@ public class UserDTO {
     private String nom;
     private String email;
     private String nomEntreprise;
+    //@JsonProperty("rc")
     private String RC;
+    //@JsonProperty("ice")
+
     private String ICE;
     private String tel;
-    private MultipartFile cvFile; // Changé en MultipartFile pour l'upload
+    private String cvFile;
     private boolean estValide;
     private String adresse;
-    private MultipartFile image;  // Changé en MultipartFile pour l'upload
+    private String image;
     private Role role;
+    private String password;
+
 }
