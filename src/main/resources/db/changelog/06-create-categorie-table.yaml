@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: ahmed
+      changes:
+        - createTable:
+            tableName: categorie
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: titre
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type_categorie
+                  type: varchar(50)
+                  constraints:
+                    nullable: false

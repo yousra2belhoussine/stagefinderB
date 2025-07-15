@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: ahmed
+      changes:
+        - createTable:
+            tableName: favoris
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: date_ajout
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_favoris_user
+                    references: user(id)
+              - column:
+                  name: offre_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_favoris_offre
+                    references: offre(id)

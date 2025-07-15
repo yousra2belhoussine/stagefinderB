@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: ahmed
+      changes:
+        - createTable:
+            tableName: notification
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: message
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_envoie
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_notification_user
+                    references: user(id)

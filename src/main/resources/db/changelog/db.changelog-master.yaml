@@ -1,13 +1,17 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/01-create-tables.yaml
+      file: db/changelog/01-create-user-table.yaml
   - include:
-       file: db/changelog/insert-users.yaml
+      file: db/changelog/02-create-token-table.yaml
   - include:
-      file: db/changelog/db.changelog-data.yaml
+      file: db/changelog/03-create-offre-table.yaml
   - include:
-      file: db/changelog/db.changelog-data-extended.yaml
+      file: db/changelog/04-create-notification-table.yaml
   - include:
-      file: db/changelog/create-token-table.yaml
+      file: db/changelog/05-create-favoris-table.yaml
   - include:
-      file: db/changelog/delete_table_avis.yaml
+      file: db/changelog/06-create-categorie-table.yaml
+  - include:
+      file: db/changelog/07-create-candidature-table.yaml
+  - include:
+      file: db/changelog/insert-users.yaml

@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: 7
+      author: ahmed
+      changes:
+        - createTable:
+            tableName: candidature
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: date_de_candidature
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: statut_candidature
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lettre_de_motivation
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: cv_choisi
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_candidature_user
+                    references: user(id)
+              - column:
+                  name: offre_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_candidature_offre
+                    references: offre(id)

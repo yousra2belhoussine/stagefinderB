@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: ahmed
+      changes:
+        - createTable:
+            tableName: offre
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: ville
+                  type: varchar(50)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: pre_embauche
+                  type: boolean
+                  constraints:
+                    nullable: true
+              - column:
+                  name: annees_experience
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nom_entreprise
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: date_publication
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: date_expiration
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: salaire
+                  type: float
+                  constraints:
+                    nullable: true
+              - column:
+                  name: competence_exigee
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: categorie_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_offre_categorie
+                    references: categorie(id)
+              - column:
+                  name: publie_par_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_offre_user
+                    references: user(id)

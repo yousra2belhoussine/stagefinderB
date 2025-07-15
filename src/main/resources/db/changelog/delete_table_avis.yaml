@@ -1,7 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: drop-avis-table
-      author: yasser
-      changes:
-        - dropTable:
-            tableName: avis

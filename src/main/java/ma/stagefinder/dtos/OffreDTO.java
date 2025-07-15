@@ -1,6 +1,7 @@
 package ma.stagefinder.dtos;
 
 import lombok.Data;
+import ma.stagefinder.entities.enums.Ville;
 
 import java.time.LocalDateTime;
 
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 public class OffreDTO {
     private Long id;
     private String description;
-    private String ville;
+    private Ville ville;
     private Boolean preEmbauche;
     private String anneesExperience;
     private LocalDateTime datePublication;

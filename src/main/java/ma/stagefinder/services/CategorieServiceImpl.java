@@ -43,7 +43,6 @@ public class CategorieServiceImpl implements CategorieService {
     Categorie cat = categorieRepository.findById(id)
       .orElseThrow(() -> new RuntimeException("Catégorie introuvable"));
 
-    cat.setTitre(dto.getTitre());
     cat.setTypeCategorie(dto.getTypeCategorie());
 
     return mapper.toCategorieDTO(categorieRepository.save(cat));

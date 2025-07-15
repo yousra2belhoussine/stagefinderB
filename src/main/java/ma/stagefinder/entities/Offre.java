@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ma.stagefinder.entities.enums.Ville;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Offre {
     private Long id;
 
     private String description;
-    private String ville;
+    private Ville ville;
     private Boolean preEmbauche;
     private String anneesExperience;
     @Column(name = "nom_entreprise")
