@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-add-column-preembauche
+      author: ilyas
+      changes:
+        - addColumn:
+            tableName: offre
+            columns:
+              - column:
+                  name: pre_embauche
+                  type: boolean
+                  defaultValueBoolean: false

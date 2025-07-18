@@ -65,4 +65,29 @@ public class FileStorageService {
     return Paths.get(targetDir, filename);
   }
 
+
+  public void deleteFile(String fileName, String type) {
+    if (fileName == null || fileName.isEmpty()) return;
+
+    String targetDir;
+    if (type.equals("image")) {
+      targetDir = imagesDir;
+    } else if (type.equals("cvFile") || type.equals("cvChoisi") || type.equals("lettreMotivation")) {
+      targetDir = documentsDir;
+    } else {
+      System.err.println("❌ Type de fichier inconnu : " + type);
+      return;
+    }
+
+    Path filePath = Paths.get(targetDir, fileName);
+    try {
+      Files.deleteIfExists(filePath);
+      System.out.println("🗑️ Fichier supprimé : " + filePath);
+    } catch (IOException e) {
+      System.err.println("❌ Erreur lors de la suppression du fichier : " + fileName);
+      e.printStackTrace();
+    }
+  }
+
+
 }

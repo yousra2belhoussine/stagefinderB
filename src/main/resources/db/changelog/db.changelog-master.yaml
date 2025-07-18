@@ -11,3 +11,6 @@ databaseChangeLog:
       file: db/changelog/create-token-table.yaml
   - include:
       file: db/changelog/delete_table_avis.yaml
+  - include:
+      file: db/changelog/add-column-preembauche.yaml
+

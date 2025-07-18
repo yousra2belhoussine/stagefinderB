@@ -118,12 +118,14 @@ public class UserServiceImpl implements UserService {
       .orElseThrow(() -> new RuntimeException("User not found"));
     return entityMapper.toUserDTO(user);
   }
-
   @Override
   public UserDTO getById(Long id) {
     return entityMapper.toUserDTO(userRepository.findById(id)
       .orElseThrow(() -> new RuntimeException("User not found")));
   }
+
+
+
 
   @Override
   public List<UserDTO> getUsers() {
@@ -132,10 +134,41 @@ public class UserServiceImpl implements UserService {
       .collect(Collectors.toList());
   }
 
-  @Override
+  /*@Override
   public void delete(Long id) {
     userRepository.deleteById(id);
+  }*/
+  @Override
+  public void delete(Long id) {
+    try {
+      System.out.println("🟡 Tentative de suppression de l'utilisateur avec ID : " + id);
+
+      User user = userRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Utilisateur introuvable avec l'ID : " + id));
+
+      System.out.println("📄 Image : " + user.getImage());
+      System.out.println("📄 CV : " + user.getCvFile());
+
+      if (user.getImage() != null && !user.getImage().isEmpty()) {
+        fileStorageService.deleteFile(user.getImage(), "image");
+        System.out.println("✅ Image supprimée : " + user.getImage());
+      }
+
+      if (user.getCvFile() != null && !user.getCvFile().isEmpty()) {
+        fileStorageService.deleteFile(user.getCvFile(), "cvFile");
+        System.out.println("✅ CV supprimé : " + user.getCvFile());
+      }
+
+      userRepository.delete(user);
+      System.out.println("✅ Utilisateur supprimé : " + id);
+
+    } catch (Exception e) {
+      System.err.println("❌ Erreur lors de la suppression : " + e.getMessage());
+      e.printStackTrace(); // ← tu verras la trace complète dans la console backend
+      throw new RuntimeException("Erreur lors de la suppression de l'utilisateur : " + e.getMessage());
+    }
   }
+
 
   @Override
   public void deleteAll() {

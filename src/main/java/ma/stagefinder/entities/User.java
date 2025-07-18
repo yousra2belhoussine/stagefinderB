@@ -29,6 +29,7 @@ public class User {
   private String nomEntreprise;
 
   @Column(unique = true, nullable = true)
+
   private String RC;
 
   @Column(unique = true, nullable = true)

@@ -72,6 +72,8 @@ public class UserController {
     @RequestPart(value = "cvFile", required = false) MultipartFile cv,
     @RequestPart(value = "image", required = false) MultipartFile image
   ) {
+    System.out.println("✅ Méthode updateWithFiles appelée pour l'ID : " + id);
+
     try {
       if (cv != null && !cv.isEmpty()) {
         String cvFileName = fileStorageService.storeFile(cv, "cvFile");
@@ -122,6 +124,8 @@ public class UserController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable Long id) {
+    System.out.println("Suppression du user avec ID : " + id);
+
     userService.delete(id);
     return ResponseEntity.noContent().build();
   }
