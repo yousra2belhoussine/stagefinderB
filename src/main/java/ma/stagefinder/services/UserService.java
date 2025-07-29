@@ -11,6 +11,10 @@ public interface UserService {
 
   long count();
 
+
+  UserDTO updateUserProfile(Long userId, UserDTO dto);
+
+
   long countByRole(Role role);
 
   UserDTO create(UserDTO dto);

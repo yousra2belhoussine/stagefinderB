@@ -22,4 +22,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     "GROUP BY TO_CHAR(created_at, 'YYYY-MM') " +
     "ORDER BY month", nativeQuery = true)
   List<Map<String, Object>> findUsersRegisteredPerMonth();
+
+  boolean existsByEmail(String email);
+
+  boolean existsByNom(String nom);
+
+  boolean existsByRc(String rc);
+
+  boolean existsByIce(String ice);
+
+
 }

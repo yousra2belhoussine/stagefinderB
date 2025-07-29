@@ -45,7 +45,7 @@ public class AuthenticationService {
     }
 
     // Encode le mot de passe
-    request.setPassword(passwordEncoder.encode(request.getPassword()));
+   request.setPassword(passwordEncoder.encode(request.getPassword()));
 
     // Par défaut, rôle = STAGIAIRE
     // if (request.getRole() == null) {

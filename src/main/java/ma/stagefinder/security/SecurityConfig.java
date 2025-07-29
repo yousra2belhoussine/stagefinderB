@@ -43,6 +43,15 @@ public class SecurityConfig {
       .csrf(AbstractHttpConfigurer::disable)
       .authorizeHttpRequests(auth -> auth
           .requestMatchers("/auth/**", "/error").permitAll()
+
+        ///////////////////////////////////
+          .requestMatchers("/auth/me").authenticated()
+
+
+        //ajouter recemment
+         // .requestMatchers(HttpMethod.PUT, "/auth/me").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
+
+          /////////////////////////////
      //     .requestMatchers(HttpMethod.PUT, "/api/users/*/profile").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
           ////.requestMatchers(HttpMethod.GET, "/api/users/*/profile").hasAnyRole("STAGIAIRE", "RECRUTEUR","ADMINISTRATEUR")
           .requestMatchers("/api/users/**").hasRole("ADMINISTRATEUR")

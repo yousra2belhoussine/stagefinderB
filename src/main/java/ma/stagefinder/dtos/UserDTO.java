@@ -11,10 +11,13 @@ public class UserDTO {
     private String email;
     private String nomEntreprise;
     //@JsonProperty("rc")
-    private String RC;
+    //private String RC;
+  private String rc;
     //@JsonProperty("ice")
 
-    private String ICE;
+    //private String ICE;
+
+  private String ice;
     private String tel;
     private String cvFile;
     private boolean estValide;

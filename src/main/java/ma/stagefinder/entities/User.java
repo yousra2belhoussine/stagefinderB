@@ -28,12 +28,12 @@ public class User {
   @Column(name = "nom_entreprise")
   private String nomEntreprise;
 
-  @Column(unique = true, nullable = true)
+  @Column(name = "RC",unique = true, nullable = true)
 
-  private String RC;
+  private String rc;
 
-  @Column(unique = true, nullable = true)
-  private String ICE;
+  @Column(name = "ICE",unique = true, nullable = true)
+  private String ice;
 
   private String password;
 

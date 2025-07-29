@@ -26,6 +26,43 @@ public class UserServiceImpl implements UserService {
   private final FileStorageService fileStorageService;
   private final PasswordEncoder passwordEncoder;
 
+
+
+
+  @Override
+  public UserDTO updateUserProfile(Long userId, UserDTO dto) {
+    User user = userRepository.findById(userId)
+      .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+
+    if (dto.getNom() != null) user.setNom(dto.getNom());
+    if (dto.getTel() != null) user.setTel(dto.getTel());
+    if (dto.getAdresse() != null) user.setAdresse(dto.getAdresse());
+    if (dto.getNomEntreprise() != null) user.setNomEntreprise(dto.getNomEntreprise());
+    if (dto.getRc() != null) user.setRc(dto.getRc());
+    if (dto.getIce() != null) user.setIce(dto.getIce());
+    if (dto.getCvFile() != null) user.setCvFile(dto.getCvFile());
+    if (dto.getImage() != null) user.setImage(dto.getImage());
+
+    // ✅ Mise à jour de l'email
+    if (dto.getEmail() != null && !dto.getEmail().isBlank()) {
+      user.setEmail(dto.getEmail());
+    }
+
+    // ✅ Mise à jour du mot de passe si NON VIDE
+    if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+      if (!dto.getPassword().startsWith("$2a$")) {
+        String encoded = passwordEncoder.encode(dto.getPassword()); // 🔒 encodage
+        user.setPassword(encoded);
+        System.out.println("🔐 Nouveau mot de passe encodé : " + encoded);
+      } else {
+        user.setPassword(dto.getPassword()); // ⚠️ déjà encodé
+      }
+    }
+
+    return entityMapper.toUserDTO(userRepository.save(user));
+  }
+
+
   @Override
   public long count() {
     return userRepository.count();

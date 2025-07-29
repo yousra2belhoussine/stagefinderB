@@ -101,10 +101,10 @@ public class UserController {
     return ResponseEntity.ok(userService.updateEstValide(id, request.isEstValide()));
   }
 
-   /* @PutMapping("/{userId}/profile")
+    @PutMapping("/{userId}/profile")
     public ResponseEntity<UserDTO> updateUserProfile(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
       return ResponseEntity.ok(userService.updateUserProfile(userId, userDTO));
-    }*/
+    }
 
 
   @GetMapping("/{userId}/profile")
