@@ -20,7 +20,8 @@ public class Offre {
     private Long id;
 
     private String description;
-    private Ville ville;
+
+    private String ville;
     private Boolean preEmbauche;
     private String anneesExperience;
     @Column(name = "nom_entreprise")

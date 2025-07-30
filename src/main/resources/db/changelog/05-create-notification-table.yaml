@@ -2,30 +2,35 @@ databaseChangeLog:
   - changeSet:
       id: 4
       author: ahmed
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                schemaName: public
+                tableName: notification
       changes:
         - createTable:
+            schemaName: public
             tableName: notification
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: BIGINT
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    nullable: false
+                    primaryKeyName: notification_pkey
               - column:
                   name: message
-                  type: varchar(255)
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
               - column:
                   name: date_envoie
-                  type: timestamp
-                  constraints:
-                    nullable: true
+                  type: TIMESTAMP WITHOUT TIME ZONE
               - column:
                   name: user_id
-                  type: bigint
+                  type: BIGINT
                   constraints:
                     foreignKeyName: fk_notification_user
-                    references: user(id)
+                    references: public.user(id)

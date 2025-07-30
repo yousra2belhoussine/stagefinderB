@@ -1,68 +1,67 @@
 package ma.stagefinder.services;
 
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-//import jakarta.annotation.PostConstruct;
-
 
 @Service
 public class FileStorageService {
 
-  @Value("${file.images-dir}")
-  private String imagesDir;
+  private static final List<String> ALLOWED_CV_TYPES = Arrays.asList(
+          "application/pdf",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  );
+  private static final List<String> ALLOWED_IMAGE_TYPES = Arrays.asList(
+          "image/jpeg",
+          "image/png"
+  );
 
-  @Value("${file.documents-dir}")
-  private String documentsDir;
-
-  private static final List<String> IMAGE_EXTENSIONS = Arrays.asList(".jpg", ".jpeg", ".png", ".gif",".jfif");
-  private static final List<String> DOCUMENT_EXTENSIONS = Arrays.asList(".pdf", ".docx");
-
-  public String storeFile(MultipartFile file, String fileType) throws IOException {
-    if (file.isEmpty()) {
-      throw new IOException("Le fichier est vide");
+  public String storeFile(MultipartFile file, String type) throws IOException {
+    if (file == null || file.isEmpty()) {
+      throw new IOException("Le fichier est vide ou null");
     }
 
-    // Générer un nom de fichier unique
+    String contentType = file.getContentType();
     String originalFilename = file.getOriginalFilename();
-    if (originalFilename == null) {
-      throw new IOException("Nom de fichier non valide");
-    }
-    String fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
-    String newFilename = UUID.randomUUID().toString() + fileExtension;
+    String extension = originalFilename != null
+            ? originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase()
+            : "";
 
-    // Déterminer le dossier de destination
-    String targetDir;
-    if (IMAGE_EXTENSIONS.contains(fileExtension) && fileType.equals("image")) {
-      targetDir = imagesDir;
-    } else if (DOCUMENT_EXTENSIONS.contains(fileExtension) &&
-            (fileType.equals("cvFile") || fileType.equals("cvChoisi") || fileType.equals("lettreMotivation"))) {
-      targetDir = documentsDir;
+    // Log pour débogage
+    System.out.println("Type MIME détecté : " + contentType);
+    System.out.println("Extension : " + extension);
+    System.out.println("Type demandé : " + type);
+
+    // Validation des types de fichiers
+    if (type.equals("cv") || type.equals("cvFile") || type.equals("cvChoisi") || type.equals("lettre") || type.equals("lettreMotivation")) {
+      if (contentType == null || !ALLOWED_CV_TYPES.contains(contentType)) {
+        throw new IOException("Type de fichier non supporté ou type incorrect : " + extension);
+      }
+    } else if (type.equals("image") && (contentType == null || !ALLOWED_IMAGE_TYPES.contains(contentType))) {
+      throw new IOException("Type de fichier non supporté ou type incorrect : " + extension);
     } else {
-      throw new IOException("Type de fichier non supporté ou type incorrect : " + fileExtension);
+      throw new IOException("Type de fichier inconnu : " + type);
     }
 
-    // Sauvegarder le fichier
-    Path filePath = Paths.get(targetDir, newFilename);
-    Files.write(filePath, file.getBytes()); // Correction ici : filePath en premier, file.getBytes() en second
+    // Générer un nom de fichier unique et sauvegarder
+    String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
+    Path targetPath = Paths.get("uploads/" + type).resolve(fileName);
+    Files.createDirectories(targetPath.getParent());
+    Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 
-    // Retourner le nom du fichier
-    return newFilename;
+    return fileName;
   }
 
-  public Path getFilePath(String filename, String fileType) {
-    String targetDir = fileType.equals("image") ? imagesDir : documentsDir;
-    return Paths.get(targetDir, filename);
+  public Path getFilePath(String filename, String type) {
+    return Paths.get("uploads/" + type).resolve(filename);
   }
-
 }

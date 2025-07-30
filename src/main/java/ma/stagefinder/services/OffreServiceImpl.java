@@ -127,6 +127,7 @@ public class OffreServiceImpl implements OffreService {
     offre.setAnneesExperience(offreDTO.getAnneesExperience());
     offre.setDescription(offreDTO.getDescription());
     offre.setVille(offreDTO.getVille());
+    offre.setPreEmbauche(offreDTO.getPreEmbauche());
     offre.setSalaire(offreDTO.getSalaire());
     offre.setCompetenceExigee(offreDTO.getCompetenceExigee());
     offre.setDatePublication(offreDTO.getDatePublication());

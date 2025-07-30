@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-sample-categories-20250716
+      author: your-name
+      changes:
+        - insert:
+            tableName: categorie
+            columns:
+              - column:
+                  name: titre
+                  value: "Développement"
+              - column:
+                  name: type_categorie
+                  value: "DEVELOPPEMENT"
+        - insert:
+            tableName: categorie
+            columns:
+              - column:
+                  name: titre
+                  value: "Marketing"
+              - column:
+                  name: type_categorie
+                  value: "MARKETING"
+      rollback:
+        - delete:
+            tableName: categorie
+            where: titre IN ('Développement', 'Marketing')

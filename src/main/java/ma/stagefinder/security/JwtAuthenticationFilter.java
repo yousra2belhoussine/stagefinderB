@@ -35,7 +35,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
 
-    final String authHeader = request.getHeader("Authorization");
+     String authHeader = request.getHeader("Authorization");
+    // For WebSocket, also check query parameters (SockJS may append token)
+    if (authHeader == null && request.getServletPath().startsWith("/ws")) {
+      authHeader = request.getParameter("Authorization");
+    }
     String email = null;
     String jwt = null;
 

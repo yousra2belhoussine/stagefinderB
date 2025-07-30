@@ -8,6 +8,7 @@
   import ma.stagefinder.services.UserService;
   import org.springframework.http.MediaType;
   import org.springframework.http.ResponseEntity;
+  import org.springframework.security.access.prepost.PreAuthorize;
   import org.springframework.web.bind.annotation.*;
   import org.springframework.web.multipart.MultipartFile;
 
@@ -94,6 +95,7 @@
       return ResponseEntity.ok(userService.partialUpdate(id, dto));
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATEUR')")
     @PatchMapping("/{id}/validate")
     public ResponseEntity<UserDTO> updateEstValide(@PathVariable Long id, @RequestBody UpdateEstValideRequest request) {
       return ResponseEntity.ok(userService.updateEstValide(id, request.isEstValide()));

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class OffreDTO {
     private Long id;
     private String description;
-    private Ville ville;
+    private String ville;
     private Boolean preEmbauche;
     private String anneesExperience;
     private LocalDateTime datePublication;

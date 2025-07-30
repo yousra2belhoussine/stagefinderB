@@ -20,7 +20,7 @@ databaseChangeLog:
                     nullable: true
               - column:
                   name: ville
-                  type: varchar(50)
+                  type: varchar(225)
                   constraints:
                     nullable: true
               - column:

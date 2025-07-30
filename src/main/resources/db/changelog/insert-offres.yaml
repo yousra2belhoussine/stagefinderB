@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-sample-offres-20250716
+      author: your-name
+      changes:
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Développeur Java Full Stack pour une entreprise technologique innovante"
+              - column:
+                  name: ville
+                  value: "CASABLANCA"
+              - column:
+                  name: pre_embauche
+                  valueBoolean: true
+              - column:
+                  name: annees_experience
+                  value: "3-5 ans"
+              - column:
+                  name: nom_entreprise
+                  value: "TechCorp"
+              - column:
+                  name: date_publication
+                  valueDate: "2025-07-16T10:00:00"
+              - column:
+                  name: date_expiration
+                  valueDate: "2025-08-16T23:59:59"
+              - column:
+                  name: salaire
+                  valueNumeric: 50000.00
+              - column:
+                  name: competence_exigee
+                  value: "Java, Spring Boot, Angular, SQL"
+              - column:
+                  name: categorie_id
+                  valueNumeric: 1
+              - column:
+                  name: publie_par_id
+                  valueNumeric: 1
+        - insert:
+            tableName: offre
+            columns:
+              - column:
+                  name: description
+                  value: "Stage en marketing digital pour startup dynamique"
+              - column:
+                  name: ville
+                  value: "RABAT"
+              - column:
+                  name: pre_embauche
+                  valueBoolean: false
+              - column:
+                  name: annees_experience
+                  value: "0-1 an"
+              - column:
+                  name: nom_entreprise
+                  value: "StartupX"
+              - column:
+                  name: date_publication
+                  valueDate: "2025-07-16T09:00:00"
+              - column:
+                  name: date_expiration
+                  valueDate: "2025-09-01T23:59:59"
+              - column:
+                  name: salaire
+                  valueNumeric: 12000.00
+              - column:
+                  name: competence_exigee
+                  value: "SEO, Google Analytics, Réseaux sociaux"
+              - column:
+                  name: categorie_id
+                  valueNumeric: 2
+              - column:
+                  name: publie_par_id
+                  valueNumeric: 2
